@@ -1,0 +1,217 @@
+{
+    "itemTable": [
+
+      {
+        "id": "WPN_STAFF",
+        "name": "Arcane Staff",
+        "type": "weapon",
+        "statModifiers": {
+          "strength": 3,
+          "speed": 2,
+          "defense": 0
+        },
+        "dropChance": 30,
+        "equippable": true,
+        "sprite":"/assets/sprites/weapons/staff_wpn.png"
+      },
+      {
+        "id": "WPN_DAGGER",
+        "name": "Steel Dagger",
+        "type": "weapon",
+        "statModifiers": {
+          "strength": 3,
+          "speed": 2,
+          "defense": 0
+        },
+        "dropChance": 30,
+        "equippable": true,
+        "sprite":"/assets/sprites/weapons/dagger_wpn.png"
+      },
+      {
+        "id": "WPN_SWORD",
+        "name": "Iron Sword",
+        "type": "weapon",
+        "statModifiers": {
+          "strength": 5,
+          "speed": 0,
+          "defense": 0
+        },
+        "dropChance": 30,
+        "equippable": true,
+        "sprite":"/assets/sprites/weapons/sword_wpn.png"
+      },
+
+      {
+        "id": "HLM_HAT",
+        "name": "Mystic Hat",
+        "type": "helm",
+        "statModifiers": {
+          "strength": 1,
+          "speed": 1,
+          "defense": 2
+        },
+        "dropChance": 20,
+        "equippable": true,
+        "sprite":"/assets/sprites/armor/cloth_hlm.png"
+      },
+      {
+        "id": "HLM_HOOD",
+        "name": "Shadow Hood",
+        "type": "helm",
+        "statModifiers": {
+          "strength": 1,
+          "speed": 2,
+          "defense": 1
+        },
+        "dropChance": 20,
+        "equippable": true,
+        "sprite":"/assets/sprites/armor/leather_hlm.png"
+      },
+      {
+        "id": "HLM_HELMET",
+        "name": "Steel Helm",
+        "type": "helm",
+        "statModifiers": {
+          "strength": 0,
+          "speed": 0,
+          "defense": 4
+        },
+        "dropChance": 20,
+        "equippable": true,
+        "sprite":"/assets/sprites/armor/iron_hlm.png"
+      },
+  
+  
+      {
+        "id": "ARM_ROBE",
+        "name": "Spellweave Robe",
+        "type": "armor",
+        "statModifiers": {
+          "strength": 0,
+          "speed": 0,
+          "defense": 5
+        },
+        "dropChance": 15,
+        "equippable": true,
+        "sprite":"/assets/sprites/armor/cloth_arm.png"
+      },
+      {
+        "id": "ARM_VEST",
+        "name": "Leather Vest",
+        "type": "armor",
+        "statModifiers": {
+          "strength": 0,
+          "speed": 2,
+          "defense": 3
+        },
+        "dropChance": 15,
+        "equippable": true,
+        "sprite":"/assets/sprites/armor/leather_arm.png"
+      },
+      {
+        "id": "ARM_PLATE",
+        "name": "Plate Armor",
+        "type": "armor",
+        "statModifiers": {
+          "strength": 0,
+          "speed": 0,
+          "defense": 5
+        },
+        "dropChance": 15,
+        "equippable": true,
+        "sprite":"/assets/sprites/armor/iron_arm.png"
+      },
+  
+
+      {
+        "id": "BTS_SLIPPERS",
+        "name": "Arcane Slippers",
+        "type": "boots",
+        "statModifiers": {
+          "strength": 0,
+          "speed": 3,
+          "defense": 0
+        },
+        "dropChance": 12,
+        "equippable": true,
+        "sprite":"/assets/sprites/armor/cloth_bts.png"
+      },
+      {
+        "id": "BTS_BOOTS",
+        "name": "Silent Boots",
+        "type": "boots",
+        "statModifiers": {
+          "strength": 1,
+          "speed": 2,
+          "defense": 0
+        },
+        "dropChance": 12,
+        "equippable": true,
+        "sprite":"/assets/sprites/armor/leather_bts.png"
+      },
+      {
+        "id": "BTS_GREAVES",
+        "name": "Steel Greaves",
+        "type": "boots",
+        "statModifiers": {
+          "strength": 0,
+          "speed": 0,
+          "defense": 3
+        },
+        "dropChance": 12,
+        "equippable": true,
+        "sprite":"/assets/sprites/armor/iron_bts.png"
+      },
+
+      {
+        "id": "TRK_AMULET",
+        "name": "Mage's Amulet",
+        "type": "trinket",
+        "statModifiers": {
+          "strength": 0,
+          "speed": 2,
+          "defense": 0
+        },
+        "dropChance": 25,
+        "equippable": true,
+        "sprite":"/assets/sprites/trinkets/wiz_trk.png"
+      },
+      {
+        "id": "TRK_RING",
+        "name": "Thief's Ring",
+        "type": "trinket",
+        "statModifiers": {
+          "strength": 1,
+          "speed": 1,
+          "defense": 0
+        },
+        "dropChance": 25,
+        "equippable": true,
+        "sprite":"/assets/sprites/trinkets/rouge_trk.png"
+      },
+      {
+        "id": "TRK_NECKLACE",
+        "name": "Barbarian's Necklace",
+        "type": "trinket",
+        "statModifiers": {
+          "strength": 2,
+          "speed": 0,
+          "defense": 0
+        },
+        "dropChance": 25,
+        "equippable": true,
+        "sprite":"/assets/sprites/trinkets/warr_trk.png"
+      },
+  
+ 
+      {
+        "id": "POT_HEALTH",
+        "name": "Health Potion",
+        "type": "potion",
+        "healAmount": 50,
+        "dropChance": 60,
+        "equippable": false,
+        "sprite":"/assets/sprites/potions/hp_pot.png"
+      }
+    ]
+  }
