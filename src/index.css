@@ -1,1 +1,12 @@
 @import "tailwindcss";
+
+@import "tailwindcss";
+* {
+    font-family: 'Pixelify Sans', sans-serif;
+  }
+  
+img {
+    image-rendering: pixelated;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: crisp-edges;
+  }
