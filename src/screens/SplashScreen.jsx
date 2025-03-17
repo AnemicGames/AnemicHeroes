@@ -4,9 +4,12 @@ import styles from './SplashScreen.module.css';
 
 export default function SplashScreen() {
   const setCurrentView = useGameStore((state) => state.setCurrentView);
+  const playerLevel = useGameStore((state) => state.player.level);
 
   const handleContinue = () => {
+    if (playerLevel > 0) {
       setCurrentView('MAIN_MENU');
+    }
   };
 
   const handleCreateHero = () => {
@@ -28,8 +31,11 @@ export default function SplashScreen() {
           <img src="assets/splashScreenTitle.png" alt="" className={`${styles["title-descend"]} w-[450px]`} />
           <div className={`${styles["fade-in-buttons"]} flex flex-col items-center space-y-2`}>
             <button
-              className="px-4 py-2 bg-red-950 hover:bg-red-900 rounded"
+              className={`px-4 py-2 rounded ${
+                playerLevel > 0 ? 'bg-red-950 hover:bg-red-900' : 'bg-gray-700 cursor-not-allowed'
+              }`}
               onClick={handleContinue}
+              disabled={playerLevel === 0}
             >
               Continue
             </button>
