@@ -1,0 +1,90 @@
+@keyframes panZoom {
+  0% {
+    transform: scale(2) translateX(20%);
+  }
+  50% {
+    transform: scale(2) translateX(0);
+  }
+  100% {
+    transform: scale(1) translateX(0);
+  }
+}
+
+.pan-zoom-animation {
+  animation: panZoom 10s ease forwards;
+}
+
+@keyframes fadeInContainer {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.fade-in-container {
+  opacity: 0;
+  animation: fadeInContainer 1s ease forwards 5s;
+}
+
+@keyframes descend {
+  from {
+    transform: translateY(-200%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(-100%);
+    opacity: 1;
+  }
+}
+
+.title-descend {
+  opacity: 0;
+  transform: translateY(-200%);
+  animation: descend 1s ease forwards 6s;
+}
+
+@keyframes fadeInButtons {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.fade-in-buttons {
+  opacity: 0;
+  animation: fadeInButtons 1s ease forwards 7s;
+}
+
+.book-container {
+  position: relative;
+  width: 24px; /* Adjust size if needed */
+  height: 24px;
+}
+
+.book-icon {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transition: opacity 0.2s ease-in-out;
+  opacity: 1;
+}
+
+.book-icon-hover {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transition: opacity 0.2s ease-in-out;
+  opacity: 0;
+}
+
+button:hover .book-icon {
+  opacity: 0; 
+}
+
+button:hover .book-icon-hover {
+  opacity: 1; 
+}
