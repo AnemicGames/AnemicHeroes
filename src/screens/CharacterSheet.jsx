@@ -1,5 +1,6 @@
 import React from "react";
 import { useGameStore } from "../store/useGameStore";
+import itemsData from "/assets/items.json?url";
 
 export default function CharacterSheet() {
   const setCurrentView = useGameStore((state) => state.setCurrentView);
@@ -13,6 +14,33 @@ export default function CharacterSheet() {
   const player = useGameStore((state) => state.player);
   const inventory = useGameStore((state) => state.inventory);
   const equipItem = useGameStore((state) => state.equipItem);
+  const unequipItem = useGameStore((state) => state.unequipItem);
+
+  const getItemDetails = (itemId) => {
+    return itemsData.itemTable.find((item) => item.id === itemId) || null;
+  };
+
+  const effectiveStats = {
+    strength: player.strength,
+    defense: player.defense,
+    speed: player.speed,
+  };
+
+  Object.entries(player.equipped || {}).forEach(([slot, itemId]) => {
+    if (itemId) {
+      const item = getItemDetails(itemId);
+      if (item && item.statModifiers) {
+        effectiveStats.strength += item.statModifiers.strength || 0;
+        effectiveStats.defense += item.statModifiers.defense || 0;
+        effectiveStats.speed += item.statModifiers.speed || 0;
+      }
+    }
+  });
+
+  const heroImage =
+    player.class && player.class.trim().length > 0
+      ? `/assets/sprites/heroes/${player.class.toLowerCase()}.png`
+      : `/assets/sprites/heroes/warrior.png`;
 
   const getSlotFromItemType = (itemType) => {
     switch (itemType) {
@@ -34,6 +62,10 @@ export default function CharacterSheet() {
   const handleEquip = (item) => {
     const slot = getSlotFromItemType(item.type);
     equipItem(slot, item.id);
+  };
+
+  const handleUnequip = (slot) => {
+    unequipItem(slot);
   };
 
   return (
@@ -85,18 +117,22 @@ export default function CharacterSheet() {
         <div className="stats-box border p-4 flex-1">
           <h3 className="font-semibold mb-2">{player.name}'s Stats</h3>
           <div>Class: {player.class}</div>
-          <div>Strength: {player.strength}</div>
-          <div>Defense: {player.defense}</div>
-          <div>Speed: {player.speed}</div>
+          <div>
+            Strength: {player.strength} (Effective: {effectiveStats.strength})
+          </div>
+          <div>
+            Defense: {player.defense} (Effective: {effectiveStats.defense})
+          </div>
+          <div>
+            Speed: {player.speed} (Effective: {effectiveStats.speed})
+          </div>
           <div>
             HP: {player.currentHp} / {player.maxHp}
           </div>
         </div>
         <div className="hero-image border p-4 flex-1 flex items-center justify-center">
           <img
-            src={`/assets/sprites/heroes/${
-              player.class ? player.class.toLowerCase() : "warrior"
-            }.png`}
+            src={heroImage}
             alt={player.class || "Hero"}
             className="max-w-full max-h-64 object-contain"
           />
@@ -105,18 +141,34 @@ export default function CharacterSheet() {
 
       <div className="flex justify-between items-center mb-4">
         <div className="equipment flex gap-2">
-          {Object.entries(player.equipped || {}).map(([slot, itemId]) => (
-            <div
-              key={slot}
-              className="equipment-slot border p-2 w-20 h-20 flex items-center justify-center"
-            >
-              {itemId ? (
-                <span>{itemId}</span>
-              ) : (
-                <span className="text-xs text-gray-500">{slot}</span>
-              )}
-            </div>
-          ))}
+          {Object.entries(player.equipped || {}).map(([slot, itemId]) => {
+            const item = itemId ? getItemDetails(itemId) : null;
+            return (
+              <div
+                key={slot}
+                className="equipment-slot border p-2 w-20 h-20 flex flex-col items-center justify-center relative"
+              >
+                {item ? (
+                  <>
+                    <img
+                      src={item.sprite}
+                      alt={item.name}
+                      className="max-w-full max-h-full object-contain"
+                      title={`${item.name} - STR: ${item.statModifiers.strength}, DEF: ${item.statModifiers.defense}, SPD: ${item.statModifiers.speed}`}
+                    />
+                    <button
+                      onClick={() => handleUnequip(slot)}
+                      className="absolute top-0 right-0 bg-red-500 text-white text-xs p-1 rounded"
+                    >
+                      X
+                    </button>
+                  </>
+                ) : (
+                  <span className="text-xs text-gray-500">{slot}</span>
+                )}
+              </div>
+            );
+          })}
         </div>
         <div className="gold-count text-lg font-semibold">
           Gold: {player.gold || 0}
