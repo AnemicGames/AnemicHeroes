@@ -96,4 +96,27 @@ export const createPlayerSlice = (set, get) => ({
     });
   },
 
+  equipItem: (slot, itemId) => {
+    set((state) => ({
+      player: {
+        ...state.player,
+        equipped: {
+          ...state.player.equipped,
+          [slot]: itemId,
+        },
+      },
+    }));
+  },
+
+  removeItem: (slot) => {
+    set((state) => ({
+      player: {
+        ...state.player,
+        equipped: {
+          ...state.player.equipped,
+          [slot]: null,
+        },
+      },
+    }));
+  },
 });
