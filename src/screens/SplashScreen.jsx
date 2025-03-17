@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useGameStore } from '../store/useGameStore';
 import styles from './SplashScreen.module.css';
 
 export default function SplashScreen() {
   const setCurrentView = useGameStore((state) => state.setCurrentView);
   const playerLevel = useGameStore((state) => state.player.level);
-
+  const [isHovered, setIsHovered] = useState(false); 
   const handleContinue = () => {
     if (playerLevel > 0) {
       setCurrentView('MAIN_MENU');
@@ -30,17 +30,22 @@ export default function SplashScreen() {
         <div className={`${styles["fade-in-container"]} flex flex-col items-center justify-center w-fit h-full p-4`}>
           <img src="assets/splashScreenTitle.png" alt="" className={`${styles["title-descend"]} w-[450px]`} />
           <div className={`${styles["fade-in-buttons"]} flex flex-col items-center space-y-2`}>
-            
+
             <button
               className={`px-4 py-2 rounded flex items-center ${
-                playerLevel > 0 ? 'bg-red-950 hover:bg-red-900' : 'bg-gray-700 cursor-not-allowed'
+                playerLevel > 0 ? 'bg-red-950 hover:bg-red-900' : 'bg-gray-700'
               }`}
               onClick={handleContinue}
               disabled={playerLevel === 0}
+              onMouseEnter={() => playerLevel > 0 && setIsHovered(true)}
+              onMouseLeave={() => setIsHovered(false)}
             >
               <div className={styles["book-container"]}>
-                <img src="/assets/sprites/book-closed.png" alt="" className={styles["book-icon"]} />
-                <img src="/assets/sprites/book-open.png" alt="" className={styles["book-icon-hover"]} />
+                <img
+                  src={isHovered && playerLevel > 0 ? "/assets/sprites/book-open.png" : "/assets/sprites/book-closed.png"}
+                  alt="Book Icon"
+                  className="w-6 h-6"
+                />
               </div>
               <span className="ml-2">Continue</span>
             </button>

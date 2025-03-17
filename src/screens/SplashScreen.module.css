@@ -78,13 +78,13 @@
   top: 0;
   left: 0;
   transition: opacity 0.2s ease-in-out;
-  opacity: 0; /* Hide initially */
+  opacity: 0;
 }
 
 button:hover .book-icon {
-  opacity: 0; /* Hide closed book */
+  opacity: 0; 
 }
 
 button:hover .book-icon-hover {
-  opacity: 1; /* Show open book */
+  opacity: 1; 
 }
