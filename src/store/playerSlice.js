@@ -164,5 +164,36 @@ export const createPlayerSlice = (set, get) => ({
       };
     });
   },
+
+  setXP: (xp) => {
+    set((state) => {
+      let newXP = state.player.xp + xp;
+      let newLevel = state.player.level;
+      let newXpToNextLvl = state.player.xpToNextLvl;
+      let newMaxHp = state.player.maxHp;
+      let currentHp = state.player.currentHp;
+  
+      while (newXP >= newXpToNextLvl) {
+        newLevel += 1;
+        newXpToNextLvl = Math.floor(newXpToNextLvl * 1.2); //XP scaling
+  
+        newMaxHp = Math.floor(newMaxHp * 1.1); //HP scaling
+        
+        currentHp = newMaxHp; 
+      }
+  
+      return {
+        player: {
+          ...state.player,
+          xp: newXP,
+          level: newLevel,
+          xpToNextLvl: newXpToNextLvl,
+          maxHp: newMaxHp,
+          currentHp: currentHp,
+        },
+      };
+    });
+  },
+  
   
 });
