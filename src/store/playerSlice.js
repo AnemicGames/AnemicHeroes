@@ -174,11 +174,11 @@ export const createPlayerSlice = (set, get) => ({
       let currentHp = state.player.currentHp;
   
       while (newXP >= newXpToNextLvl) {
+        newXP -= newXpToNextLvl; 
         newLevel += 1;
         newXpToNextLvl = Math.floor(newXpToNextLvl * 1.2); //XP scaling
   
         newMaxHp = Math.floor(newMaxHp * 1.1); //HP scaling
-        
         currentHp = newMaxHp; 
       }
   
@@ -194,6 +194,5 @@ export const createPlayerSlice = (set, get) => ({
       };
     });
   },
-  
   
 });
