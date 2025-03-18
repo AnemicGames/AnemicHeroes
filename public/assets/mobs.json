@@ -1,5 +1,6 @@
 [
     {
+        "id": "m1",
         "name": "Fallen knight",
         "baseHP": 150,
         "baseStrength": 12,
@@ -11,6 +12,7 @@
         "sprite": "/assets/sprites/mobs/fallen_knight.png"
     },
     {
+        "id": "m2",
         "name": "Forest elemental",
         "baseHP": 130,
         "baseStrength": 10,
@@ -22,6 +24,7 @@
         "sprite": "/assets/sprites/mobs/forest_elemental.png"
     },
     {
+        "id": "m3",
         "name": "Ghost",
         "baseHP": 80,
         "baseStrength": 6,
@@ -33,6 +36,7 @@
         "sprite": "/assets/sprites/mobs/ghost.png"
     },
     {
+        "id": "m4",
         "name": "Necromancer",
         "baseHP": 110,
         "baseStrength": 14,
@@ -44,6 +48,7 @@
         "sprite": "/assets/sprites/mobs/necromancer.png"
     },
     {
+        "id": "m5",
         "name": "Shade",
         "baseHP": 90,
         "baseStrength": 7,
@@ -55,6 +60,7 @@
         "sprite": "/assets/sprites/mobs/shade.png"
     },
     {
+        "id": "m6",
         "name": "Shadowy figure",
         "baseHP": 95,
         "baseStrength": 8,
@@ -66,6 +72,7 @@
         "sprite": "/assets/sprites/mobs/shadowy_figure.png"
     },
     {
+        "id": "m7",
         "name": "Sorcerer",
         "baseHP": 100,
         "baseStrength": 16,
@@ -77,6 +84,7 @@
         "sprite": "/assets/sprites/mobs/sorcerer.png"
     },
     {
+        "id": "m8",
         "name": "Stone golem",
         "baseHP": 200,
         "baseStrength": 18,
@@ -88,6 +96,7 @@
         "sprite": "/assets/sprites/mobs/stone_golem.png"
     },
     {
+        "id": "m9",
         "name": "Succubus",
         "baseHP": 85,
         "baseStrength": 13,
