@@ -100,20 +100,20 @@ export const createPlayerSlice = (set, get) => ({
     set((state) => {
       const inventory = state.inventory.items;
       const equippedItems = state.player.equipped;
-  
+
       if (!inventory[itemId] || inventory[itemId] <= 0) {
         console.warn(`Item ${itemId} is not available in the inventory.`);
         return state;
       }
-  
+
       const updatedInventory = { ...inventory };
-      
+
       if (updatedInventory[itemId] > 1) {
         updatedInventory[itemId] -= 1;
       } else {
         delete updatedInventory[itemId];
       }
-  
+
       return {
         player: {
           ...state.player,
@@ -129,18 +129,18 @@ export const createPlayerSlice = (set, get) => ({
       };
     });
   },
-  
+
 
   unequipItem: (slot) => {
     set((state) => {
       const equippedItems = state.player.equipped;
       const itemId = equippedItems[slot];
-  
+
       if (!itemId) {
         console.warn(`No item equipped in ${slot}.`);
         return state;
       }
-  
+
       const updatedInventory = { ...state.inventory.items };
 
       if (updatedInventory[itemId]) {
@@ -148,7 +148,7 @@ export const createPlayerSlice = (set, get) => ({
       } else {
         updatedInventory[itemId] = 1;
       }
-  
+
       return {
         player: {
           ...state.player,
@@ -164,5 +164,53 @@ export const createPlayerSlice = (set, get) => ({
       };
     });
   },
-  
+
+  setXP: (xp) => {
+    set((state) => {
+      let newXP = state.player.xp + xp;
+      let newLevel = state.player.level;
+      let newXpToNextLvl = state.player.xpToNextLvl;
+      let newMaxHp = state.player.maxHp;
+      let currentHp = state.player.currentHp;
+
+      while (newXP >= newXpToNextLvl) {
+        newXP -= newXpToNextLvl;
+        newLevel += 1;
+        newXpToNextLvl = Math.floor(newXpToNextLvl * 1.2); //XP scaling
+
+        newMaxHp = Math.floor(newMaxHp * 1.1); //HP scaling
+        currentHp = newMaxHp;
+      }
+
+      return {
+        player: {
+          ...state.player,
+          xp: newXP,
+          level: newLevel,
+          xpToNextLvl: newXpToNextLvl,
+          maxHp: newMaxHp,
+          currentHp: currentHp,
+        },
+      };
+    });
+  },
+
+  heal: (amount) => {
+    set((state) => ({
+      player: {
+        ...state.player,
+        currentHp: Math.min(state.player.currentHp + amount, state.player.maxHp),
+      },
+    }));
+  },
+
+  takeDamage: (amount) => {
+    set((state) => ({
+      player: {
+        ...state.player,
+        currentHp: Math.max(0, state.player.currentHp - amount),
+      },
+    }));
+  },
+
 });
