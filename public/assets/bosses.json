@@ -1,5 +1,6 @@
 [
     {
+        "id": "b1",
         "name": "Dark Lord",
         "baseHP": 500,
         "baseStrength": 25,
@@ -11,6 +12,7 @@
         "sprite": "/assets/sprites/bosses/dark_lord.png"
     },
     {
+        "id": "b2",
         "name": "Frost wyrm",
         "baseHP": 600,
         "baseStrength": 30,
@@ -22,6 +24,7 @@
         "sprite": "/assets/sprites/bosses/frost_wyrm.png"
     },
     {
+        "id": "b3",
         "name": "Giant",
         "baseHP": 800,
         "baseStrength": 35,
