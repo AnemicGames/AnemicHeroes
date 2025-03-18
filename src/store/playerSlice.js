@@ -97,26 +97,72 @@ export const createPlayerSlice = (set, get) => ({
   },
 
   equipItem: (slot, itemId) => {
-    set((state) => ({
-      player: {
-        ...state.player,
-        equipped: {
-          ...state.player.equipped,
-          [slot]: itemId,
+    set((state) => {
+      const inventory = state.inventory.items;
+      const equippedItems = state.player.equipped;
+  
+      if (!inventory[itemId] || inventory[itemId] <= 0) {
+        console.warn(`Item ${itemId} is not available in the inventory.`);
+        return state;
+      }
+  
+      const updatedInventory = { ...inventory };
+      
+      if (updatedInventory[itemId] > 1) {
+        updatedInventory[itemId] -= 1;
+      } else {
+        delete updatedInventory[itemId];
+      }
+  
+      return {
+        player: {
+          ...state.player,
+          equipped: {
+            ...equippedItems,
+            [slot]: itemId,
+          },
         },
-      },
-    }));
+        inventory: {
+          ...state.inventory,
+          items: updatedInventory,
+        },
+      };
+    });
   },
+  
 
   unequipItem: (slot) => {
-    set((state) => ({
-      player: {
-        ...state.player,
-        equipped: {
-          ...state.player.equipped,
-          [slot]: null,
+    set((state) => {
+      const equippedItems = state.player.equipped;
+      const itemId = equippedItems[slot];
+  
+      if (!itemId) {
+        console.warn(`No item equipped in ${slot}.`);
+        return state;
+      }
+  
+      const updatedInventory = { ...state.inventory.items };
+
+      if (updatedInventory[itemId]) {
+        updatedInventory[itemId] += 1;
+      } else {
+        updatedInventory[itemId] = 1;
+      }
+  
+      return {
+        player: {
+          ...state.player,
+          equipped: {
+            ...equippedItems,
+            [slot]: null,
+          },
         },
-      },
-    }));
+        inventory: {
+          ...state.inventory,
+          items: updatedInventory,
+        },
+      };
+    });
   },
+  
 });
