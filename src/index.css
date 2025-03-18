@@ -1,12 +1,25 @@
 @import "tailwindcss";
 
-@import "tailwindcss";
 * {
-    font-family: 'Pixelify Sans', sans-serif;
-  }
-  
+  font-family: "Pixelify Sans", sans-serif;
+}
+
 img {
-    image-rendering: pixelated;
-    image-rendering: -moz-crisp-edges;
-    image-rendering: crisp-edges;
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+}
+
+@keyframes blink {
+  0%,
+  100% {
+    opacity: 1;
   }
+  50% {
+    opacity: 0;
+  }
+}
+
+.blink {
+  animation: blink 1s infinite;
+}
