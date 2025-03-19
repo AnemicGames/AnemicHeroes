@@ -55,7 +55,7 @@ export default function MapView() {
 
     useEffect(() => {
         const fetchMap = async () => {
-            await initializeMap("map1");
+            await initializeMap();
             setIsLoading(false);
         };
         fetchMap();

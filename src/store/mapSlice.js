@@ -13,10 +13,10 @@ export const createMapSlice = (set, get) => ({
     setEncounterDifficulty: (encounterDifficulty) =>
         set(() => ({ encounterDifficulty })),
     map: [],
-    initializeMap: async (mapName) => {
-        await get().setMap(mapName);
+    initializeMap: async () => {
+        await get().setMap();
     },
-    setMap: async (mapName) => {
+    setMap: async (mapName = "map2") => {
         try {
             const response = await fetch("/assets/maps.json");
             if (!response.ok) {
@@ -24,22 +24,26 @@ export const createMapSlice = (set, get) => ({
             }
             const data = await response.json();
             console.log("Fetched map data:", data);
-    
+
             if (!data[mapName]) {
                 throw new Error(`Map "${mapName}" not found in the data`);
             }
-    
+
             const newMap = data["map2"];
-            const startPosition = newMap.flat().find((cell) => cell.type === "START");
-    
+            const startPosition = newMap
+                .flat()
+                .find((cell) => cell.type === "START");
+
             set(() => ({
                 map: newMap,
-                currentPosition: startPosition ? { id: startPosition.id } : { id: "0-0" },
+                currentPosition: startPosition
+                    ? { id: startPosition.id }
+                    : { id: "0-0" },
             }));
         } catch (error) {
             console.error("Error fetching map:", error);
         }
     },
-    
+
     clearMap: () => set(() => ({ map: [] })),
 });
