@@ -142,7 +142,7 @@ export default function MapView() {
                 {/* New button to clear the map */}
                 <button
                     className="px-2 py-1 border rounded bg-gray-700"
-                    onClick={clearMap}
+                    onClick={clearMapBtn}
                 >
                     Clear Map
                 </button>
