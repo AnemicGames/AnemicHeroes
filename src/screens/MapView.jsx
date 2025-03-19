@@ -55,7 +55,9 @@ export default function MapView() {
 
     useEffect(() => {
         const fetchMap = async () => {
-            await initializeMap();
+            if (!Array.isArray(map) || map.length === 0) {
+            await initializeMap("map1");
+            }
             setIsLoading(false);
         };
         fetchMap();
