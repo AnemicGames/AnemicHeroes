@@ -3,8 +3,15 @@ import { useGameStore } from "../store/useGameStore";
 
 export default function MapView() {
     const setCurrentView = useGameStore((state) => state.setCurrentView);
-    const { map, currentPosition, initializeMap, setPosition, resetPosition } =
-        useGameStore();
+    const {
+        map,
+        currentPosition,
+        initializeMap,
+        setPosition,
+        resetPosition,
+        setEncounterType,
+        setEncounterDifficulty,
+    } = useGameStore();
 
     useEffect(() => {
         initializeMap();
@@ -18,8 +25,10 @@ export default function MapView() {
         }
         if (cell.type === "BATTLE") {
             goToBattle();
+            setEncounterType(cell.encounterType);
+            setEncounterDifficulty(cell.encounterDifficulty);
         }
-        if (cell.type === "SHOP") {
+        if (cell.type === "SHOP" && currentCell.next.includes(cell.id)) {
             goToShop();
         }
     };
