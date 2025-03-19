@@ -61,8 +61,7 @@ export default function MapView() {
           setIsLoading(false);
         };
         fetchMap();
-      }, [map, initializeMap]);
-      
+    }, [initializeMap]);
 
     const handleTileClick = (cell) => {
         const currentCell = map.flat().find((c) => c.id === currentPosition.id);
@@ -141,6 +140,13 @@ export default function MapView() {
                     onClick={resetPosition}
                 >
                     Reset to Start
+                </button>
+                {/* New button to clear the map */}
+                <button
+                    className="px-2 py-1 border rounded bg-gray-700"
+                    onClick={clearMap}
+                >
+                    Clear Map
                 </button>
             </div>
 

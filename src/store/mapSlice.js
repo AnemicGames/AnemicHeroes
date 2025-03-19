@@ -23,17 +23,15 @@ export const createMapSlice = (set, get) => ({
                 throw new Error("Failed to fetch map");
             }
             const data = await response.json();
-            console.log("Fetched map data:", data); // Log the fetched data
+            console.log("Fetched map data:", data);
     
             if (!data[mapName]) {
                 throw new Error(`Map "${mapName}" not found in the data`);
             }
     
             const newMap = data["map2"];
-            // Find the start position from the new map
             const startPosition = newMap.flat().find((cell) => cell.type === "START");
     
-            // Set both the map and the current position (if a start exists)
             set(() => ({
                 map: newMap,
                 currentPosition: startPosition ? { id: startPosition.id } : { id: "0-0" },
