@@ -156,10 +156,10 @@ export default function MapView() {
                 <img
                     src="/assets/map.webp"
                     alt="Easter Egg!!!!! <<3<3<3<3<3<3<<3<33<3<<<3<3<ÆØDÅDØASÅDØASÅDØÅA"
-                    className={`absolute w-full h-max`}
+                    className={`absolute w-full h-[720px]`}
                 />
                 <div
-                    className={`grid grid-cols-17 z-10 absolute top-45 left-75 h-fit w-fit`}
+                    className={`grid grid-cols-17 z-10 absolute top-45 left-75 h-[360px] w-fit`}
                 >
                     {map.map((row) =>
                         row.map((cell) => {
