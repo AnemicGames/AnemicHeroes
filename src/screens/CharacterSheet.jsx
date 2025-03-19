@@ -3,6 +3,24 @@ import { useGameStore } from "../store/useGameStore";
 
 export default function CharacterSheet() {
   const [itemsData, setItemsData] = useState(null);
+  const [currentFrame, setCurrentFrame] = useState(1);
+  const totalFrames = 12;
+  const frameRate = 400;
+
+  useEffect(() => {
+    for (let i = 1; i <= totalFrames; i++) {
+      const img = new Image();
+      img.src = `/assets/char_sheet_bg/${i}.webp`;
+    }
+  }, [totalFrames]);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentFrame((prevFrame) => (prevFrame % totalFrames) + 1);
+    }, frameRate);
+    return () => clearInterval(interval);
+  }, [frameRate, totalFrames]);
+
   useEffect(() => {
     fetch("/assets/items.json")
       .then((response) => response.json())
@@ -24,6 +42,7 @@ export default function CharacterSheet() {
       ? player.equipped
       : { weapon: null, helmet: null, armor: null, boots: null, trinket: null };
 
+  // Initialize inventory from player if needed
   useEffect(() => {
     if (
       player &&
@@ -114,135 +133,149 @@ export default function CharacterSheet() {
 
   return (
     <div
-      className="p-4 h-full text-white flex flex-col gap-2"
+      className="p-4 h-full text-white grid grid-cols-10 grid-rows-5 gap-2 relative"
       style={{
-        backgroundImage: "url('/assets/battle_bg/13.webp')",
+        backgroundImage: `url('/assets/char_sheet_bg/${currentFrame}.webp')`,
         backgroundSize: "cover",
         backgroundRepeat: "no-repeat",
         backgroundPosition: "top",
       }}
     >
-      <h2 className="text-4xl font-bold mb-4">
-        {player.name}'s Character Sheet
+      <h2 className="text-5xl font-bold mt-4 col-start-1 col-end-3 row-start-1">
+        {player.name}
       </h2>
 
-      <div className="flex gap-4 mb-4">
-        {/* Hero image */}
-        <div className="hero-image border p-4 flex items-center justify-center">
-          <img
-            src={heroImage}
-            alt={player.class || "Hero"}
-            className="max-w-full max-h-64 object-contain h-48"
-          />
-        </div>
+      {/* Hero image */}
+      <div className="hero-image flex items-center justify-center absolute bottom-[100px] left-[420px]">
+        <img
+          src={heroImage}
+          alt={player.class || "Hero"}
+          className="max-w-full object-contain h-80"
+        />
+      </div>
 
-        {/* Stats */}
-        <div className="stats-box border p-2 flex-1/2 flex flex-col gap-4 text-2xl bg-gray-800 bg-opacity-80">
-          <h3 className="font-semibold mb-2 text-2xl">Stats</h3>
-          <div className="flex justify-between items-center gap-12 mb-6">
-            <div>
-              <div>Class: {player.class}</div>
-              <div>Level: {player.level}</div>
+      {/* Equipment */}
+      <div className="flex items-start absolute bottom-4 left-[360px]">
+        <div className="equipment flex gap-2 cursor-pointer">
+          {Object.entries(equipped).map(([slot, itemId]) => {
+            const item = itemId ? getItemDetails(itemId) : null;
+            return (
               <div
-                className={` ${
-                  player.currentHp <= 20
-                    ? "blink text-red-500 font-semibold"
-                    : ""
-                }`}
+                key={slot}
+                className="equipment-slot rounded p-2 w-20 h-20 flex flex-col items-center justify-center relative bg-gray-500/80"
               >
-                HP: {player.currentHp} / {player.maxHp}
-              </div>
-            </div>
-            <div>
-              <div>
-                Strength:{" "}
-                <span className="font-bold"> {effectiveStats.strength}</span> (
-                {player.strength}{" "}
-                {bonusStrength > 0 && (
-                  <span className="text-green-500">+{bonusStrength}</span>
+                {item ? (
+                  <div className="group">
+                    <img
+                      src={item.sprite}
+                      alt={item.name}
+                      className="max-w-full max-h-full object-contain"
+                    />
+                    <div className="absolute left-0 bottom-full mb-2 hidden group-hover:flex flex-col bg-black text-white p-2 rounded text-xs z-10">
+                      <div className="mb-1">{item.name}</div>
+                      <div>STR: {item.statModifiers.strength}</div>
+                      <div>DEF: {item.statModifiers.defense}</div>
+                      <div>SPD: {item.statModifiers.speed}</div>
+                    </div>
+                    <button
+                      onClick={() => handleUnequip(slot)}
+                      className="absolute top-0 right-0 bg-red-500 text-white text-xs p-1 rounded"
+                    >
+                      X
+                    </button>
+                  </div>
+                ) : (
+                  <div className="w-full h-full flex items-center justify-center">
+                    <span className="text-xs text-white">{slot}</span>
+                  </div>
                 )}
-                )
               </div>
-              <div>
-                Defense:
-                <span className="font-bold"> {effectiveStats.defense}</span> (
-                {player.defense}{" "}
-                {bonusDefense > 0 && (
-                  <span className="text-green-500">+{bonusDefense}</span>
-                )}
-                )
-              </div>
-              <div>
-                Speed:{" "}
-                <span className="font-bold"> {effectiveStats.speed}</span> (
-                {player.speed}{" "}
-                {bonusSpeed > 0 && (
-                  <span className="text-green-500">+{bonusSpeed}</span>
-                )}
-                )
-              </div>
-            </div>
-          </div>
+            );
+          })}
+        </div>
+      </div>
 
-          <div className="mb-2 flex flex-col items-center gap-2">
-            <div className="w-full bg-gray-300 rounded-full h-4 mt-1">
-              <div
-                className="bg-red-500 h-4 rounded-full"
-                style={{ width: `${(player.xp / player.xpToNextLvl) * 100}%` }}
-              ></div>
-            </div>
-            <div className="text-xl font-semibold flex items-center justify-between w-full">
-              <div>XP</div>
-              {player.xp} / {player.xpToNextLvl}
-            </div>
+      {/* Stats */}
+      <div className="stats-box rounded p-2 flex flex-col gap-4 text-2xl bg-gray-500/80 col-start-1 col-end-3 row-start-2 row-end-6 relative">
+        <h3 className="font-semibold mb-2 text-2xl">Stats</h3>
+        <div>
+          <div>Class: {player.class}</div>
+          <div>Level: {player.level}</div>
+          <div>
+            HP:{" "}
+            <span
+              className={`${
+                player.currentHp <= 20 ? "text-amber-500 font-semibold" : ""
+              }`}
+            >
+              {player.currentHp}
+            </span>{" "}
+            / {player.maxHp}{" "}
+            <span
+              className={`${
+                player.currentHp <= 20
+                  ? "text-4xl blink text-amber-500 font-semibold"
+                  : ""
+              }`}
+            >
+              !
+            </span>
           </div>
         </div>
-
-        {/* Equipment */}
-        <div className="flex justify-between items-start mb-4 flex-1">
-          <div className="equipment grid grid-cols-2 gap-2">
-            {Object.entries(equipped).map(([slot, itemId]) => {
-              const item = itemId ? getItemDetails(itemId) : null;
-              return (
-                <div
-                  key={slot}
-                  className="equipment-slot border p-2 w-20 h-20 flex flex-col items-center justify-center relative"
-                >
-                  {item ? (
-                    <div className="group">
-                      <img
-                        src={item.sprite}
-                        alt={item.name}
-                        className="max-w-full max-h-full object-contain"
-                      />
-                      {/* Tooltip equip */}
-                      <div className="absolute left-0 bottom-full mb-2 hidden group-hover:flex flex-col bg-black text-white p-2 rounded text-xs z-10">
-                        <div className="mb-1">{item.name}</div>
-                        <div>STR: {item.statModifiers.strength}</div>
-                        <div>DEF: {item.statModifiers.defense}</div>
-                        <div>SPD: {item.statModifiers.speed}</div>
-                      </div>
-                      <button
-                        onClick={() => handleUnequip(slot)}
-                        className="absolute top-0 right-0 bg-red-500 text-white text-xs p-1 rounded"
-                      >
-                        X
-                      </button>
-                    </div>
-                  ) : (
-                    <div className="w-full h-full flex items-center justify-center">
-                      <span className="text-xs text-gray-500">{slot}</span>
-                    </div>
-                  )}
-                </div>
-              );
-            })}
+        <div>
+          <div>
+            Strength:{" "}
+            <span className="font-bold">{effectiveStats.strength}</span> (
+            {player.strength}{" "}
+            {bonusStrength > 0 && (
+              <span className="text-green-500">+{bonusStrength}</span>
+            )}
+            )
+          </div>
+          <div>
+            Defense: <span className="font-bold">{effectiveStats.defense}</span>{" "}
+            ({player.defense}{" "}
+            {bonusDefense > 0 && (
+              <span className="text-green-500">+{bonusDefense}</span>
+            )}
+            )
+          </div>
+          <div>
+            Speed: <span className="font-bold">{effectiveStats.speed}</span> (
+            {player.speed}{" "}
+            {bonusSpeed > 0 && (
+              <span className="text-green-500">+{bonusSpeed}</span>
+            )}
+            )
+          </div>
+        </div>
+        <div className="mb-2 flex flex-col items-center gap-2">
+          <div className="w-full bg-gray-300 rounded-full h-4 mt-1">
+            <div
+              className="bg-blue-400 h-4 rounded-full"
+              style={{
+                width: `${(player.xp / player.xpToNextLvl) * 100}%`,
+              }}
+            ></div>
+          </div>
+          <div className="text-xl font-semibold flex items-center justify-between w-full">
+            <div>XP</div>
+            {player.xp} / {player.xpToNextLvl}
+          </div>
+          {/* Exit */}
+          <div className="space-x-2 flex absolute bottom-2 right-2 cursor-pointer">
+            <img
+              src="/assets/sprites/exit-nav-icon.png"
+              alt="Exit"
+              className="px-2 py-1 rounded text-white"
+              onClick={goToMainMenu}
+            />
           </div>
         </div>
       </div>
 
       {/* Inventory */}
-      <div className="inventory border p-4 flex-1">
+      <div className="inventory rounded p-4 col-start-8 col-end-11 row-start-1 row-end-6 bg-gray-500/80">
         <div className="flex justify-between items-center mb-4">
           <h3 className="font-semibold mb-2">Inventory</h3>
           <div className="gold-count text-lg font-semibold">
@@ -250,14 +283,14 @@ export default function CharacterSheet() {
           </div>
         </div>
         {inventory && Object.keys(inventory.items).length > 0 ? (
-          <div className="grid grid-cols-10 gap-2">
+          <div className="grid grid-cols-3 gap-2">
             {Object.entries(inventory.items).map(([itemId, count]) => {
               const item = getItemDetails(itemId);
               if (!item) return null;
               return (
                 <div
                   key={itemId}
-                  className="inventory-item border p-2 relative group flex flex-col items-center justify-center"
+                  className="inventory-item p-2 w-24 h-24 relative group flex flex-col items-center justify-center bg-gray-800 cursor-pointer"
                   onContextMenu={(e) => {
                     if (item.type === "potion") handleDrink(item, e);
                   }}
@@ -273,16 +306,10 @@ export default function CharacterSheet() {
                   <div className="absolute top-0 right-0 bg-gray-800 text-white text-2xl px-1">
                     {count}
                   </div>
-                  {item.equippable && (
-                    <button
-                      onClick={() => handleEquip(item)}
-                      className="mt-1 text-xs bg-blue-500 hover:bg-blue-600 text-white rounded p-1 px-2 "
-                    >
-                      Equip
-                    </button>
-                  )}
-                  {/* Tooltip inventory */}
-                  <div className="absolute left-0 bottom-full mb-2 hidden group-hover:flex flex-col bg-black text-white p-2 rounded text-xs z-10">
+                  <div
+                    onClick={() => handleEquip(item)}
+                    className="absolute left-0 bottom-0 w-24 h-24 hidden group-hover:flex flex-col bg-black text-white p-2 rounded text-xs z-10"
+                  >
                     <div className="mb-1">{item.name}</div>
                     <div>STR: {item.statModifiers.strength}</div>
                     <div>DEF: {item.statModifiers.defense}</div>
@@ -295,14 +322,6 @@ export default function CharacterSheet() {
         ) : (
           <p>No items in inventory.</p>
         )}
-      </div>
-      <div className="space-x-2 mb-4 flex justify-end">
-        <img
-          src="/assets/sprites/exit-nav-icon.png"
-          alt="Exit"
-          className="px-2 py-1 border rounded bg-gray-700 text-white"
-          onClick={goToMainMenu}
-        />
       </div>
     </div>
   );
