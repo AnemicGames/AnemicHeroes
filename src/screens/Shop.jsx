@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useGameStore } from "../store/useGameStore";
 const AnimatedImage = () => {
   const [currentFrame, setCurrentFrame] = useState(1);
-  const totalFrames = 17;
+  const totalFrames = 12;
   const frameRate = 170;
   useEffect(() => {
     const imageCache = [];
@@ -40,7 +40,6 @@ export default function Shop() {
   const setCurrentView = useGameStore((state) => state.setCurrentView);
 
   const [items, setItems] = useState(null);
-  // limitedOffers er en array med 2 slots; hver slot kan enten inneholde et produkt eller være tom
   const [limitedOffers, setLimitedOffers] = useState([null, null]);
   const [selectedItem, setSelectedItem] = useState(null);
   const [selectedMode, setSelectedMode] = useState(null);
@@ -124,7 +123,9 @@ export default function Shop() {
       addItem(item.id, 1);
       // Fjern produktet fra limitedOffers med null i den aktuelle slotten
       setLimitedOffers((prevOffers) =>
-        prevOffers.map((offer) => (offer && offer.id === item.id ? null : offer))
+        prevOffers.map((offer) =>
+          offer && offer.id === item.id ? null : offer
+        )
       );
     } else {
       console.warn("Not enough gold to buy this item!");
@@ -168,234 +169,226 @@ export default function Shop() {
     })
     .filter(Boolean);
 
-    return (
-      <div className="w-full h-full text-white relative">
-        
-        <AnimatedImage />
-  
-        
-        <div className="relative z-10">
-          {/* Toppseksjon */}
-          <div className="flex justify-between items-center p-4 bg-gray-800 bg-opacity-90">
-            <button
-              onClick={handleReturn}
-              className="bg-yellow-600 px-4 py-2 rounded"
-            >
-              Return
-            </button>
-            <h1 className="text-2xl font-bold">The Tavern of Goods</h1>
-            <div className="text-lg">Gold: {inventory.gold}</div>
-          </div>
-  
-          {/* Plassholder for midtseksjonen */}
-          <div className="hidden relative w-full h-64"></div>
-  
-          {/* Meldingsboks for salg */}
-          {sellMessage && (
-            <div className="p-2 bg-green-700 text-center">
-              <p>{sellMessage}</p>
-            </div>
-          )}
-  
-          {/* Limited Offers-seksjonen */}
-          <div className="relative w-full h-64">
-            <div className="absolute top-4 left-4 w-40 bg-gray-800 bg-opacity-80 p-2 rounded">
-              <h2 className="font-semibold">Limited Offer</h2>
-              {limitedOffers[0] ? (
-                <div className="mt-2 flex flex-col items-center">
-                  {limitedOffers[0].sprite && (
-                    <img
-                      src={limitedOffers[0].sprite}
-                      alt={limitedOffers[0].name}
-                      className="w-16 h-16 object-contain mb-1"
-                    />
-                  )}
-                  <p className="text-sm">{limitedOffers[0].name}</p>
-                  <p className="text-xs text-gray-300">
-                    Price: {getBuyPrice(limitedOffers[0])}
-                  </p>
-                  <button
-                    onClick={() => handleBuy(limitedOffers[0])}
-                    className="bg-yellow-600 px-2 py-1 mt-1 text-xs rounded"
-                  >
-                    Buy
-                  </button>
-                </div>
-              ) : (
-                <div className="mt-2 flex flex-col items-center">
-                  <p className="text-sm">Next offer in:</p>
-                  <p className="text-xs text-gray-300">{formatTime(countdown)}</p>
-                </div>
-              )}
-            </div>
-            <div className="absolute top-4 right-4 w-40 bg-gray-800 bg-opacity-80 p-2 rounded">
-              <h2 className="font-semibold">Limited Offer</h2>
-              {limitedOffers[1] ? (
-                <div className="mt-2 flex flex-col items-center">
-                  {limitedOffers[1].sprite && (
-                    <img
-                      src={limitedOffers[1].sprite}
-                      alt={limitedOffers[1].name}
-                      className="w-16 h-16 object-contain mb-1"
-                    />
-                  )}
-                  <p className="text-sm">{limitedOffers[1].name}</p>
-                  <p className="text-xs text-gray-300">
-                    Price: {getBuyPrice(limitedOffers[1])}
-                  </p>
-                  <button
-                    onClick={() => handleBuy(limitedOffers[1])}
-                    className="bg-yellow-600 px-2 py-1 mt-1 text-xs rounded"
-                  >
-                    Buy
-                  </button>
-                </div>
-              ) : (
-                <div className="mt-2 flex flex-col items-center">
-                  <p className="text-sm">Next offer in:</p>
-                  <p className="text-xs text-gray-300">{formatTime(countdown)}</p>
-                </div>
-              )}
-            </div>
-          </div>
-  
-          {/* Faner for nedre seksjon – plassert til venstre */}
-          <div className="flex justify-start space-x-4 p-4 bg-gray-800/ bg-opacity-90">
-            <button
-              onClick={() => setActiveTab("buy")}
-              className={`px-4 py-2 rounded ${
-                activeTab === "buy" ? "bg-yellow-600" : "bg-gray-700"
-              }`}
-            >
-              Buy
-            </button>
-            <button
-              onClick={() => setActiveTab("sell")}
-              className={`px-4 py-2 rounded ${
-                activeTab === "sell" ? "bg-yellow-600" : "bg-gray-700"
-              }`}
-            >
-              Sell
-            </button>
-          </div>
-  
-          {/* Nedre seksjon: to kolonner – venstre: faner med liste (mindre bokser), høyre: Item Details */}
-          <div className="flex gap-4 p-2 w-full h-80">
-            {/* Venstre kolonne: liste (Buy/Sell) */}
-            <div className="bg-gray-800 p-2 rounded w-full">
-              {activeTab === "buy" ? (
-                <>
-                  <h3 className="text-lg font-semibold mb-2">Buy</h3>
-                  <div className="grid grid-cols-7 gap-2 w-full">
-      {buyList.map((item) => (
-        <div
-          key={item.id}
-          onClick={() => handleItemClick(item, "buy")}
-          className="bg-gray-700 p-1 rounded cursor-pointer hover:bg-gray-600 flex flex-col items-center"
-        >
-          {item.sprite && (
-            <img
-              src={item.sprite}
-              alt={item.name}
-              className="w-10 h-10 object-contain mb-1"
-            />
-          )}
-          <p className="text-xs text-center">{item.name}</p>
+  return (
+    <div className="w-full h-full text-white relative">
+      <AnimatedImage />
+
+      <div className="relative z-10">
+        {/* Toppseksjon */}
+        <div className="flex justify-between items-center p-4 bg-gray-800/ bg-opacity-90">
+          <button
+            onClick={handleReturn}
+            className="bg-yellow-600 px-4 py-2 rounded"
+          >
+            Return
+          </button>
+          <h1 className="text-2xl font-bold">The Tavern of Goods</h1>
+          <div className="text-lg">Gold: {inventory.gold}</div>
         </div>
-      ))}
-    </div>
-                </>
-              ) : (
-                <>
-                  <h3 className="text-lg font-semibold mb-2">Sell</h3>
-                  {inventoryArray.length === 0 ? (
-                    <p className="text-center">No items in inventory</p>
-                  ) : (
-                    <div className="grid grid-cols-7 gap-2 w-full">
-                      {inventoryArray.map((invItem) => (
-                        <div
-                          key={invItem.id}
-                          onClick={() => handleItemClick(invItem, "sell")}
-                          className="bg-gray-700 p-1 rounded cursor-pointer hover:bg-gray-600 w-full flex flex-col items-center"
-                        >
-                          {invItem.sprite && (
-                            <img
-                              src={invItem.sprite}
-                              alt={invItem.name}
-                              className="w-12 h-12 object-contain mb-1"
-                            />
-                          )}
-                          <p className="text-xs">
-                            {invItem.name} x {invItem.count}
-                          </p>
-                        </div>
-                      ))}
+
+        {/* Plassholder for midtseksjonen */}
+        <div className="hidden relative w-full h-64"></div>
+
+        {/* Meldingsboks for salg */}
+        {sellMessage && (
+          <div className="p-2 bg-green-700/ text-center">
+            <p>{sellMessage}</p>
+          </div>
+        )}
+
+        {/* Limited Offers-seksjonen */}
+        <div className="relative w-full h-64">
+          <div className="absolute top-4 left-4 w-40 bg-gray-800/80 bg-opacity-80 p-2 rounded">
+            <h2 className="font-semibold text-center">Limited Offer</h2>
+            {limitedOffers[0] ? (
+              <div className="mt-2 flex flex-col items-center">
+                {limitedOffers[0].sprite && (
+                  <img
+                    src={limitedOffers[0].sprite}
+                    alt={limitedOffers[0].name}
+                    className="w-16 h-16 object-contain mb-1"
+                  />
+                )}
+                <p className="text-sm">{limitedOffers[0].name}</p>
+                <p className="text-xs text-gray-300">
+                  Price: {getBuyPrice(limitedOffers[0])}
+                </p>
+                <button
+                  onClick={() => handleBuy(limitedOffers[0])}
+                  className="bg-yellow-600 px-2 py-1 mt-1 text-xs rounded"
+                >
+                  Buy
+                </button>
+              </div>
+            ) : (
+              <div className="mt-2 flex flex-col items-center">
+                <p className="text-sm">Next offer in:</p>
+                <p className="text-xs text-gray-300">{formatTime(countdown)}</p>
+              </div>
+            )}
+          </div>
+          <div className="absolute top-4 right-4 w-40 bg-gray-800/80 bg-opacity-80 p-2 rounded">
+            <h2 className="font-semibold text-center">Limited Offer</h2>
+            {limitedOffers[1] ? (
+              <div className="mt-2 flex flex-col items-center">
+                {limitedOffers[1].sprite && (
+                  <img
+                    src={limitedOffers[1].sprite}
+                    alt={limitedOffers[1].name}
+                    className="w-16 h-16 object-contain mb-1"
+                  />
+                )}
+                <p className="text-sm">{limitedOffers[1].name}</p>
+                <p className="text-xs text-gray-300">
+                  Price: {getBuyPrice(limitedOffers[1])}
+                </p>
+                <button
+                  onClick={() => handleBuy(limitedOffers[1])}
+                  className="bg-yellow-600 px-2 py-1 mt-1 text-xs rounded"
+                >
+                  Buy
+                </button>
+              </div>
+            ) : (
+              <div className="mt-2 flex flex-col items-center">
+                <p className="text-sm">Next offer in:</p>
+                <p className="text-xs text-gray-300">{formatTime(countdown)}</p>
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* Faner for nedre seksjon – plassert til venstre */}
+        <div className="flex justify-start space-x-4 p-4 bg-gray-800/ bg-opacity-90">
+          <button
+            onClick={() => setActiveTab("buy")}
+            className={`px-4 py-2 rounded ${
+              activeTab === "buy" ? "bg-yellow-600" : "bg-gray-700"
+            }`}
+          >
+            Buy
+          </button>
+          <button
+            onClick={() => setActiveTab("sell")}
+            className={`px-4 py-2 rounded ${
+              activeTab === "sell" ? "bg-yellow-600" : "bg-gray-700"
+            }`}
+          >
+            Sell
+          </button>
+        </div>
+
+        <div className="flex gap-4 p-2 w-full h-80">
+          <div className="bg-gray-800/80 p-2 rounded w-full">
+            {activeTab === "buy" ? (
+              <>
+                <h3 className="text-lg font-semibold mb-2">Buy</h3>
+                <div className="grid grid-cols-7 gap-2 w-full">
+                  {buyList.map((item) => (
+                    <div
+                      key={item.id}
+                      onClick={() => handleItemClick(item, "buy")}
+                      className="bg-gray-700 p-1 rounded cursor-pointer hover:bg-gray-600 flex flex-col items-center"
+                    >
+                      {item.sprite && (
+                        <img
+                          src={item.sprite}
+                          alt={item.name}
+                          className="w-10 h-10 object-contain mb-1"
+                        />
+                      )}
+                      <p className="text-xs text-center">{item.name}</p>
                     </div>
-                  )}
-                </>
-              )}
-            </div>
-            {/* Høyre kolonne: Item Details */}
-            <div className="bg-gray-800 p-2 rounded flex flex-col items-center w-50">
-              <h3 className="text-lg font-semibold mb-2">Item Details</h3>
-              {!selectedItem ? (
-                <p className="text-center text-xs">No item selected</p>
-              ) : (
-                <div className="space-y-2 text-center w-full">
-                  <p className="font-semibold text-sm">{selectedItem.name}</p>
-                  {selectedItem.sprite && (
-                    <img
-                      src={selectedItem.sprite}
-                      alt={selectedItem.name}
-                      className="w-20 h-20 object-contain mx-auto"
-                    />
-                  )}
-                  {selectedItem.statModifiers && (
-                    <ul className="text-xs">
-                      <li>
-                        Strength: {selectedItem.statModifiers.strength || 0}
-                      </li>
-                      <li>
-                        Speed: {selectedItem.statModifiers.speed || 0}
-                      </li>
-                      <li>
-                        Defense: {selectedItem.statModifiers.defense || 0}
-                      </li>
-                    </ul>
-                  )}
-                  {selectedItem.healAmount && (
-                    <p className="text-xs">Heal: {selectedItem.healAmount}</p>
-                  )}
-                  {selectedMode === "buy" ? (
-                    <>
-                      <p className="text-xs text-gray-300">
-                        Buy Price: {getBuyPrice(selectedItem)}
-                      </p>
-                      <button
-                        onClick={() => handleBuy(selectedItem)}
-                        className="bg-yellow-600 px-3 py-1 text-xs rounded w-full"
-                      >
-                        Buy
-                      </button>
-                    </>
-                  ) : (
-                    <>
-                      <p className="text-xs text-gray-300">
-                        Sell Price: {getSellPrice(selectedItem)}
-                      </p>
-                      <button
-                        onClick={() => handleSell(selectedItem)}
-                        className="bg-yellow-600 px-3 py-1 text-xs rounded w-full"
-                      >
-                        Sell
-                      </button>
-                    </>
-                  )}
+                  ))}
                 </div>
-              )}
-            </div>
+              </>
+            ) : (
+              <>
+                <h3 className="text-lg font-semibold mb-2">Sell</h3>
+                {inventoryArray.length === 0 ? (
+                  <p className="text-center">No items in inventory</p>
+                ) : (
+                  <div className="grid grid-cols-7 gap-2 w-full">
+                    {inventoryArray.map((invItem) => (
+                      <div
+                        key={invItem.id}
+                        onClick={() => handleItemClick(invItem, "sell")}
+                        className="bg-gray-700 p-1 rounded cursor-pointer hover:bg-gray-600 w-full flex flex-col items-center"
+                      >
+                        {invItem.sprite && (
+                          <img
+                            src={invItem.sprite}
+                            alt={invItem.name}
+                            className="w-12 h-12 object-contain mb-1"
+                          />
+                        )}
+                        <p className="text-xs">
+                          {invItem.name} x {invItem.count}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </>
+            )}
+          </div>
+          {/* Høyre kolonne: Item Details */}
+          <div className="bg-gray-800/80 p-2 rounded flex flex-col items-center w-50">
+            <h3 className="text-lg font-semibold mb-2">Item Details</h3>
+            {!selectedItem ? (
+              <p className="text-center text-xs">No item selected</p>
+            ) : (
+              <div className="space-y-2 text-center w-full">
+                <p className="font-semibold text-sm">{selectedItem.name}</p>
+                {selectedItem.sprite && (
+                  <img
+                    src={selectedItem.sprite}
+                    alt={selectedItem.name}
+                    className="w-20 h-20 object-contain mx-auto"
+                  />
+                )}
+                {selectedItem.statModifiers && (
+                  <ul className="text-xs">
+                    <li>
+                      Strength: {selectedItem.statModifiers.strength || 0}
+                    </li>
+                    <li>Speed: {selectedItem.statModifiers.speed || 0}</li>
+                    <li>Defense: {selectedItem.statModifiers.defense || 0}</li>
+                  </ul>
+                )}
+                {selectedItem.healAmount && (
+                  <p className="text-xs">Heal: {selectedItem.healAmount}</p>
+                )}
+                {selectedMode === "buy" ? (
+                  <>
+                    <p className="text-xs text-gray-300">
+                      Buy Price: {getBuyPrice(selectedItem)}
+                    </p>
+                    <button
+                      onClick={() => handleBuy(selectedItem)}
+                      className="bg-yellow-600 px-3 py-1 text-xs rounded w-full"
+                    >
+                      Buy
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <p className="text-xs text-gray-300">
+                      Sell Price: {getSellPrice(selectedItem)}
+                    </p>
+                    <button
+                      onClick={() => handleSell(selectedItem)}
+                      className="bg-yellow-600 px-3 py-1 text-xs rounded w-full"
+                    >
+                      Sell
+                    </button>
+                  </>
+                )}
+              </div>
+            )}
           </div>
         </div>
       </div>
-    );
+    </div>
+  );
 }
