@@ -43,7 +43,7 @@ export default function MapView() {
         setEncounterDifficulty,
         initializeMap,
         clearMap,
-        setMap
+        setMap,
     } = useGameStore();
     const [isVisible, setIsVisible] = useState(false);
 
@@ -55,10 +55,8 @@ export default function MapView() {
 
     useEffect(() => {
         const fetchMap = async () => {
-          if (!Array.isArray(map) || map.length === 0) {
             await initializeMap("map1");
-          }
-          setIsLoading(false);
+            setIsLoading(false);
         };
         fetchMap();
     }, [initializeMap]);
