@@ -53,11 +53,12 @@ export default function MapView() {
 
     useEffect(() => {
         const fetchMap = async () => {
-            await initializeMap("map1");
+            await initializeMap("map2");
             setIsLoading(false);
+            resetPosition();
         };
         fetchMap();
-    }, [initializeMap]);
+    }, [resetPosition, initializeMap]);
 
     const handleTileClick = (cell) => {
         const currentCell = map.flat().find((c) => c.id === currentPosition.id);
@@ -74,7 +75,7 @@ export default function MapView() {
         }
     };
 
-    if (isLoading || !Array.isArray(map)) {
+    if (isLoading || !Array.isArray(map) || map === 0) {
         return <div>Loading...</div>;
     }
 

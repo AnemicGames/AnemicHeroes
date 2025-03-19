@@ -13,10 +13,10 @@ export const createMapSlice = (set, get) => ({
     setEncounterDifficulty: (encounterDifficulty) =>
         set(() => ({ encounterDifficulty })),
     map: [],
-    initializeMap: async (mapName = "map1") => {
+    initializeMap: async (mapName = "map2") => {
         await get().setMap(mapName);
     },
-    setMap: async (mapName = "map1") => {
+    setMap: async (mapName = "map2") => {
         try {
             const response = await fetch("/assets/maps.json");
             if (!response.ok) {
