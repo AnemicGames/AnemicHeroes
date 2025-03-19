@@ -45,6 +45,7 @@ export default function Shop() {
   const [selectedMode, setSelectedMode] = useState(null);
   const [sellMessage, setSellMessage] = useState("");
   const [activeTab, setActiveTab] = useState("buy");
+  const [buyMessage, setBuyMessage] = useState("");
 
   // Nedtelling i sekunder for limited offer (5 timer = 18000 sekunder)
   const [countdown, setCountdown] = useState(18000);
@@ -127,6 +128,10 @@ export default function Shop() {
           offer && offer.id === item.id ? null : offer
         )
       );
+      setBuyMessage(`Bought ${item.name}`);
+      setTimeout(() => {
+        setBuyMessage("");
+      }, 2000);
     } else {
       console.warn("Not enough gold to buy this item!");
     }
@@ -139,10 +144,10 @@ export default function Shop() {
       const price = getSellPrice(item);
       removeItem(item.id, 1);
       addGold(price);
-      setSellMessage(`Sold ${item.name} for ${price} gold!`);
+      setSellMessage(`Sold ${item.name}`);
       setTimeout(() => {
         setSellMessage("");
-      }, 3000);
+      }, 2000);
       if (count - 1 <= 0) {
         setSelectedItem(null);
         setSelectedMode(null);
@@ -151,7 +156,7 @@ export default function Shop() {
       setSellMessage(`No ${item.name} left to sell.`);
       setTimeout(() => {
         setSellMessage("");
-      }, 3000);
+      }, 2000);
     }
   };
 
@@ -176,25 +181,25 @@ export default function Shop() {
       <div className="relative z-10">
         {/* Toppseksjon */}
         <div className="flex justify-between items-center p-4 bg-gray-800/ bg-opacity-90">
-          <button
+          <img
+            src="/assets/sprites/exit-nav-icon.png"
+            alt="exit icon"
             onClick={handleReturn}
-            className="bg-yellow-600 px-4 py-2 rounded"
-          >
-            Return
-          </button>
+            className="cursor-pointer w-12 h-12"
+          />
           <h1 className="text-2xl font-bold">The Tavern of Goods</h1>
-          <div className="text-lg">Gold: {inventory.gold}</div>
+          <div className=" flex items-center text-lg ">
+            <img
+              src="/assets/sprites/shop-nav-icon.png"
+              alt=""
+              className="w-12 h-10"
+            />{" "}
+            {inventory.gold}{" "}
+          </div>
         </div>
 
         {/* Plassholder for midtseksjonen */}
         <div className="hidden relative w-full h-64"></div>
-
-        {/* Meldingsboks for salg */}
-        {sellMessage && (
-          <div className="p-2 bg-green-700/ text-center">
-            <p>{sellMessage}</p>
-          </div>
-        )}
 
         {/* Limited Offers-seksjonen */}
         <div className="relative w-full h-64">
@@ -215,7 +220,7 @@ export default function Shop() {
                 </p>
                 <button
                   onClick={() => handleBuy(limitedOffers[0])}
-                  className="bg-yellow-600 px-2 py-1 mt-1 text-xs rounded"
+                  className="bg-yellow-600 px-6 py-1 mt-1 text-xs rounded cursor-pointer"
                 >
                   Buy
                 </button>
@@ -244,7 +249,7 @@ export default function Shop() {
                 </p>
                 <button
                   onClick={() => handleBuy(limitedOffers[1])}
-                  className="bg-yellow-600 px-2 py-1 mt-1 text-xs rounded"
+                  className="bg-yellow-600 px-6 py-1 mt-1 text-xs rounded cursor-pointer"
                 >
                   Buy
                 </button>
@@ -262,7 +267,7 @@ export default function Shop() {
         <div className="flex justify-start space-x-4 p-4 bg-gray-800/ bg-opacity-90">
           <button
             onClick={() => setActiveTab("buy")}
-            className={`px-4 py-2 rounded ${
+            className={`px-4 py-2 rounded cursor-pointer ${
               activeTab === "buy" ? "bg-yellow-600" : "bg-gray-700"
             }`}
           >
@@ -270,7 +275,7 @@ export default function Shop() {
           </button>
           <button
             onClick={() => setActiveTab("sell")}
-            className={`px-4 py-2 rounded ${
+            className={`px-4 py-2 rounded cursor-pointer ${
               activeTab === "sell" ? "bg-yellow-600" : "bg-gray-700"
             }`}
           >
@@ -334,7 +339,7 @@ export default function Shop() {
           </div>
           {/* Høyre kolonne: Item Details */}
           <div className="bg-gray-800/80 p-2 rounded flex flex-col items-center w-50">
-            <h3 className="text-lg font-semibold mb-2">Item Details</h3>
+            
             {!selectedItem ? (
               <p className="text-center text-xs">No item selected</p>
             ) : (
@@ -366,10 +371,15 @@ export default function Shop() {
                     </p>
                     <button
                       onClick={() => handleBuy(selectedItem)}
-                      className="bg-yellow-600 px-3 py-1 text-xs rounded w-full"
+                      className="bg-yellow-600 px-3 py-1 text-xs rounded w-full cursor-pointer"
                     >
                       Buy
                     </button>
+                    {buyMessage && (
+                      <div className=" text-center text-green-500">
+                        <p>{buyMessage}</p>
+                      </div>
+                    )}
                   </>
                 ) : (
                   <>
@@ -378,12 +388,17 @@ export default function Shop() {
                     </p>
                     <button
                       onClick={() => handleSell(selectedItem)}
-                      className="bg-yellow-600 px-3 py-1 text-xs rounded w-full"
+                      className="bg-yellow-600 px-3 py-1 text-xs rounded w-20 cursor-pointer"
                     >
                       Sell
                     </button>
                   </>
                 )}
+              </div>
+            )}
+            {sellMessage && (
+              <div className=" text-center text-green-500">
+                <p>{sellMessage}</p>
               </div>
             )}
           </div>
