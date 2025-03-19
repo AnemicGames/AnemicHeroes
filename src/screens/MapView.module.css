@@ -1,15 +1,19 @@
 .mapOpen {
     opacity: 0;
-    animation: mapOpen 1s forwards;
+    animation: mapOpen 1s ease-in-out forwards;
 }
 
 @keyframes mapOpen {
     0% {
-        top: 100px; /* Start position */
-        opacity: 0; /* Start invisible */
+        top: 500px;
+        opacity: 0;
+    }
+    80% {
+        top: 0;
+        opacity: 1;
     }
     100% {
-        top: 0; /* End position */
-        opacity: 1; /* Fully visible */
+        top: 15px;
+        opacity: 1;
     }
 }
