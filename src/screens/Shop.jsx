@@ -42,6 +42,7 @@ export default function Shop() {
 
   const [items, setItems] = useState(null);
   const [limitedOffers, setLimitedOffers] = useState([null, null]);
+  const [purchasedLimitedOfferIds, setPurchasedLimitedOfferIds] = useState([]);
   const [selectedItem, setSelectedItem] = useState(null);
   const [selectedMode, setSelectedMode] = useState(null);
   const [activeTab, setActiveTab] = useState("buy");
@@ -65,26 +66,43 @@ export default function Shop() {
       const offers = getRandomItems(items, 2);
       setLimitedOffers(offers);
       setCountdown(18000);
+      setPurchasedLimitedOfferIds([]);
     }
   }, [items]);
 
   // Oppdater nedtelling hvert sekund
   useEffect(() => {
-    const interval = setInterval(() => {
-      setCountdown((prev) => {
-        if (prev <= 1) {
-          // Når nedtellingen er ferdig, sett inn nye limited offers
-          if (items && items.length > 0) {
-            const newOffers = getRandomItems(items, 2);
-            setLimitedOffers(newOffers);
-          }
-          return 18000;
+    if (items && items.length > 0) {
+      // Try to retrieve stored offers and timestamp
+      const storedOffers = localStorage.getItem("limitedOffers");
+      const storedTimestamp = localStorage.getItem("limitedOffersTimestamp");
+  
+      if (storedOffers && storedTimestamp) {
+        const timeElapsed = Date.now() - Number(storedTimestamp);
+        const remainingTime = 18000 - Math.floor(timeElapsed / 1000);
+        if (remainingTime > 0) {
+          setLimitedOffers(JSON.parse(storedOffers));
+          setCountdown(remainingTime);
+        } else {
+          // Timer expired, generate new offers
+          const newOffers = getRandomItems(items, 2);
+          setLimitedOffers(newOffers);
+          setCountdown(18000);
+          localStorage.setItem("limitedOffers", JSON.stringify(newOffers));
+          localStorage.setItem("limitedOffersTimestamp", Date.now().toString());
         }
-        return prev - 1;
-      });
-    }, 1000);
-    return () => clearInterval(interval);
+      } else {
+        // No stored offers, generate new ones
+        const newOffers = getRandomItems(items, 2);
+        setLimitedOffers(newOffers);
+        setPurchasedLimitedOfferIds([]);
+        setCountdown(18000);
+        localStorage.setItem("limitedOffers", JSON.stringify(newOffers));
+        localStorage.setItem("limitedOffersTimestamp", Date.now().toString());
+      }
+    }
   }, [items]);
+
 
   // Hjelpefunksjon for å trekke ut 'count' tilfeldige items fra et array
   function getRandomItems(arr, count) {
@@ -131,6 +149,7 @@ export default function Shop() {
           offer && offer.id === item.id ? null : offer
         )
       );
+      setPurchasedLimitedOfferIds((prev) => [...prev, item.id]);
       setFloatingBuy(`Bought ${item.name} -${price} gold`);
       setTimeout(() => {
         setFloatingBuy(null);
@@ -166,7 +185,9 @@ export default function Shop() {
   if (!items) return <p>Loading items...</p>;
 
   const buyList = items.filter(
-    (it) => !limitedOffers.some((offer) => offer && offer.id === it.id)
+    (it) =>
+      !limitedOffers.some((offer) => offer && offer.id === it.id) &&
+      !purchasedLimitedOfferIds.includes(it.id)
   );
 
   const inventoryArray = Object.entries(inventory.items)
