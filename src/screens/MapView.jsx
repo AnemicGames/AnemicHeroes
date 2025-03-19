@@ -89,8 +89,8 @@ export default function MapView() {
     const goToMainMenu = () => setCurrentView("MAIN_MENU");
     const goToMap = () => setCurrentView("MAP");
     const goToBattle = () => setCurrentView("BATTLE");
-    const goToCharacterSheet = () => setCurrentView("CHARACTER_SHEET");
-    const goToShop = () => clearMap();
+    const goToShop = () => setCurrentView("SHOP");
+    const clearMapBtn = () => clearMap();
 
     return (
         <div className="relative">
