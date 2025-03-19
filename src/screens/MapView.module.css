@@ -7,10 +7,12 @@
     0% {
         top: 500px;
         opacity: 0;
+        transform: rotate(9deg);
     }
     80% {
         top: 0;
         opacity: 1;
+        transform: rotate(0deg);
     }
     100% {
         top: 15px;
