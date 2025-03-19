@@ -229,7 +229,7 @@ export default function Shop() {
         {/* Limited Offers-seksjonen */}
         <div className="relative w-full h-64">
           <div
-            className={`${styles["flicker-border"]} absolute top-4 left-4 w-40 bg-gray-800/80 p-2 rounded`}
+            className={`${limitedOffers[0] ? styles["flicker-border"] : ""} absolute top-4 left-4 w-40 bg-gray-800/80 p-2 rounded`}
           >
             <h2 className="font-semibold text-center">Limited Offer</h2>
             {limitedOffers[0] ? (
@@ -260,7 +260,7 @@ export default function Shop() {
             )}
           </div>
           <div
-            className={`${styles["flicker-border"]} absolute top-4 right-4 w-40  bg-gray-800/80 p-2 rounded`}
+            className={`${limitedOffers[1] ? styles["flicker-border"] : ""} absolute top-4 right-4 w-40  bg-gray-800/80 p-2 rounded`}
           >
             <h2 className="font-semibold text-center text-white">Limited Offer</h2>
             {limitedOffers[1] ? (
