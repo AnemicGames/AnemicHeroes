@@ -66,7 +66,7 @@ export default function MapView() {
         if (cell.type != 0 && currentCell.next.includes(cell.id)) {
             setPosition(cell.id);
         }
-        if (cell.type === "BATTLE" && currentCell.next.includes(cell.id)) {
+        if (cell.type === "BATTLE" && currentCell.next.includes(cell.id)|| cell.type === "BOSS" && currentCell.next.includes(cell.id)) {
             goToBattle();
             setEncounterType(cell.encounterType);
             setEncounterDifficulty(cell.encounterDifficulty);
