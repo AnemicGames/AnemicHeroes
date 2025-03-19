@@ -42,6 +42,8 @@ export default function MapView() {
         setEncounterType,
         setEncounterDifficulty,
         initializeMap,
+        clearMap,
+        setMap
     } = useGameStore();
     const [isVisible, setIsVisible] = useState(false);
 
@@ -53,12 +55,14 @@ export default function MapView() {
 
     useEffect(() => {
         const fetchMap = async () => {
-            await initializeMap("map2");
-            setIsLoading(false);
-            resetPosition();
+          if (!Array.isArray(map) || map.length === 0) {
+            await initializeMap("map1");
+          }
+          setIsLoading(false);
         };
         fetchMap();
-    }, [resetPosition, initializeMap]);
+      }, [map, initializeMap]);
+      
 
     const handleTileClick = (cell) => {
         const currentCell = map.flat().find((c) => c.id === currentPosition.id);
@@ -89,7 +93,7 @@ export default function MapView() {
     const goToMap = () => setCurrentView("MAP");
     const goToBattle = () => setCurrentView("BATTLE");
     const goToCharacterSheet = () => setCurrentView("CHARACTER_SHEET");
-    const goToShop = () => setCurrentView("SHOP");
+    const goToShop = () => clearMap();
 
     return (
         <div className="relative">
@@ -122,7 +126,7 @@ export default function MapView() {
                 </button>
                 <button
                     className="px-2 py-1 border rounded bg-gray-700"
-                    onClick={goToCharacterSheet}
+                    onClick={setMap}
                 >
                     Character
                 </button>
