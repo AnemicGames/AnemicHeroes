@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useGameStore } from "../store/useGameStore";
+import styles from "./Shop.module.css";
 const AnimatedImage = () => {
   const [currentFrame, setCurrentFrame] = useState(1);
   const totalFrames = 12;
@@ -43,9 +44,11 @@ export default function Shop() {
   const [limitedOffers, setLimitedOffers] = useState([null, null]);
   const [selectedItem, setSelectedItem] = useState(null);
   const [selectedMode, setSelectedMode] = useState(null);
-  const [sellMessage, setSellMessage] = useState("");
   const [activeTab, setActiveTab] = useState("buy");
   const [buyMessage, setBuyMessage] = useState("");
+  const [sellMessage, setSellMessage] = useState("");
+  const [floatingSell, setFloatingSell] = useState(null);
+  const [floatingBuy, setFloatingBuy] = useState(null);
 
   // Nedtelling i sekunder for limited offer (5 timer = 18000 sekunder)
   const [countdown, setCountdown] = useState(18000);
@@ -128,10 +131,10 @@ export default function Shop() {
           offer && offer.id === item.id ? null : offer
         )
       );
-      setBuyMessage(`Bought ${item.name}`);
+      setFloatingBuy(`Bought ${item.name} -${price} gold`);
       setTimeout(() => {
-        setBuyMessage("");
-      }, 2000);
+        setFloatingBuy(null);
+      }, 1000);
     } else {
       console.warn("Not enough gold to buy this item!");
     }
@@ -145,9 +148,9 @@ export default function Shop() {
       removeItem(item.id, 1);
       addGold(price);
       setSellMessage(`Sold ${item.name}`);
-      setTimeout(() => {
-        setSellMessage("");
-      }, 2000);
+      setFloatingSell(`Sold ${item.name}+${price} gold`);
+      setTimeout(() => setFloatingSell(null), 1000);
+      setTimeout(() => setSellMessage(""), 2000);
       if (count - 1 <= 0) {
         setSelectedItem(null);
         setSelectedMode(null);
@@ -177,6 +180,7 @@ export default function Shop() {
   return (
     <div className="w-full h-full text-white relative">
       <AnimatedImage />
+      {/* Floating sell message med animasjon */}
 
       <div className="relative z-10">
         {/* Toppseksjon */}
@@ -203,7 +207,9 @@ export default function Shop() {
 
         {/* Limited Offers-seksjonen */}
         <div className="relative w-full h-64">
-          <div className="absolute top-4 left-4 w-40 bg-gray-800/80 bg-opacity-80 p-2 rounded">
+          <div
+            className={`${styles["flicker-border"]} absolute top-4 left-4 w-40 bg-gray-800/80 p-2 rounded`}
+          >
             <h2 className="font-semibold text-center">Limited Offer</h2>
             {limitedOffers[0] ? (
               <div className="mt-2 flex flex-col items-center">
@@ -232,10 +238,12 @@ export default function Shop() {
               </div>
             )}
           </div>
-          <div className="absolute top-4 right-4 w-40 bg-gray-800/80 bg-opacity-80 p-2 rounded">
-            <h2 className="font-semibold text-center">Limited Offer</h2>
+          <div
+            className={`${styles["flicker-border"]} absolute top-4 right-4 w-40  bg-gray-800/80 p-2 rounded`}
+          >
+            <h2 className="font-semibold text-center text-white">Limited Offer</h2>
             {limitedOffers[1] ? (
-              <div className="mt-2 flex flex-col items-center">
+              <div className="mt-2 flex flex-col items-center text-white">
                 {limitedOffers[1].sprite && (
                   <img
                     src={limitedOffers[1].sprite}
@@ -244,12 +252,12 @@ export default function Shop() {
                   />
                 )}
                 <p className="text-sm">{limitedOffers[1].name}</p>
-                <p className="text-xs text-gray-300">
+                <p className="text-xs text-white">
                   Price: {getBuyPrice(limitedOffers[1])}
                 </p>
                 <button
                   onClick={() => handleBuy(limitedOffers[1])}
-                  className="bg-yellow-600 px-6 py-1 mt-1 text-xs rounded cursor-pointer"
+                  className="bg-yellow-600 px-6 py-1 mt-1 text-xs text-white rounded cursor-pointer"
                 >
                   Buy
                 </button>
@@ -339,7 +347,6 @@ export default function Shop() {
           </div>
           {/* Høyre kolonne: Item Details */}
           <div className="bg-gray-800/80 p-2 rounded flex flex-col items-center w-50">
-            
             {!selectedItem ? (
               <p className="text-center text-xs">No item selected</p>
             ) : (
@@ -380,6 +387,13 @@ export default function Shop() {
                         <p>{buyMessage}</p>
                       </div>
                     )}
+                    {floatingBuy && (
+                      <div
+                        className={`${styles["flash-up-buy"]} absolute left-1/2 transform -translate-x-1/2`}
+                      >
+                        {floatingBuy}
+                      </div>
+                    )}
                   </>
                 ) : (
                   <>
@@ -396,9 +410,11 @@ export default function Shop() {
                 )}
               </div>
             )}
-            {sellMessage && (
-              <div className=" text-center text-green-500">
-                <p>{sellMessage}</p>
+            {floatingSell && (
+              <div
+                className={`${styles["flash-up"]} absolute left-1/2 transform -translate-x-1/2`}
+              >
+                {floatingSell}
               </div>
             )}
           </div>
