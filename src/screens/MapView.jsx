@@ -34,17 +34,17 @@ const AnimatedImage = () => {
 
 export default function MapView() {
     const setCurrentView = useGameStore((state) => state.setCurrentView);
+    const setEmbark = useGameStore((state) => state.setEmbark);
+
     const {
         map,
         currentPosition,
         setPosition,
-        resetPosition,
         setEncounterType,
         setEncounterDifficulty,
         initializeMap,
-        clearMap,
-        setMap,
     } = useGameStore();
+
     useEffect(() => {
         setIsVisible(true);
     }, []);
@@ -60,8 +60,9 @@ export default function MapView() {
     const navigateWithAnimation = (view) => {
         setIsClosing(true);
         setTimeout(() => {
+            setEmbark(false);
             setCurrentView(view);
-        }, 1000); 
+        }, 1000);
     };
 
     const [isLoading, setIsLoading] = useState(true);
@@ -74,7 +75,7 @@ export default function MapView() {
             setIsLoading(false);
         };
         fetchMap();
-    }, [initializeMap]);
+    }, [initializeMap]); // eslint-disable-line react-hooks/exhaustive-deps
 
     const handleTileClick = (cell) => {
         const currentCell = map.flat().find((c) => c.id === currentPosition.id);
