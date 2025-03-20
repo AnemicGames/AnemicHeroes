@@ -174,11 +174,11 @@ export default function CharacterSheet() {
                       className="max-w-full max-h-full object-contain"
                     />
                     {/* Custom Tooltip */}
-                    <div className="absolute left-0 bottom-full mb-2 hidden group-hover:flex flex-col bg-black text-white p-2 rounded text-xs z-10">
-                      <div className="mb-1">{item.name}</div>
-                      <div>STR: {item.statModifiers?.strength ?? 0}</div>
+                    <div className="absolute left-0 bottom-0 hidden group-hover:flex flex-col bg-black text-white p-2 rounded text-xs z-10">
+                      <div className="mb-1 h-15">{item.name}</div>
+                      {/* <div>STR: {item.statModifiers?.strength ?? 0}</div>
                       <div>DEF: {item.statModifiers?.defense ?? 0}</div>
-                      <div>SPD: {item.statModifiers?.speed ?? 0}</div>
+                      <div>SPD: {item.statModifiers?.speed ?? 0}</div> */}
                     </div>
                     {/* <button
                       onClick={() => handleUnequip(slot)}
