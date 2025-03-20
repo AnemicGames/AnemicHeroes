@@ -107,6 +107,9 @@ export default function CharacterSheet() {
 
   const handleEquip = (item) => {
     const slot = getSlotFromItemType(item.type);
+    if (equipped[slot]) {
+      unequipItem(slot);
+    }
     equipItem(slot, item.id);
   };
 
@@ -164,7 +167,7 @@ export default function CharacterSheet() {
                 className="equipment-slot rounded p-2 w-20 h-20 flex flex-col items-center justify-center relative bg-gray-500/80"
               >
                 {item ? (
-                  <div className="group">
+                  <div className="group" onClick={() => handleUnequip(slot)}>
                     <img
                       src={item.sprite}
                       alt={item.name}
@@ -177,12 +180,12 @@ export default function CharacterSheet() {
                       <div>DEF: {item.statModifiers?.defense ?? 0}</div>
                       <div>SPD: {item.statModifiers?.speed ?? 0}</div>
                     </div>
-                    <button
+                    {/* <button
                       onClick={() => handleUnequip(slot)}
                       className="absolute top-0 right-0 bg-red-500 text-white text-xs p-1 rounded"
                     >
                       X
-                    </button>
+                    </button> */}
                   </div>
                 ) : (
                   <div className="w-full h-full flex items-center justify-center">
@@ -296,7 +299,6 @@ export default function CharacterSheet() {
                   }
                 >
                   <img
-                    onClick={() => handleEquip(item)}
                     src={item.sprite}
                     alt={item.name}
                     className="w-full h-16 object-contain mb-1"
@@ -310,15 +312,15 @@ export default function CharacterSheet() {
                     {item.type === "potion" ? (
                       <>
                         <div className="mb-1">{item.name}</div>
-                        <div>Heals {item.healAmount} HP</div>
+                        <div>Heal {item.healAmount} HP</div>
                       </>
                     ) : (
-                      <>
+                      <div onClick={() => handleEquip(item)}>
                         <div className="mb-1">{item.name}</div>
                         <div>STR: {item.statModifiers?.strength ?? 0}</div>
                         <div>DEF: {item.statModifiers?.defense ?? 0}</div>
                         <div>SPD: {item.statModifiers?.speed ?? 0}</div>
-                      </>
+                      </div>
                     )}
                   </div>
                 </div>
