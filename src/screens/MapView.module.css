@@ -19,3 +19,17 @@
         opacity: 1;
     }
 }
+
+.mapClose {
+    animation: mapClose 1s ease forwards;
+}
+
+@keyframes mapClose {
+    0% {
+        top: 15px;
+    }
+    100% {
+        top: 1000px;
+        transform: rotate(-12deg);
+    }
+}
