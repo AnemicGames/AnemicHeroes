@@ -31,30 +31,28 @@ export default function SplashScreen() {
           <img src="assets/splashScreenTitle.png" alt="" className={`${styles["title-descend"]} w-[450px]`} />
           <div className={`${styles["fade-in-buttons"]} flex flex-col items-center space-y-2`}>
 
-            <button
-              className={`px-4 py-2 rounded flex items-center ${
-                playerLevel > 0 ? 'bg-red-950 hover:bg-red-900' : 'bg-gray-700'
-              }`}
-              onClick={handleContinue}
-              disabled={playerLevel === 0}
-              onMouseEnter={() => playerLevel > 0 && setIsHovered(true)}
-              onMouseLeave={() => setIsHovered(false)}
-            >
-              <div className={styles["book-container"]}>
-                <img
-                  src={isHovered && playerLevel > 0 ? "/assets/sprites/book-open.png" : "/assets/sprites/book-closed.png"}
-                  alt="Book Icon"
-                  className="w-6 h-6"
-                />
-              </div>
-              <span className="ml-2">Continue</span>
-            </button>
+          <button
+            className={`flex px-6 py-3 rounded-full relative p-5 font-bold text-xl pl-12 border-2 ${
+              playerLevel > 0 ? 'bg-red-700 hover:bg-red-600 border-yellow-300' : 'bg-gray-700 border-gray-300'
+            }`}
+            onClick={handleContinue}
+            disabled={playerLevel === 0}
+            onMouseEnter={() => playerLevel > 0 && setIsHovered(true)}
+            onMouseLeave={() => setIsHovered(false)}
+          >
+            <img
+              src={isHovered && playerLevel > 0 ? "/assets/sprites/book-open.png" : "/assets/sprites/book-closed.png"}
+              alt="Book Icon"
+              className='absolute left-0 bottom-1 w-[50px]'
+            />
+            <span className="ml-2">Continue</span>
+          </button>
 
             <button
-              className="px-4 py-2 bg-gray-700 hover:bg-gray-800 rounded flex items-center"
+              className="px-6 py-3 bg-red-700 hover:bg-red-600 rounded-full relative p-5 font-bold text-xl pl-12 border-2 border-yellow-300"
               onClick={handleCreateHero}
             >
-              <img src="/assets/sprites/feather.png" alt="" className="w-6 h-6 mr-2" />
+              <img src="/assets/sprites/feather.png" alt="" className='absolute left-0 bottom-1 w-[50px]' />
               New Hero
             </button>
           </div>
