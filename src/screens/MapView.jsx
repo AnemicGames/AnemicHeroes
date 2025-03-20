@@ -45,7 +45,12 @@ export default function MapView() {
         clearMap,
         setMap,
     } = useGameStore();
+    useEffect(() => {
+        setIsVisible(true);
+    }, []);
+
     const [isVisible, setIsVisible] = useState(false);
+    const [isClosing, setIsClosing] = useState(false);
 
     useEffect(() => {
         setIsVisible(true);
@@ -110,7 +115,7 @@ export default function MapView() {
                 className={`absolute w-full h-max ${
                     isClosing ? styles["mapClose"] : isVisible ? styles["mapOpen"] : ""
                 }`}
-            >
+>
                 <img
                     src="/assets/map.webp"
                     alt="Easter Egg!!!!! <<3<3<3<3<3<3<<3<33<3<<<3<3<ÆØDÅDØASÅDØASÅDØÅA"
