@@ -95,71 +95,21 @@ export default function MapView() {
         return currentCell && currentCell.next.includes(cell.id);
     };
 
+    const startPosition = map.flat().find(cell => cell.type === "START");
+
     const goToMainMenu = () => navigateWithAnimation("MAIN_MENU");
     const goToBattle = () => navigateWithAnimation("BATTLE");
     const goToShop = () => navigateWithAnimation("SHOP");
 
 
     return (
-        <div className="relative">
+        <div className="relative h-full w-full">
             <AnimatedImage />
-            <div className="space-x-2 mt-4 bg-gray-200 absolute z-20 w-full top-0">
-                <h1>Map</h1>
-                <button
-                    className="px-2 py-1 border rounded bg-gray-700"
-                    onClick={goToSplash}
-                >
-                    Splash
-                </button>
-                <button
-                    className="px-2 py-1 border rounded bg-gray-700"
-                    onClick={goToMainMenu}
-                >
-                    Main Menu
-                </button>
-                <button
-                    className="px-2 py-1 border rounded bg-gray-700"
-                    onClick={goToMap}
-                >
-                    Map
-                </button>
-                <button
-                    className="px-2 py-1 border rounded bg-gray-700"
-                    onClick={goToBattle}
-                >
-                    Battle
-                </button>
-                <button
-                    className="px-2 py-1 border rounded bg-gray-700"
-                    onClick={setMap}
-                >
-                    Character
-                </button>
-                <button
-                    className="px-2 py-1 border rounded bg-gray-700"
-                    onClick={initializeMap}
-                >
-                    Shop
-                </button>
-                <button
-                    className="px-2 py-1 border rounded bg-gray-700"
-                    onClick={resetPosition}
-                >
-                    Reset to Start
-                </button>
-                {/* New button to clear the map */}
-                <button
-                    className="px-2 py-1 border rounded bg-gray-700"
-                    onClick={clearMapBtn}
-                >
-                    Clear Map
-                </button>
-            </div>
 
             <div
-                className={`${
-                    isVisible ? styles["mapOpen"] : ""
-                } absolute w-full h-max`}
+                className={`absolute w-full h-max ${
+                    isClosing ? styles["mapClose"] : isVisible ? styles["mapOpen"] : ""
+                }`}
             >
                 <img
                     src="/assets/map.webp"
@@ -206,6 +156,16 @@ export default function MapView() {
                     )}
                 </div>
             </div>
+
+            {startPosition && currentPosition.id === startPosition.id && (
+                <button
+                    className='absolute bottom-0 left-0 m-4 p-2 hover:bg-red-800 rounded z-50'
+                    title='Exit'
+                    onClick={() => goToMainMenu('MAIN_MENU')}
+                >
+                    <img src="/assets/sprites/exit-nav-icon.png" alt="Exit" className='w-10 h-11' />
+                </button>
+            )}
         </div>
     );
 }
