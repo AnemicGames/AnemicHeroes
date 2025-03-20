@@ -59,12 +59,6 @@
   animation: fadeInButtons 1s ease forwards 7s;
 }
 
-.book-container {
-  position: relative;
-  width: 24px; /* Adjust size if needed */
-  height: 24px;
-}
-
 .book-icon {
   position: absolute;
   top: 0;
