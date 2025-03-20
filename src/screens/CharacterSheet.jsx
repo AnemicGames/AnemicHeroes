@@ -135,7 +135,7 @@ export default function CharacterSheet() {
 
   return (
     <div
-      className="p-4 h-full text-white grid grid-cols-10 grid-rows-5 gap-2 relative"
+      className="p-4 h-full text-white grid grid-cols-30 grid-rows-5 gap-2 relative"
       style={{
         backgroundImage: `url('/assets/char_sheet_bg/${currentFrame}.webp')`,
         backgroundSize: "cover",
@@ -199,7 +199,7 @@ export default function CharacterSheet() {
       </div>
 
       {/* Stats */}
-      <div className="stats-box rounded p-2 flex flex-col gap-4 text-2xl bg-gray-500/80 col-start-1 col-end-3 row-start-2 row-end-6 relative">
+      <div className="stats-box rounded p-2 flex flex-col gap-8 text-2xl bg-gray-500/80 col-start-1 col-end-8 row-start-2 row-end-6 relative">
         <h3 className="font-semibold mb-2 text-2xl">Stats</h3>
         <div>
           <div>Class: {player.class}</div>
@@ -275,7 +275,7 @@ export default function CharacterSheet() {
       </div>
 
       {/* Inventory */}
-      <div className="inventory rounded p-4 col-start-8 col-end-11 row-start-1 row-end-6 bg-gray-500/80">
+      <div className="inventory rounded p-4 col-start-23 col-end-31 row-start-1 row-end-6 bg-gray-500/80">
         <div className="flex justify-between items-center mb-4">
           <h3 className="font-semibold mb-2">Inventory</h3>
           <div className="gold-count text-lg font-semibold">
@@ -315,7 +315,10 @@ export default function CharacterSheet() {
                         <div>Heal {item.healAmount} HP</div>
                       </>
                     ) : (
-                      <div onClick={() => handleEquip(item)}>
+                      <div
+                        onClick={() => handleEquip(item)}
+                        title={"Click to equip"}
+                      >
                         <div className="mb-1">{item.name}</div>
                         <div>STR: {item.statModifiers?.strength ?? 0}</div>
                         <div>DEF: {item.statModifiers?.defense ?? 0}</div>
