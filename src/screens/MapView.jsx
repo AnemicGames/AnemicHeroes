@@ -51,6 +51,14 @@ export default function MapView() {
         setIsVisible(true);
     }, []);
 
+
+    const navigateWithAnimation = (view) => {
+        setIsClosing(true);
+        setTimeout(() => {
+            setCurrentView(view);
+        }, 1000); 
+    };
+
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
@@ -87,12 +95,10 @@ export default function MapView() {
         return currentCell && currentCell.next.includes(cell.id);
     };
 
-    const goToSplash = () => setCurrentView("SPLASH");
-    const goToMainMenu = () => setCurrentView("MAIN_MENU");
-    const goToMap = () => setCurrentView("MAP");
-    const goToBattle = () => setCurrentView("BATTLE");
-    const goToShop = () => setCurrentView("SHOP");
-    const clearMapBtn = () => clearMap();
+    const goToMainMenu = () => navigateWithAnimation("MAIN_MENU");
+    const goToBattle = () => navigateWithAnimation("BATTLE");
+    const goToShop = () => navigateWithAnimation("SHOP");
+
 
     return (
         <div className="relative">
