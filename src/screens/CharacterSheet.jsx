@@ -5,7 +5,7 @@ export default function CharacterSheet() {
   const [itemsData, setItemsData] = useState(null);
   const [currentFrame, setCurrentFrame] = useState(1);
   const totalFrames = 12;
-  const frameRate = 400;
+  const frameRate = 600;
 
   useEffect(() => {
     for (let i = 1; i <= totalFrames; i++) {
@@ -42,7 +42,6 @@ export default function CharacterSheet() {
       ? player.equipped
       : { weapon: null, helmet: null, armor: null, boots: null, trinket: null };
 
-  // Initialize inventory from player if needed
   useEffect(() => {
     if (
       player &&
@@ -171,11 +170,12 @@ export default function CharacterSheet() {
                       alt={item.name}
                       className="max-w-full max-h-full object-contain"
                     />
+                    {/* Custom Tooltip */}
                     <div className="absolute left-0 bottom-full mb-2 hidden group-hover:flex flex-col bg-black text-white p-2 rounded text-xs z-10">
                       <div className="mb-1">{item.name}</div>
-                      <div>STR: {item.statModifiers.strength}</div>
-                      <div>DEF: {item.statModifiers.defense}</div>
-                      <div>SPD: {item.statModifiers.speed}</div>
+                      <div>STR: {item.statModifiers?.strength ?? 0}</div>
+                      <div>DEF: {item.statModifiers?.defense ?? 0}</div>
+                      <div>SPD: {item.statModifiers?.speed ?? 0}</div>
                     </div>
                     <button
                       onClick={() => handleUnequip(slot)}
@@ -211,21 +211,17 @@ export default function CharacterSheet() {
               {player.currentHp}
             </span>{" "}
             / {player.maxHp}{" "}
-            <span
-              className={`${
-                player.currentHp <= 20
-                  ? "text-4xl blink text-amber-500 font-semibold"
-                  : ""
-              }`}
-            >
-              !
-            </span>
+            {player.currentHp <= 20 && (
+              <span className="text-4xl blink text-amber-500 font-semibold">
+                !
+              </span>
+            )}
           </div>
         </div>
         <div>
           <div>
             Strength:{" "}
-            <span className="font-bold">{effectiveStats.strength}</span> (
+            <span className="font-bold"> {effectiveStats.strength}</span> (
             {player.strength}{" "}
             {bonusStrength > 0 && (
               <span className="text-green-500">+{bonusStrength}</span>
@@ -233,15 +229,16 @@ export default function CharacterSheet() {
             )
           </div>
           <div>
-            Defense: <span className="font-bold">{effectiveStats.defense}</span>{" "}
-            ({player.defense}{" "}
+            Defense:{" "}
+            <span className="font-bold"> {effectiveStats.defense}</span> (
+            {player.defense}{" "}
             {bonusDefense > 0 && (
               <span className="text-green-500">+{bonusDefense}</span>
             )}
             )
           </div>
           <div>
-            Speed: <span className="font-bold">{effectiveStats.speed}</span> (
+            Speed: <span className="font-bold"> {effectiveStats.speed}</span> (
             {player.speed}{" "}
             {bonusSpeed > 0 && (
               <span className="text-green-500">+{bonusSpeed}</span>
@@ -290,7 +287,7 @@ export default function CharacterSheet() {
               return (
                 <div
                   key={itemId}
-                  className="inventory-item p-2 w-24 h-24 relative group flex flex-col items-center justify-center bg-gray-800 cursor-pointer"
+                  className="inventory-item rounded p-2 w-24 h-24 relative group flex flex-col items-center justify-center bg-gray-800 cursor-pointer"
                   onContextMenu={(e) => {
                     if (item.type === "potion") handleDrink(item, e);
                   }}
@@ -306,14 +303,20 @@ export default function CharacterSheet() {
                   <div className="absolute top-0 right-0 bg-gray-800 text-white text-2xl px-1">
                     {count}
                   </div>
-                  <div
-                    onClick={() => handleEquip(item)}
-                    className="absolute left-0 bottom-0 w-24 h-24 hidden group-hover:flex flex-col bg-black text-white p-2 rounded text-xs z-10"
-                  >
+                  {item.equippable && (
+                    <button
+                      onClick={() => handleEquip(item)}
+                      className="mt-1 text-xs bg-blue-500 hover:bg-blue-600 text-white rounded p-1 px-2"
+                    >
+                      Equip
+                    </button>
+                  )}
+                  {/* Tooltip for Inventory Item */}
+                  <div className="absolute left-0 bottom-full mb-2 hidden group-hover:flex flex-col bg-black text-white p-2 rounded text-xs z-10">
                     <div className="mb-1">{item.name}</div>
-                    <div>STR: {item.statModifiers.strength}</div>
-                    <div>DEF: {item.statModifiers.defense}</div>
-                    <div>SPD: {item.statModifiers.speed}</div>
+                    <div>STR: {item.statModifiers?.strength ?? 0}</div>
+                    <div>DEF: {item.statModifiers?.defense ?? 0}</div>
+                    <div>SPD: {item.statModifiers?.speed ?? 0}</div>
                   </div>
                 </div>
               );
