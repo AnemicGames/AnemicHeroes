@@ -43,35 +43,35 @@ export default function MainMenu() {
   const goToShop = () => setCurrentView('SHOP');
 
   return (
-    <div className="h-full w-full relative">
+    <div className="h-full w-full relative text-white">
       <AnimatedImage />
 
-      <div className='absolute top-[130px] flex flex-col gap-2 left-[250px]'>
+      <div className='absolute top-[130px] flex flex-col items-center justify-center gap-2 left-[250px]'>
         <button
-          className="px-6 py-3 bg-green-700 hover:bg-green-800 rounded flex"
+          className="text-right px-6 py-3 bg-red-700 hover:bg-red-600 rounded-full relative p-5 font-bold text-2xl pl-13 border-2 border-yellow-300 w-[180px]"
           onClick={goToMap}
         >
           <img src="/assets/sprites/embark-nav-icon.png"
-            className='w-6 h-6 mr-2'
-            alt="" />Embark
+            className='absolute left-0 bottom-1 w-[50px]'
+            alt="" />Embark!
         </button>
 
         <button
-          className="px-6 py-3 bg-blue-700 hover:bg-blue-800 rounded flex"
+          className="text-right px-6 py-3 bg-red-700 hover:bg-red-600 rounded-full relative p-5 font-bold text-xl pl-14 border-2 border-yellow-300 w-[180px]"
           onClick={goToCharacterSheet}
         >
           <img src="/assets/sprites/inventory-nav-icon.png"
-            className='w-6 h-6 mr-2'
+            className='absolute left-0 bottom-1 w-[50px]'
             alt="" />
           Inventory
         </button>
 
         <button
-          className="px-6 py-3 bg-yellow-500 hover:bg-yellow-600 rounded flex"
+          className="justify-between px-6 py-3 bg-red-700 hover:bg-red-600 rounded-full relative p-5 font-bold text-xl pl-12 border-2 border-yellow-300 w-[180px]"
           onClick={goToShop}
         >
           <img src="/assets/sprites/shop-nav-icon.png"
-            className='w-6 h-6 mr-2'
+            className='absolute left-0 bottom-1 w-[50px]'
             alt="" />
           Shop
         </button>
