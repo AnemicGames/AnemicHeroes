@@ -1,0 +1,35 @@
+.mapOpen {
+    opacity: 0;
+    animation: mapOpen 1s ease-in-out forwards;
+}
+
+@keyframes mapOpen {
+    0% {
+        top: 500px;
+        opacity: 0;
+        transform: rotate(9deg);
+    }
+    80% {
+        top: 0;
+        opacity: 1;
+        transform: rotate(0deg);
+    }
+    100% {
+        top: 15px;
+        opacity: 1;
+    }
+}
+
+.mapClose {
+    animation: mapClose 1s ease forwards;
+}
+
+@keyframes mapClose {
+    0% {
+        top: 15px;
+    }
+    100% {
+        top: 1000px;
+        transform: rotate(-12deg);
+    }
+}
