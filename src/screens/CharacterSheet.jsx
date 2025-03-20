@@ -263,14 +263,14 @@ export default function CharacterSheet() {
             {player.xp} / {player.xpToNextLvl}
           </div>
           {/* Exit */}
-          <div className="space-x-2 flex absolute bottom-2 right-2 cursor-pointer">
+          <button className="space-x-2 flex absolute bottom-2 right-2 cursor-pointer  hover:bg-red-800 rounded">
             <img
               src="/assets/sprites/exit-nav-icon.png"
               alt="Exit"
-              className="px-2 py-1 rounded text-white"
+              className="px-2 py-1 rounded text-white w-14 h-14"
               onClick={goToMainMenu}
             />
-          </div>
+          </button>
         </div>
       </div>
 
