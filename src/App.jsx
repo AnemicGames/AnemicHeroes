@@ -1,6 +1,5 @@
-import React, { useState } from 'react';
-import { useGameStore } from './store/useGameStore';
-
+import { useState } from 'react';
+import { useGameStore } from './store/useGameStore.js';
 import LoadScreen from './screens/LoadScreen';
 import SplashScreen from './screens/SplashScreen';
 import MainMenu from './screens/MainMenu';
@@ -9,6 +8,7 @@ import BattleView from './screens/BattleView';
 import CharacterSheet from './screens/CharacterSheet';
 import Shop from './screens/Shop';
 import CreateCharacter from './screens/CreateCharacter';
+import MusicPlayer from './components/MusicPlayer';
 
 export default function App() {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -24,22 +24,16 @@ export default function App() {
     );
   }
 
-  switch (currentView) {
-    case 'SPLASH':
-      return <SplashScreen />;
-    case 'MAIN_MENU':
-      return <MainMenu />;
-    case 'MAP':
-      return <MapView />;
-    case 'BATTLE':
-      return <BattleView />;
-    case 'CHARACTER_SHEET':
-      return <CharacterSheet />;
-    case 'SHOP':
-      return <Shop />;
-    case 'CREATE_CHARACTER':
-      return <CreateCharacter />;
-    default:
-      return <SplashScreen />;
-  }
+  return (
+    <>
+      <MusicPlayer />
+      {currentView === 'SPLASH' && <SplashScreen />}
+      {currentView === 'MAIN_MENU' && <MainMenu />}
+      {currentView === 'MAP' && <MapView />}
+      {currentView === 'BATTLE' && <BattleView />}
+      {currentView === 'CHARACTER_SHEET' && <CharacterSheet />}
+      {currentView === 'SHOP' && <Shop />}
+      {currentView === 'CREATE_CHARACTER' && <CreateCharacter />}
+    </>
+  );
 }
