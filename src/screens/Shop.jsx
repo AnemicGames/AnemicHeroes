@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useGameStore } from "../store/useGameStore";
 import styles from "./Shop.module.css";
+
 const AnimatedImage = () => {
   const [currentFrame, setCurrentFrame] = useState(1);
   const totalFrames = 12;
@@ -13,15 +14,12 @@ const AnimatedImage = () => {
       imageCache.push(img);
     }
   }, []);
-
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentFrame((prevFrame) => (prevFrame % totalFrames) + 1);
     }, frameRate);
-
     return () => clearInterval(interval);
   }, []);
-
   return (
     <img
       src={`/assets/shop_bg/${currentFrame}.webp`}
@@ -39,10 +37,10 @@ export default function Shop() {
   const removeGold = useGameStore((state) => state.removeGold);
   const embark = useGameStore((state) => state.embark);
   const setCurrentView = useGameStore((state) => state.setCurrentView);
-
   const [items, setItems] = useState(null);
   const [limitedOffers, setLimitedOffers] = useState([null, null]);
   const [purchasedLimitedOfferIds, setPurchasedLimitedOfferIds] = useState([]);
+  const [cooldowns, setCooldowns] = useState({});
   const [selectedItem, setSelectedItem] = useState(null);
   const [selectedMode, setSelectedMode] = useState(null);
   const [activeTab, setActiveTab] = useState("buy");
@@ -50,9 +48,7 @@ export default function Shop() {
   const [sellMessage, setSellMessage] = useState("");
   const [floatingSell, setFloatingSell] = useState(null);
   const [floatingBuy, setFloatingBuy] = useState(null);
-
-  // Nedtelling i sekunder for limited offer (5 timer = 18000 sekunder)
-  const [countdown, setCountdown] = useState(18000);
+  const [countdown, setCountdown] = useState(60);
 
   useEffect(() => {
     fetch("/assets/items.json")
@@ -65,52 +61,79 @@ export default function Shop() {
     if (items && items.length > 0) {
       const offers = getRandomItems(items, 2);
       setLimitedOffers(offers);
-      setCountdown(18000);
+      setCountdown(60);
       setPurchasedLimitedOfferIds([]);
     }
   }, [items]);
 
-  // Oppdater nedtelling hvert sekund
   useEffect(() => {
     if (items && items.length > 0) {
-      // Try to retrieve stored offers and timestamp
       const storedOffers = localStorage.getItem("limitedOffers");
       const storedTimestamp = localStorage.getItem("limitedOffersTimestamp");
-  
       if (storedOffers && storedTimestamp) {
-        const timeElapsed = Date.now() - Number(storedTimestamp);
-        const remainingTime = 18000 - Math.floor(timeElapsed / 1000);
+        const timeElapsed = Math.floor(
+          (Date.now() - Number(storedTimestamp)) / 1000
+        );
+        const remainingTime = 60 - timeElapsed;
         if (remainingTime > 0) {
           setLimitedOffers(JSON.parse(storedOffers));
           setCountdown(remainingTime);
         } else {
-          // Timer expired, generate new offers
           const newOffers = getRandomItems(items, 2);
           setLimitedOffers(newOffers);
-          setCountdown(18000);
+          setCountdown(60);
           localStorage.setItem("limitedOffers", JSON.stringify(newOffers));
           localStorage.setItem("limitedOffersTimestamp", Date.now().toString());
         }
       } else {
-        // No stored offers, generate new ones
         const newOffers = getRandomItems(items, 2);
         setLimitedOffers(newOffers);
-        setPurchasedLimitedOfferIds([]);
-        setCountdown(18000);
+        setCountdown(60);
         localStorage.setItem("limitedOffers", JSON.stringify(newOffers));
         localStorage.setItem("limitedOffersTimestamp", Date.now().toString());
+      }
+
+      const storedIds = localStorage.getItem("purchasedLimitedOfferIds");
+      if (storedIds) {
+        setPurchasedLimitedOfferIds(JSON.parse(storedIds));
       }
     }
   }, [items]);
 
+  useEffect(() => {
+    localStorage.setItem(
+      "purchasedLimitedOfferIds",
+      JSON.stringify(purchasedLimitedOfferIds)
+    );
+  }, [purchasedLimitedOfferIds]);
 
-  // Hjelpefunksjon for å trekke ut 'count' tilfeldige items fra et array
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCountdown((prev) => {
+        if (prev <= 1) {
+          if (items && items.length > 0) {
+            const newOffers = getRandomItems(items, 2);
+            setLimitedOffers(newOffers);
+            setPurchasedLimitedOfferIds([]);
+            localStorage.setItem("limitedOffers", JSON.stringify(newOffers));
+            localStorage.setItem(
+              "limitedOffersTimestamp",
+              Date.now().toString()
+            );
+          }
+          return 60;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+    return () => clearInterval(interval);
+  }, [items]);
+
   function getRandomItems(arr, count) {
     const shuffled = [...arr].sort(() => 0.5 - Math.random());
     return shuffled.slice(0, count);
   }
 
-  // Formater sekunder til HH:MM:SS
   function formatTime(seconds) {
     const hrs = Math.floor(seconds / 3600);
     const mins = Math.floor((seconds % 3600) / 60);
@@ -120,13 +143,9 @@ export default function Shop() {
       .padStart(2, "0")}:${secs.toString().padStart(2, "0")}`;
   }
 
-  const getBuyPrice = (item) => {
-    return Math.floor(200 / (item.dropChance / 100));
-  };
+  const getBuyPrice = (item) => Math.floor(200 / (item.dropChance / 100));
+  const getSellPrice = (item) => Math.floor(getBuyPrice(item) / 2);
 
-  const getSellPrice = (item) => {
-    return Math.floor(getBuyPrice(item) / 2);
-  };
 
   const handleReturn = () => {
     setCurrentView(embark ? "MAP" : "MAIN_MENU");
@@ -137,29 +156,43 @@ export default function Shop() {
     setSelectedMode(mode);
   };
 
-  // Oppdater inventory og fjern produktet fra limitedOffers (sett til null)
   const handleBuy = (item) => {
     const price = getBuyPrice(item);
     if (inventory.gold >= price) {
       removeGold(price);
       addItem(item.id, 1);
-      // Fjern produktet fra limitedOffers med null i den aktuelle slotten
-      setLimitedOffers((prevOffers) =>
-        prevOffers.map((offer) =>
-          offer && offer.id === item.id ? null : offer
-        )
-      );
-      setPurchasedLimitedOfferIds((prev) => [...prev, item.id]);
-      setFloatingBuy(`Bought ${item.name} -${price} gold`);
+      if (limitedOffers.some((offer) => offer && offer.id === item.id)) {
+        setLimitedOffers((prevOffers) =>
+          prevOffers.map((offer) =>
+            offer && offer.id === item.id ? null : offer
+          )
+        );
+        setPurchasedLimitedOfferIds((prev) => [...prev, item.id]);
+        localStorage.setItem(
+          "limitedOffers",
+          JSON.stringify(
+            limitedOffers.map((offer) =>
+              offer && offer.id === item.id ? null : offer
+            )
+          )
+        );
+      } else {
+        setCooldowns((prev) => ({
+          ...prev,
+          [item.id]: Date.now() + 120 * 1000,
+        }));
+      }
+      setBuyMessage(`Bought ${item.name}`);
+      setFloatingBuy(`${item.name} -${price} gold`);
       setTimeout(() => {
         setFloatingBuy(null);
-      }, 1000);
+        setBuyMessage("");
+      }, 2000);
     } else {
       console.warn("Not enough gold to buy this item!");
     }
   };
 
-  // Ved salg: Sjekk at inventory har produktet, oppdater inventory, vis melding og fjern valget hvis none gjenstår
   const handleSell = (item) => {
     const count = inventory.items[item.id] || 0;
     if (count > 0) {
@@ -167,18 +200,18 @@ export default function Shop() {
       removeItem(item.id, 1);
       addGold(price);
       setSellMessage(`Sold ${item.name}`);
-      setFloatingSell(`Sold ${item.name}+${price} gold`);
-      setTimeout(() => setFloatingSell(null), 1000);
-      setTimeout(() => setSellMessage(""), 2000);
+      setFloatingSell(` ${item.name} +${price} gold`);
+      setTimeout(() => {
+        setFloatingSell(null);
+        setSellMessage("");
+      }, 2000);
       if (count - 1 <= 0) {
         setSelectedItem(null);
         setSelectedMode(null);
       }
     } else {
       setSellMessage(`No ${item.name} left to sell.`);
-      setTimeout(() => {
-        setSellMessage("");
-      }, 2000);
+      setTimeout(() => setSellMessage(""), 2000);
     }
   };
 
@@ -198,14 +231,36 @@ export default function Shop() {
     })
     .filter(Boolean);
 
+  const remainingCooldown =
+    selectedItem && cooldowns[selectedItem.id]
+      ? Math.max(
+          0,
+          Math.floor((cooldowns[selectedItem.id] - Date.now()) / 1000)
+        )
+      : 0;
   return (
     <div className="w-full h-full text-white relative">
       <AnimatedImage />
-      {/* Floating sell message med animasjon */}
+
+      {/* Floating sell and buy messages */}
+      {floatingSell && (
+        <div
+          className={`${styles["flash-up"]} absolute top-20 left-1/2 transform -translate-x-1/2`}
+        >
+          {floatingSell}
+        </div>
+      )}
+      {floatingBuy && (
+        <div
+          className={`${styles["flash-up-buy"]} absolute top-28 left-1/2 transform -translate-x-1/2`}
+        >
+          {floatingBuy}
+        </div>
+      )}
 
       <div className="relative z-10">
-        {/* Toppseksjon */}
-        <div className="flex justify-between items-center p-4 bg-gray-800/ bg-opacity-90">
+        {/* Top section with navigation and gold display */}
+        <div className="flex justify-between items-center p-4 bg-gray-800 bg-opacity-90">
           <img
             src="/assets/sprites/exit-nav-icon.png"
             alt="exit icon"
@@ -213,23 +268,25 @@ export default function Shop() {
             className="cursor-pointer w-12 h-12"
           />
           <h1 className="text-2xl font-bold">The Tavern of Goods</h1>
-          <div className=" flex items-center text-lg ">
+          <div className="flex items-center text-lg">
             <img
               src="/assets/sprites/shop-nav-icon.png"
               alt=""
               className="w-12 h-10"
-            />{" "}
-            {inventory.gold}{" "}
+            />
+            {inventory.gold}
           </div>
         </div>
 
-        {/* Plassholder for midtseksjonen */}
+        {/* Placeholder for middle section */}
         <div className="hidden relative w-full h-64"></div>
 
-        {/* Limited Offers-seksjonen */}
+        {/* Limited Offer Section */}
         <div className="relative w-full h-64">
           <div
-            className={`${limitedOffers[0] ? styles["flicker-border"] : ""} absolute top-4 left-4 w-40 bg-gray-800/80 p-2 rounded`}
+            className={`${
+              limitedOffers[0] ? styles["flicker-border"] : ""
+            } absolute top-4 left-4 w-40 bg-gray-800/80 p-2 rounded`}
           >
             <h2 className="font-semibold text-center">Limited Offer</h2>
             {limitedOffers[0] ? (
@@ -260,11 +317,13 @@ export default function Shop() {
             )}
           </div>
           <div
-            className={`${limitedOffers[1] ? styles["flicker-border"] : ""} absolute top-4 right-4 w-40  bg-gray-800/80 p-2 rounded`}
+            className={`${
+              limitedOffers[1] ? styles["flicker-border"] : ""
+            } absolute top-4 right-4 w-40 bg-gray-800/80 p-2 rounded`}
           >
-            <h2 className="font-semibold text-center text-white">Limited Offer</h2>
+            <h2 className="font-semibold text-center">Limited Offer</h2>
             {limitedOffers[1] ? (
-              <div className="mt-2 flex flex-col items-center text-white">
+              <div className="mt-2 flex flex-col items-center">
                 {limitedOffers[1].sprite && (
                   <img
                     src={limitedOffers[1].sprite}
@@ -273,12 +332,12 @@ export default function Shop() {
                   />
                 )}
                 <p className="text-sm">{limitedOffers[1].name}</p>
-                <p className="text-xs text-white">
+                <p className="text-xs text-gray-300">
                   Price: {getBuyPrice(limitedOffers[1])}
                 </p>
                 <button
                   onClick={() => handleBuy(limitedOffers[1])}
-                  className="bg-yellow-600 px-6 py-1 mt-1 text-xs text-white rounded cursor-pointer"
+                  className="bg-yellow-600 px-6 py-1 mt-1 text-xs rounded cursor-pointer"
                 >
                   Buy
                 </button>
@@ -292,7 +351,7 @@ export default function Shop() {
           </div>
         </div>
 
-        {/* Faner for nedre seksjon – plassert til venstre */}
+        {/* Tabs for Lower Section – placed to the left */}
         <div className="flex justify-start space-x-4 p-4 bg-gray-800/ bg-opacity-90">
           <button
             onClick={() => setActiveTab("buy")}
@@ -312,51 +371,74 @@ export default function Shop() {
           </button>
         </div>
 
+        {/* Lower Section: Two columns – Left: List (Buy/Sell items with cooldown), Right: Item Details */}
         <div className="flex gap-4 p-2 w-full h-80">
-          <div className="bg-gray-800/80 p-2 rounded w-full">
+          {/* Left column: List for active tab */}
+          <div className="bg-gray-800/80 p-2 rounded w-full overflow-y-auto">
             {activeTab === "buy" ? (
               <>
                 <h3 className="text-lg font-semibold mb-2">Buy</h3>
                 <div className="grid grid-cols-7 gap-2 w-full">
-                  {buyList.map((item) => (
-                    <div
-                      key={item.id}
-                      onClick={() => handleItemClick(item, "buy")}
-                      className="bg-gray-700 p-1 rounded cursor-pointer hover:bg-gray-600 flex flex-col items-center"
-                    >
-                      {item.sprite && (
-                        <img
-                          src={item.sprite}
-                          alt={item.name}
-                          className="w-10 h-10 object-contain mb-1"
-                        />
-                      )}
-                      <p className="text-xs text-center">{item.name}</p>
-                    </div>
-                  ))}
+                  {buyList.map((item) => {
+                    // Check if the item is on cooldown.
+                    const onCooldown =
+                      cooldowns[item.id] && cooldowns[item.id] > Date.now();
+                    return (
+                      <div
+                        key={item.id}
+                        onClick={() => handleItemClick(item, "buy")}
+                        className="bg-gray-700 p-1 rounded cursor-pointer hover:bg-gray-600 flex flex-col items-center w-full"
+                      >
+                        {onCooldown ? (
+                          // If on cooldown, display the cooldown timer.
+                          <div className="flex flex-col items-center justify-center h-full">
+                            <p className="text-xs">Cooldown</p>
+                            <p className="text-xs text-red-500">
+                              {Math.floor(
+                                (cooldowns[item.id] - Date.now()) / 1000
+                              )}{" "}
+                              s
+                            </p>
+                          </div>
+                        ) : (
+                          <>
+                            {item.sprite && (
+                              <img
+                                src={item.sprite}
+                                alt={item.name}
+                                className="w-10 h-10 object-contain mb-1"
+                              />
+                            )}
+                            <p className="text-xs text-center">{item.name}</p>
+                            {/* No Buy button here */}
+                          </>
+                        )}
+                      </div>
+                    );
+                  })}
                 </div>
               </>
             ) : (
               <>
                 <h3 className="text-lg font-semibold mb-2">Sell</h3>
                 {inventoryArray.length === 0 ? (
-                  <p className="text-center">No items in inventory</p>
+                  <p className="text-center text-xs">No items in inventory</p>
                 ) : (
                   <div className="grid grid-cols-7 gap-2 w-full">
                     {inventoryArray.map((invItem) => (
                       <div
                         key={invItem.id}
                         onClick={() => handleItemClick(invItem, "sell")}
-                        className="bg-gray-700 p-1 rounded cursor-pointer hover:bg-gray-600 w-full flex flex-col items-center"
+                        className="bg-gray-700 p-1 rounded cursor-pointer hover:bg-gray-600 flex flex-col items-center w-full"
                       >
                         {invItem.sprite && (
                           <img
                             src={invItem.sprite}
                             alt={invItem.name}
-                            className="w-12 h-12 object-contain mb-1"
+                            className="w-10 h-10 object-contain mb-1"
                           />
                         )}
-                        <p className="text-xs">
+                        <p className="text-xs text-center">
                           {invItem.name} x {invItem.count}
                         </p>
                       </div>
@@ -366,8 +448,9 @@ export default function Shop() {
               </>
             )}
           </div>
-          {/* Høyre kolonne: Item Details */}
-          <div className="bg-gray-800/80 p-2 rounded flex flex-col items-center w-50">
+          {/* Right column: Item Details */}
+          <div className="bg-gray-800/80 p-2 rounded flex flex-col items-center w-[20%]">
+            <h3 className="text-lg font-semibold mb-2">Item Details</h3>
             {!selectedItem ? (
               <p className="text-center text-xs">No item selected</p>
             ) : (
@@ -392,6 +475,17 @@ export default function Shop() {
                 {selectedItem.healAmount && (
                   <p className="text-xs">Heal: {selectedItem.healAmount}</p>
                 )}
+                {/* If the selected item is on cooldown, display remaining time */}
+                {cooldowns[selectedItem?.id] &&
+                  cooldowns[selectedItem.id] > Date.now() && (
+                    <p className="text-xs text-red-500">
+                      Cooldown:{" "}
+                      {Math.floor(
+                        (cooldowns[selectedItem.id] - Date.now()) / 1000
+                      )}{" "}
+                      s
+                    </p>
+                  )}
                 {selectedMode === "buy" ? (
                   <>
                     <p className="text-xs text-gray-300">
@@ -403,18 +497,7 @@ export default function Shop() {
                     >
                       Buy
                     </button>
-                    {buyMessage && (
-                      <div className=" text-center text-green-500">
-                        <p>{buyMessage}</p>
-                      </div>
-                    )}
-                    {floatingBuy && (
-                      <div
-                        className={`${styles["flash-up-buy"]} absolute left-1/2 transform -translate-x-1/2`}
-                      >
-                        {floatingBuy}
-                      </div>
-                    )}
+                    {floatingBuy}
                   </>
                 ) : (
                   <>
@@ -431,13 +514,7 @@ export default function Shop() {
                 )}
               </div>
             )}
-            {floatingSell && (
-              <div
-                className={`${styles["flash-up"]} absolute left-1/2 transform -translate-x-1/2`}
-              >
-                {floatingSell}
-              </div>
-            )}
+            {floatingSell}
           </div>
         </div>
       </div>
