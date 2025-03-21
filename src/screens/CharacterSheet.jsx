@@ -3,23 +3,26 @@ import { useGameStore } from "../store/useGameStore";
 
 export default function CharacterSheet() {
   const [itemsData, setItemsData] = useState(null);
+
   const [currentFrame, setCurrentFrame] = useState(1);
   const totalFrames = 12;
-  const frameRate = 600;
+  const frameRate = 583;
 
   useEffect(() => {
+    const imageCache = [];
     for (let i = 1; i <= totalFrames; i++) {
       const img = new Image();
       img.src = `/assets/char_sheet_bg/${i}.webp`;
+      imageCache.push(img);
     }
-  }, [totalFrames]);
+  }, []);
 
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentFrame((prevFrame) => (prevFrame % totalFrames) + 1);
     }, frameRate);
     return () => clearInterval(interval);
-  }, [frameRate, totalFrames]);
+  }, []);
 
   useEffect(() => {
     fetch("/assets/items.json")
@@ -134,15 +137,13 @@ export default function CharacterSheet() {
   };
 
   return (
-    <div
-      className="p-4 h-full text-white grid grid-cols-30 grid-rows-5 gap-2 relative"
-      style={{
-        backgroundImage: `url('/assets/char_sheet_bg/${currentFrame}.webp')`,
-        backgroundSize: "cover",
-        backgroundRepeat: "no-repeat",
-        backgroundPosition: "top",
-      }}
-    >
+    <div className="p-4 h-full text-white grid grid-cols-30 grid-rows-5 gap-2 relative">
+      <img
+        src={`/assets/char_sheet_bg/${currentFrame}.webp`}
+        alt="Background Animation"
+        className="absolute top-0 left-0 w-full h-full object-cover -z-10"
+      />
+
       <h2 className="text-5xl font-bold mt-4 col-start-1 col-end-3 row-start-1">
         {player.name}
       </h2>
@@ -283,7 +284,7 @@ export default function CharacterSheet() {
           </div>
         </div>
         {inventory && Object.keys(inventory.items).length > 0 ? (
-          <div className="grid grid-cols-3 gap-2">
+          <div className="grid grid-cols-3 gap-1">
             {Object.entries(inventory.items).map(([itemId, count]) => {
               const item = getItemDetails(itemId);
               if (!item) return null;
