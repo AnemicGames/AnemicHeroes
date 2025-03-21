@@ -260,7 +260,7 @@ export default function Shop() {
 
       <div className="relative z-10">
         {/* Top section with navigation and gold display */}
-        <div className="flex justify-between items-center p-4 bg-gray-800 bg-opacity-90">
+        <div className="flex justify-between items-center p-4 bg-gray-800/">
           <img
             src="/assets/sprites/exit-nav-icon.png"
             alt="exit icon"
