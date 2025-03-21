@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useGameStore } from './store/useGameStore';
 
+import LoadScreen from './screens/LoadScreen';
 import SplashScreen from './screens/SplashScreen';
 import MainMenu from './screens/MainMenu';
 import MapView from './screens/MapView';
@@ -10,7 +11,18 @@ import Shop from './screens/Shop';
 import CreateCharacter from './screens/CreateCharacter';
 
 export default function App() {
+  const [isLoaded, setIsLoaded] = useState(false);
   const currentView = useGameStore((state) => state.currentView);
+
+  if (!isLoaded) {
+    return (
+      <LoadScreen
+        onDone={() => {
+          setIsLoaded(true);
+        }}
+      />
+    );
+  }
 
   switch (currentView) {
     case 'SPLASH':
