@@ -165,16 +165,16 @@ export default function CharacterSheet() {
             return (
               <div
                 key={slot}
-                className="equipment-slot rounded p-2 w-20 h-20 flex flex-col items-center justify-center relative bg-gray-500/80"
+                className="equipment-slot rounded p-2 w-20 h-20 flex flex-col items-center justify-center relative bg-gray-500/80 group"
               >
                 {item ? (
-                  <div className="group" onClick={() => handleUnequip(slot)}>
+                  <div onClick={() => handleUnequip(slot)}>
                     <img
                       src={item.sprite}
                       alt={item.name}
                       className="max-w-full max-h-full object-contain"
                     />
-                    {/* Custom Tooltip */}
+                    {/* Tooltip */}
                     <div className="absolute left-0 bottom-0 hidden group-hover:flex flex-col bg-black text-white p-2 rounded text-xs z-10">
                       <div className="mb-1 h-15">{item.name}</div>
                       {/* <div>STR: {item.statModifiers?.strength ?? 0}</div>
@@ -264,7 +264,7 @@ export default function CharacterSheet() {
             {player.xp} / {player.xpToNextLvl}
           </div>
           {/* Exit */}
-          <button className="space-x-2 flex absolute bottom-2 right-2 cursor-pointer  hover:bg-red-800 rounded">
+          <button className="space-x-2 flex absolute bottom-0 left-0 cursor-pointer  hover:bg-red-800 rounded">
             <img
               src="/assets/sprites/exit-nav-icon.png"
               alt="Exit"
@@ -308,7 +308,7 @@ export default function CharacterSheet() {
                     {count}
                   </div>
 
-                  {/* Tooltip for Inventory Item */}
+                  {/* Tooltip */}
                   <div className="absolute left-0 bottom-0 h-24 w-24 hidden group-hover:flex flex-col bg-black text-white p-2 rounded text-xs z-10">
                     {item.type === "potion" ? (
                       <>
