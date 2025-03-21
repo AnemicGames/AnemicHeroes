@@ -90,5 +90,10 @@ export const assetsManifest = {
         '/assets/mobs.json',
     ],
     audio: [
+        '/assets/audio/bgm/dark_ambient_1.mp3',
+        '/assets/audio/bgm/loop.ogg',
+        '/assets/audio/bgm/loop2.ogg',
+        '/assets/audio/bgm/loop3.ogg',
+        '/assets/audio/bgm/loop4.ogg',
     ],
 };
