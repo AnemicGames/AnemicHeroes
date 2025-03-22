@@ -190,7 +190,8 @@ export default function CharacterSheet() {
                       alt={item.name}
                       className="max-w-full max-h-full object-contain"
                     />
-                    {/* Custom Tooltip */}
+
+                    {/* Tooltip */}
                     <div className="absolute left-0 bottom-0 hidden group-hover:flex flex-col bg-black text-white p-2 rounded text-xs z-10">
                       <div className="mb-1 h-15">{item.name}</div>
                       {/* <div>STR: {item.statModifiers?.strength ?? 0}</div>
@@ -241,31 +242,37 @@ export default function CharacterSheet() {
         <div>
           <div>
             Strength:{" "}
-            <span className="font-bold"> {effectiveStats.strength}</span> (
-            {player.strength}{" "}
-            {bonusStrength > 0 && (
-              <span className="text-green-500">+{bonusStrength}</span>
-            )}
+            <span className="font-bold">{effectiveStats.strength}</span> (
+            {player.strength}
+            {bonusStrength > 0 ? (
+              <span className="text-green-500"> +{bonusStrength}</span>
+            ) : bonusStrength < 0 ? (
+              <span className="text-red-500"> {bonusStrength}</span>
+            ) : null}
             )
           </div>
           <div>
-            Defense:{" "}
-            <span className="font-bold"> {effectiveStats.defense}</span> (
-            {player.defense}{" "}
-            {bonusDefense > 0 && (
-              <span className="text-green-500">+{bonusDefense}</span>
-            )}
+            Defense: <span className="font-bold">{effectiveStats.defense}</span>{" "}
+            ({player.defense}
+            {bonusDefense > 0 ? (
+              <span className="text-green-500"> +{bonusDefense}</span>
+            ) : bonusDefense < 0 ? (
+              <span className="text-red-500"> {bonusDefense}</span>
+            ) : null}
             )
           </div>
           <div>
-            Speed: <span className="font-bold"> {effectiveStats.speed}</span> (
-            {player.speed}{" "}
-            {bonusSpeed > 0 && (
-              <span className="text-green-500">+{bonusSpeed}</span>
-            )}
+            Speed: <span className="font-bold">{effectiveStats.speed}</span> (
+            {player.speed}
+            {bonusSpeed > 0 ? (
+              <span className="text-green-500"> +{bonusSpeed}</span>
+            ) : bonusSpeed < 0 ? (
+              <span className="text-red-500"> {bonusSpeed}</span>
+            ) : null}
             )
           </div>
         </div>
+
         <div className="mb-2 flex flex-col items-center gap-2">
           <div className="w-full bg-gray-300 rounded-full h-4 mt-1">
             <div
