@@ -1,14 +1,15 @@
-import React, { useState } from 'react';
-import { useGameStore } from './store/useGameStore';
+import React, { useState } from "react";
+import { useGameStore } from "./store/useGameStore";
 
-import LoadScreen from './screens/LoadScreen';
-import SplashScreen from './screens/SplashScreen';
-import MainMenu from './screens/MainMenu';
-import MapView from './screens/MapView';
-import BattleView from './screens/BattleView';
-import CharacterSheet from './screens/CharacterSheet';
-import Shop from './screens/Shop';
-import CreateCharacter from './screens/CreateCharacter';
+import LoadScreen from "./screens/LoadScreen";
+import SplashScreen from "./screens/SplashScreen";
+import MainMenu from "./screens/MainMenu";
+import MapView from "./screens/MapView";
+import BattleView from "./screens/BattleView";
+import CharacterSheet from "./screens/CharacterSheet";
+import Shop from "./screens/Shop";
+import CreateCharacter from "./screens/CreateCharacter";
+import QuestScreen from "./screens/questView";
 
 export default function App() {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -25,21 +26,23 @@ export default function App() {
   }
 
   switch (currentView) {
-    case 'SPLASH':
+    case "SPLASH":
       return <SplashScreen />;
-    case 'MAIN_MENU':
+    case "MAIN_MENU":
       return <MainMenu />;
-    case 'MAP':
+    case "MAP":
       return <MapView />;
-    case 'BATTLE':
+    case "BATTLE":
       return <BattleView />;
-    case 'CHARACTER_SHEET':
+    case "CHARACTER_SHEET":
       return <CharacterSheet />;
-    case 'SHOP':
+    case "SHOP":
       return <Shop />;
-    case 'CREATE_CHARACTER':
+    case "CREATE_CHARACTER":
       return <CreateCharacter />;
     default:
       return <SplashScreen />;
+    case "QUEST":
+      return <QuestScreen />;
   }
 }
