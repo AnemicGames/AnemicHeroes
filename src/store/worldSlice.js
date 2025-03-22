@@ -7,5 +7,18 @@ export const createWorldSlice = (set, get) => ({
       SWAMP: "LOCKED",
       CAVES: "LOCKED",
     },
+  
+    setCurrentWorld: (world) =>
+      set(() => ({
+        currentWorld: world,
+      })),
+  
+    unlockWorld: (world) =>
+      set((state) => ({
+        worlds: {
+          ...state.worlds,
+          [world]: "UNLOCKED",
+        },
+      })),
   });
   
