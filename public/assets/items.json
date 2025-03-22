@@ -65,7 +65,7 @@
         },
         "dropChance": 20,
         "equippable": true,
-        "sprite":"/assets/sprites/armor/leather_hlm.png"
+        "sprite":"/assets/sprites/armor/leather_hood.png"
       },
       {
         "id": "HLM_HELMET",
@@ -202,8 +202,6 @@
         "equippable": true,
         "sprite":"/assets/sprites/trinkets/warr_trk.png"
       },
-  
- 
       {
         "id": "POT_HEALTH",
         "name": "Health Potion",
@@ -212,6 +210,1359 @@
         "dropChance": 60,
         "equippable": false,
         "sprite":"/assets/sprites/potions/hp_pot.png"
+      },
+      {
+        "id": "GLD_HELM",
+        "name": "Golden Helmet",
+        "type": "helm",
+        "statModifiers": {
+          "strength": 10,
+          "speed": -2,
+          "defense": 2
+        },
+        "dropChance": 1,
+        "equippable": true,
+        "sprite":"/assets/sprites/armor/gld_hlm.png"
+      },
+      {
+        "id": "GLD_ARM",
+        "name": "Golden Armor",
+        "type": "armor",
+        "statModifiers": {
+          "strength": 10,
+          "speed": -5,
+          "defense": 5
+        },
+        "dropChance": 1,
+        "equippable": true,
+        "sprite":"/assets/sprites/armor/gld_arm.png"
+      },
+      {
+        "id": "SPD_BTS",
+        "name": "Swift Shoes",
+        "type": "boots",
+        "statModifiers": {
+          "strength": -2,
+          "speed": 10,
+          "defense": 2
+        },
+        "dropChance": 10,
+        "equippable": true,
+        "sprite":"/assets/sprites/armor/orng_bts.png"
+      },
+      {
+        "id": "20",
+        "name": "Fancy Hat",
+        "type": "helm",
+        "statModifiers": {
+          "strength": 0,
+          "speed": 2,
+          "defense": 3
+        },
+        "dropChance": 25,
+        "equippable": true,
+        "sprite":"/assets/sprites/armor/grn_tophat.png"
+      },
+      {
+        "id": "21",
+        "name": "The One Ring",
+        "type": "trinket",
+        "statModifiers": {
+          "strength": 0,
+          "speed": 5,
+          "defense": 15
+        },
+        "dropChance": 1,
+        "equippable": true,
+        "sprite":"/assets/sprites/trinkets/gld_ring.png"
+      },
+      {
+        "id": "22",
+        "name": "Sturdy Shield",
+        "type": "trinket",
+        "statModifiers": {
+          "strength": 0,
+          "speed": 0,
+          "defense": 25
+        },
+        "dropChance": 12,
+        "equippable": true,
+        "sprite":"/assets/sprites/trinkets/wood_shield.png"
+      },
+      {
+        "id": "23",
+        "name": "Lost Wedding Band",
+        "type": "trinket",
+        "statModifiers": {
+          "strength": 0,
+          "speed": 2,
+          "defense": 0
+        },
+        "dropChance": 15,
+        "equippable": true,
+        "sprite":"/assets/sprites/trinkets/gld_ring.png"
+      },
+      {
+        "id": "24",
+        "name": "Sturdy Crossbow",
+        "type": "weapon",
+        "statModifiers": {
+          "strength": 10,
+          "speed": 0,
+          "defense": 0
+        },
+        "dropChance": 10,
+        "equippable": true,
+        "sprite":"/assets/sprites/weapons/iron_crossbow.png"
+      },
+      {
+        "id": "25",
+        "name": "Shuriken",
+        "type": "weapon",
+        "statModifiers": {
+          "strength": 0,
+          "speed": 5,
+          "defense": 0
+        },
+        "dropChance": 17,
+        "equippable": true,
+        "sprite":"/assets/sprites/weapons/throwing_star.png"
+      },
+      {
+        "id": "26",
+        "name": "Iron Mallet",
+        "type": "weapon",
+        "statModifiers": {
+          "strength": 8,
+          "speed": 0,
+          "defense": 0
+        },
+        "dropChance": 19,
+        "equippable": true,
+        "sprite":"/assets/sprites/weapons/iron_mallet.png"
+      },
+      {
+        "id": "27",
+        "name": "Meat Cleaver",
+        "type": "weapon",
+        "statModifiers": {
+          "strength": 2,
+          "speed": 2,
+          "defense": 0
+        },
+        "dropChance": 50,
+        "equippable": true,
+        "sprite":"/assets/sprites/weapons/iron_cleaver.png"
+      },
+      {
+        "id": "28",
+        "name": "Gold Goblet",
+        "type": "junk",
+        "statModifiers": {
+          "strength": 0,
+          "speed": 0,
+          "defense": 0
+        },
+        "dropChance": 5,
+        "equippable": false,
+        "sprite":"/assets/sprites/loot/gold_goblet.png"
+      },
+      {
+        "id": "29",
+        "name": "Lost Letter",
+        "type": "junk",
+        "statModifiers": {
+          "strength": 0,
+          "speed": 0,
+          "defense": 0
+        },
+        "dropChance": 35,
+        "equippable": false,
+        "sprite":"/assets/sprites/loot/letter.png"
+      },
+      {
+        "id": "30",
+        "name": "",
+        "type": "",
+        "statModifiers": {
+          "strength": 0,
+          "speed": 0,
+          "defense": 0
+        },
+        "dropChance": 0,
+        "equippable": true,
+        "sprite":""
+      },
+      {
+        "id": "31",
+        "name": "",
+        "type": "",
+        "statModifiers": {
+          "strength": 0,
+          "speed": 0,
+          "defense": 0
+        },
+        "dropChance": 0,
+        "equippable": true,
+        "sprite":""
+      },
+      {
+        "id": "32",
+        "name": "",
+        "type": "",
+        "statModifiers": {
+          "strength": 0,
+          "speed": 0,
+          "defense": 0
+        },
+        "dropChance": 0,
+        "equippable": true,
+        "sprite":""
+      },
+      {
+        "id": "33",
+        "name": "",
+        "type": "",
+        "statModifiers": {
+          "strength": 0,
+          "speed": 0,
+          "defense": 0
+        },
+        "dropChance": 0,
+        "equippable": true,
+        "sprite":""
+      },
+      {
+        "id": "34",
+        "name": "",
+        "type": "",
+        "statModifiers": {
+          "strength": 0,
+          "speed": 0,
+          "defense": 0
+        },
+        "dropChance": 0,
+        "equippable": true,
+        "sprite":""
+      },
+      {
+        "id": "35",
+        "name": "",
+        "type": "",
+        "statModifiers": {
+          "strength": 0,
+          "speed": 0,
+          "defense": 0
+        },
+        "dropChance": 0,
+        "equippable": true,
+        "sprite":""
+      },
+      {
+        "id": "36",
+        "name": "",
+        "type": "",
+        "statModifiers": {
+          "strength": 0,
+          "speed": 0,
+          "defense": 0
+        },
+        "dropChance": 0,
+        "equippable": true,
+        "sprite":""
+      },
+      {
+        "id": "37",
+        "name": "",
+        "type": "",
+        "statModifiers": {
+          "strength": 0,
+          "speed": 0,
+          "defense": 0
+        },
+        "dropChance": 0,
+        "equippable": true,
+        "sprite":""
+      },
+      {
+        "id": "38",
+        "name": "",
+        "type": "",
+        "statModifiers": {
+          "strength": 0,
+          "speed": 0,
+          "defense": 0
+        },
+        "dropChance": 0,
+        "equippable": true,
+        "sprite":""
+      },
+      {
+        "id": "39",
+        "name": "",
+        "type": "",
+        "statModifiers": {
+          "strength": 0,
+          "speed": 0,
+          "defense": 0
+        },
+        "dropChance": 0,
+        "equippable": true,
+        "sprite":""
+      },
+      {
+        "id": "40",
+        "name": "",
+        "type": "",
+        "statModifiers": {
+          "strength": 0,
+          "speed": 0,
+          "defense": 0
+        },
+        "dropChance": 0,
+        "equippable": true,
+        "sprite":""
+      },
+      {
+        "id": "41",
+        "name": "",
+        "type": "",
+        "statModifiers": {
+          "strength": 0,
+          "speed": 0,
+          "defense": 0
+        },
+        "dropChance": 0,
+        "equippable": true,
+        "sprite":""
+      },
+      {
+        "id": "42",
+        "name": "",
+        "type": "",
+        "statModifiers": {
+          "strength": 0,
+          "speed": 0,
+          "defense": 0
+        },
+        "dropChance": 0,
+        "equippable": true,
+        "sprite":""
+      },
+      {
+        "id": "43",
+        "name": "",
+        "type": "",
+        "statModifiers": {
+          "strength": 0,
+          "speed": 0,
+          "defense": 0
+        },
+        "dropChance": 0,
+        "equippable": true,
+        "sprite":""
+      },
+      {
+        "id": "44",
+        "name": "",
+        "type": "",
+        "statModifiers": {
+          "strength": 0,
+          "speed": 0,
+          "defense": 0
+        },
+        "dropChance": 0,
+        "equippable": true,
+        "sprite":""
+      },
+      {
+        "id": "45",
+        "name": "",
+        "type": "",
+        "statModifiers": {
+          "strength": 0,
+          "speed": 0,
+          "defense": 0
+        },
+        "dropChance": 0,
+        "equippable": true,
+        "sprite":""
+      },
+      {
+        "id": "46",
+        "name": "",
+        "type": "",
+        "statModifiers": {
+          "strength": 0,
+          "speed": 0,
+          "defense": 0
+        },
+        "dropChance": 0,
+        "equippable": true,
+        "sprite":""
+      },
+      {
+        "id": "47",
+        "name": "",
+        "type": "",
+        "statModifiers": {
+          "strength": 0,
+          "speed": 0,
+          "defense": 0
+        },
+        "dropChance": 0,
+        "equippable": true,
+        "sprite":""
+      },
+      {
+        "id": "48",
+        "name": "",
+        "type": "",
+        "statModifiers": {
+          "strength": 0,
+          "speed": 0,
+          "defense": 0
+        },
+        "dropChance": 0,
+        "equippable": true,
+        "sprite":""
+      },
+      {
+        "id": "49",
+        "name": "",
+        "type": "",
+        "statModifiers": {
+          "strength": 0,
+          "speed": 0,
+          "defense": 0
+        },
+        "dropChance": 0,
+        "equippable": true,
+        "sprite":""
+      },
+      {
+        "id": "50",
+        "name": "",
+        "type": "",
+        "statModifiers": {
+          "strength": 0,
+          "speed": 0,
+          "defense": 0
+        },
+        "dropChance": 0,
+        "equippable": true,
+        "sprite":""
+      },
+      {
+        "id": "51",
+        "name": "",
+        "type": "",
+        "statModifiers": {
+          "strength": 0,
+          "speed": 0,
+          "defense": 0
+        },
+        "dropChance": 0,
+        "equippable": true,
+        "sprite":""
+      },
+      {
+        "id": "52",
+        "name": "",
+        "type": "",
+        "statModifiers": {
+          "strength": 0,
+          "speed": 0,
+          "defense": 0
+        },
+        "dropChance": 0,
+        "equippable": true,
+        "sprite":""
+      },
+      {
+        "id": "53",
+        "name": "",
+        "type": "",
+        "statModifiers": {
+          "strength": 0,
+          "speed": 0,
+          "defense": 0
+        },
+        "dropChance": 0,
+        "equippable": true,
+        "sprite":""
+      },
+      {
+        "id": "54",
+        "name": "",
+        "type": "",
+        "statModifiers": {
+          "strength": 0,
+          "speed": 0,
+          "defense": 0
+        },
+        "dropChance": 0,
+        "equippable": true,
+        "sprite":""
+      },
+      {
+        "id": "55",
+        "name": "",
+        "type": "",
+        "statModifiers": {
+          "strength": 0,
+          "speed": 0,
+          "defense": 0
+        },
+        "dropChance": 0,
+        "equippable": true,
+        "sprite":""
+      },
+      {
+        "id": "56",
+        "name": "",
+        "type": "",
+        "statModifiers": {
+          "strength": 0,
+          "speed": 0,
+          "defense": 0
+        },
+        "dropChance": 0,
+        "equippable": true,
+        "sprite":""
+      },
+      {
+        "id": "57",
+        "name": "",
+        "type": "",
+        "statModifiers": {
+          "strength": 0,
+          "speed": 0,
+          "defense": 0
+        },
+        "dropChance": 0,
+        "equippable": true,
+        "sprite":""
+      },
+      {
+        "id": "58",
+        "name": "",
+        "type": "",
+        "statModifiers": {
+          "strength": 0,
+          "speed": 0,
+          "defense": 0
+        },
+        "dropChance": 0,
+        "equippable": true,
+        "sprite":""
+      },
+      {
+        "id": "59",
+        "name": "",
+        "type": "",
+        "statModifiers": {
+          "strength": 0,
+          "speed": 0,
+          "defense": 0
+        },
+        "dropChance": 0,
+        "equippable": true,
+        "sprite":""
+      },
+      {
+        "id": "60",
+        "name": "",
+        "type": "",
+        "statModifiers": {
+          "strength": 0,
+          "speed": 0,
+          "defense": 0
+        },
+        "dropChance": 0,
+        "equippable": true,
+        "sprite":""
+      },
+      {
+        "id": "61",
+        "name": "",
+        "type": "",
+        "statModifiers": {
+          "strength": 0,
+          "speed": 0,
+          "defense": 0
+        },
+        "dropChance": 0,
+        "equippable": true,
+        "sprite":""
+      },
+      {
+        "id": "62",
+        "name": "",
+        "type": "",
+        "statModifiers": {
+          "strength": 0,
+          "speed": 0,
+          "defense": 0
+        },
+        "dropChance": 0,
+        "equippable": true,
+        "sprite":""
+      },
+      {
+        "id": "63",
+        "name": "",
+        "type": "",
+        "statModifiers": {
+          "strength": 0,
+          "speed": 0,
+          "defense": 0
+        },
+        "dropChance": 0,
+        "equippable": true,
+        "sprite":""
+      },
+      {
+        "id": "64",
+        "name": "",
+        "type": "",
+        "statModifiers": {
+          "strength": 0,
+          "speed": 0,
+          "defense": 0
+        },
+        "dropChance": 0,
+        "equippable": true,
+        "sprite":""
+      },
+      {
+        "id": "65",
+        "name": "",
+        "type": "",
+        "statModifiers": {
+          "strength": 0,
+          "speed": 0,
+          "defense": 0
+        },
+        "dropChance": 0,
+        "equippable": true,
+        "sprite":""
+      },
+      {
+        "id": "66",
+        "name": "",
+        "type": "",
+        "statModifiers": {
+          "strength": 0,
+          "speed": 0,
+          "defense": 0
+        },
+        "dropChance": 0,
+        "equippable": true,
+        "sprite":""
+      },
+      {
+        "id": "67",
+        "name": "",
+        "type": "",
+        "statModifiers": {
+          "strength": 0,
+          "speed": 0,
+          "defense": 0
+        },
+        "dropChance": 0,
+        "equippable": true,
+        "sprite":""
+      },
+      {
+        "id": "68",
+        "name": "",
+        "type": "",
+        "statModifiers": {
+          "strength": 0,
+          "speed": 0,
+          "defense": 0
+        },
+        "dropChance": 0,
+        "equippable": true,
+        "sprite":""
+      },
+      {
+        "id": "69",
+        "name": "",
+        "type": "",
+        "statModifiers": {
+          "strength": 0,
+          "speed": 0,
+          "defense": 0
+        },
+        "dropChance": 0,
+        "equippable": true,
+        "sprite":""
+      },
+      {
+        "id": "70",
+        "name": "",
+        "type": "",
+        "statModifiers": {
+          "strength": 0,
+          "speed": 0,
+          "defense": 0
+        },
+        "dropChance": 0,
+        "equippable": true,
+        "sprite":""
+      },
+      {
+        "id": "71",
+        "name": "",
+        "type": "",
+        "statModifiers": {
+          "strength": 0,
+          "speed": 0,
+          "defense": 0
+        },
+        "dropChance": 0,
+        "equippable": true,
+        "sprite":""
+      },
+      {
+        "id": "72",
+        "name": "",
+        "type": "",
+        "statModifiers": {
+          "strength": 0,
+          "speed": 0,
+          "defense": 0
+        },
+        "dropChance": 0,
+        "equippable": true,
+        "sprite":""
+      },
+      {
+        "id": "73",
+        "name": "",
+        "type": "",
+        "statModifiers": {
+          "strength": 0,
+          "speed": 0,
+          "defense": 0
+        },
+        "dropChance": 0,
+        "equippable": true,
+        "sprite":""
+      },
+      {
+        "id": "74",
+        "name": "",
+        "type": "",
+        "statModifiers": {
+          "strength": 0,
+          "speed": 0,
+          "defense": 0
+        },
+        "dropChance": 0,
+        "equippable": true,
+        "sprite":""
+      },
+      {
+        "id": "75",
+        "name": "",
+        "type": "",
+        "statModifiers": {
+          "strength": 0,
+          "speed": 0,
+          "defense": 0
+        },
+        "dropChance": 0,
+        "equippable": true,
+        "sprite":""
+      },
+      {
+        "id": "76",
+        "name": "",
+        "type": "",
+        "statModifiers": {
+          "strength": 0,
+          "speed": 0,
+          "defense": 0
+        },
+        "dropChance": 0,
+        "equippable": true,
+        "sprite":""
+      },
+      {
+        "id": "77",
+        "name": "",
+        "type": "",
+        "statModifiers": {
+          "strength": 0,
+          "speed": 0,
+          "defense": 0
+        },
+        "dropChance": 0,
+        "equippable": true,
+        "sprite":""
+      },
+      {
+        "id": "78",
+        "name": "",
+        "type": "",
+        "statModifiers": {
+          "strength": 0,
+          "speed": 0,
+          "defense": 0
+        },
+        "dropChance": 0,
+        "equippable": true,
+        "sprite":""
+      },
+      {
+        "id": "70",
+        "name": "",
+        "type": "",
+        "statModifiers": {
+          "strength": 0,
+          "speed": 0,
+          "defense": 0
+        },
+        "dropChance": 0,
+        "equippable": true,
+        "sprite":""
+      },
+      {
+        "id": "80",
+        "name": "",
+        "type": "",
+        "statModifiers": {
+          "strength": 0,
+          "speed": 0,
+          "defense": 0
+        },
+        "dropChance": 0,
+        "equippable": true,
+        "sprite":""
+      },
+      {
+        "id": "81",
+        "name": "",
+        "type": "",
+        "statModifiers": {
+          "strength": 0,
+          "speed": 0,
+          "defense": 0
+        },
+        "dropChance": 0,
+        "equippable": true,
+        "sprite":""
+      },
+      {
+        "id": "82",
+        "name": "",
+        "type": "",
+        "statModifiers": {
+          "strength": 0,
+          "speed": 0,
+          "defense": 0
+        },
+        "dropChance": 0,
+        "equippable": true,
+        "sprite":""
+      },
+      {
+        "id": "83",
+        "name": "",
+        "type": "",
+        "statModifiers": {
+          "strength": 0,
+          "speed": 0,
+          "defense": 0
+        },
+        "dropChance": 0,
+        "equippable": true,
+        "sprite":""
+      },
+      {
+        "id": "84",
+        "name": "",
+        "type": "",
+        "statModifiers": {
+          "strength": 0,
+          "speed": 0,
+          "defense": 0
+        },
+        "dropChance": 0,
+        "equippable": true,
+        "sprite":""
+      },
+      {
+        "id": "85",
+        "name": "",
+        "type": "",
+        "statModifiers": {
+          "strength": 0,
+          "speed": 0,
+          "defense": 0
+        },
+        "dropChance": 0,
+        "equippable": true,
+        "sprite":""
+      },
+      {
+        "id": "86",
+        "name": "",
+        "type": "",
+        "statModifiers": {
+          "strength": 0,
+          "speed": 0,
+          "defense": 0
+        },
+        "dropChance": 0,
+        "equippable": true,
+        "sprite":""
+      },
+      {
+        "id": "87",
+        "name": "",
+        "type": "",
+        "statModifiers": {
+          "strength": 0,
+          "speed": 0,
+          "defense": 0
+        },
+        "dropChance": 0,
+        "equippable": true,
+        "sprite":""
+      },
+      {
+        "id": "88",
+        "name": "",
+        "type": "",
+        "statModifiers": {
+          "strength": 0,
+          "speed": 0,
+          "defense": 0
+        },
+        "dropChance": 0,
+        "equippable": true,
+        "sprite":""
+      },
+      {
+        "id": "89",
+        "name": "",
+        "type": "",
+        "statModifiers": {
+          "strength": 0,
+          "speed": 0,
+          "defense": 0
+        },
+        "dropChance": 0,
+        "equippable": true,
+        "sprite":""
+      },
+      {
+        "id": "90",
+        "name": "",
+        "type": "",
+        "statModifiers": {
+          "strength": 0,
+          "speed": 0,
+          "defense": 0
+        },
+        "dropChance": 0,
+        "equippable": true,
+        "sprite":""
+      },
+      {
+        "id": "91",
+        "name": "",
+        "type": "",
+        "statModifiers": {
+          "strength": 0,
+          "speed": 0,
+          "defense": 0
+        },
+        "dropChance": 0,
+        "equippable": true,
+        "sprite":""
+      },
+      {
+        "id": "92",
+        "name": "",
+        "type": "",
+        "statModifiers": {
+          "strength": 0,
+          "speed": 0,
+          "defense": 0
+        },
+        "dropChance": 0,
+        "equippable": true,
+        "sprite":""
+      },
+      {
+        "id": "93",
+        "name": "",
+        "type": "",
+        "statModifiers": {
+          "strength": 0,
+          "speed": 0,
+          "defense": 0
+        },
+        "dropChance": 0,
+        "equippable": true,
+        "sprite":""
+      },
+      {
+        "id": "94",
+        "name": "",
+        "type": "",
+        "statModifiers": {
+          "strength": 0,
+          "speed": 0,
+          "defense": 0
+        },
+        "dropChance": 0,
+        "equippable": true,
+        "sprite":""
+      },
+      {
+        "id": "95",
+        "name": "",
+        "type": "",
+        "statModifiers": {
+          "strength": 0,
+          "speed": 0,
+          "defense": 0
+        },
+        "dropChance": 0,
+        "equippable": true,
+        "sprite":""
+      },
+      {
+        "id": "96",
+        "name": "",
+        "type": "",
+        "statModifiers": {
+          "strength": 0,
+          "speed": 0,
+          "defense": 0
+        },
+        "dropChance": 0,
+        "equippable": true,
+        "sprite":""
+      },
+      {
+        "id": "97",
+        "name": "",
+        "type": "",
+        "statModifiers": {
+          "strength": 0,
+          "speed": 0,
+          "defense": 0
+        },
+        "dropChance": 0,
+        "equippable": true,
+        "sprite":""
+      },
+      {
+        "id": "98",
+        "name": "",
+        "type": "",
+        "statModifiers": {
+          "strength": 0,
+          "speed": 0,
+          "defense": 0
+        },
+        "dropChance": 0,
+        "equippable": true,
+        "sprite":""
+      },
+      {
+        "id": "99",
+        "name": "",
+        "type": "",
+        "statModifiers": {
+          "strength": 0,
+          "speed": 0,
+          "defense": 0
+        },
+        "dropChance": 0,
+        "equippable": true,
+        "sprite":""
+      },
+      {
+        "id": "10",
+        "name": "",
+        "type": "",
+        "statModifiers": {
+          "strength": 0,
+          "speed": 0,
+          "defense": 0
+        },
+        "dropChance": 0,
+        "equippable": true,
+        "sprite":""
+      },
+      {
+        "id": "101",
+        "name": "",
+        "type": "",
+        "statModifiers": {
+          "strength": 0,
+          "speed": 0,
+          "defense": 0
+        },
+        "dropChance": 0,
+        "equippable": true,
+        "sprite":""
+      },
+      {
+        "id": "102",
+        "name": "",
+        "type": "",
+        "statModifiers": {
+          "strength": 0,
+          "speed": 0,
+          "defense": 0
+        },
+        "dropChance": 0,
+        "equippable": true,
+        "sprite":""
+      },
+      {
+        "id": "103",
+        "name": "",
+        "type": "",
+        "statModifiers": {
+          "strength": 0,
+          "speed": 0,
+          "defense": 0
+        },
+        "dropChance": 0,
+        "equippable": true,
+        "sprite":""
+      },
+      {
+        "id": "104",
+        "name": "",
+        "type": "",
+        "statModifiers": {
+          "strength": 0,
+          "speed": 0,
+          "defense": 0
+        },
+        "dropChance": 0,
+        "equippable": true,
+        "sprite":""
+      },
+      {
+        "id": "105",
+        "name": "",
+        "type": "",
+        "statModifiers": {
+          "strength": 0,
+          "speed": 0,
+          "defense": 0
+        },
+        "dropChance": 0,
+        "equippable": true,
+        "sprite":""
+      },
+      {
+        "id": "106",
+        "name": "",
+        "type": "",
+        "statModifiers": {
+          "strength": 0,
+          "speed": 0,
+          "defense": 0
+        },
+        "dropChance": 0,
+        "equippable": true,
+        "sprite":""
+      },
+      {
+        "id": "107",
+        "name": "",
+        "type": "",
+        "statModifiers": {
+          "strength": 0,
+          "speed": 0,
+          "defense": 0
+        },
+        "dropChance": 0,
+        "equippable": true,
+        "sprite":""
+      },
+      {
+        "id": "108",
+        "name": "",
+        "type": "",
+        "statModifiers": {
+          "strength": 0,
+          "speed": 0,
+          "defense": 0
+        },
+        "dropChance": 0,
+        "equippable": true,
+        "sprite":""
+      },
+      {
+        "id": "109",
+        "name": "",
+        "type": "",
+        "statModifiers": {
+          "strength": 0,
+          "speed": 0,
+          "defense": 0
+        },
+        "dropChance": 0,
+        "equippable": true,
+        "sprite":""
+      },
+      {
+        "id": "110",
+        "name": "",
+        "type": "",
+        "statModifiers": {
+          "strength": 0,
+          "speed": 0,
+          "defense": 0
+        },
+        "dropChance": 0,
+        "equippable": true,
+        "sprite":""
+      },
+      {
+        "id": "111",
+        "name": "",
+        "type": "",
+        "statModifiers": {
+          "strength": 0,
+          "speed": 0,
+          "defense": 0
+        },
+        "dropChance": 0,
+        "equippable": true,
+        "sprite":""
+      },
+      {
+        "id": "112",
+        "name": "",
+        "type": "",
+        "statModifiers": {
+          "strength": 0,
+          "speed": 0,
+          "defense": 0
+        },
+        "dropChance": 0,
+        "equippable": true,
+        "sprite":""
+      },
+      {
+        "id": "113",
+        "name": "",
+        "type": "",
+        "statModifiers": {
+          "strength": 0,
+          "speed": 0,
+          "defense": 0
+        },
+        "dropChance": 0,
+        "equippable": true,
+        "sprite":""
+      },
+      {
+        "id": "114",
+        "name": "",
+        "type": "",
+        "statModifiers": {
+          "strength": 0,
+          "speed": 0,
+          "defense": 0
+        },
+        "dropChance": 0,
+        "equippable": true,
+        "sprite":""
+      },
+      {
+        "id": "115",
+        "name": "",
+        "type": "",
+        "statModifiers": {
+          "strength": 0,
+          "speed": 0,
+          "defense": 0
+        },
+        "dropChance": 0,
+        "equippable": true,
+        "sprite":""
+      },
+      {
+        "id": "116",
+        "name": "",
+        "type": "",
+        "statModifiers": {
+          "strength": 0,
+          "speed": 0,
+          "defense": 0
+        },
+        "dropChance": 0,
+        "equippable": true,
+        "sprite":""
+      },
+      {
+        "id": "117",
+        "name": "",
+        "type": "",
+        "statModifiers": {
+          "strength": 0,
+          "speed": 0,
+          "defense": 0
+        },
+        "dropChance": 0,
+        "equippable": true,
+        "sprite":""
+      },
+      {
+        "id": "118",
+        "name": "",
+        "type": "",
+        "statModifiers": {
+          "strength": 0,
+          "speed": 0,
+          "defense": 0
+        },
+        "dropChance": 0,
+        "equippable": true,
+        "sprite":""
+      },
+      {
+        "id": "119",
+        "name": "",
+        "type": "",
+        "statModifiers": {
+          "strength": 0,
+          "speed": 0,
+          "defense": 0
+        },
+        "dropChance": 0,
+        "equippable": true,
+        "sprite":""
+      },
+      {
+        "id": "120",
+        "name": "",
+        "type": "",
+        "statModifiers": {
+          "strength": 0,
+          "speed": 0,
+          "defense": 0
+        },
+        "dropChance": 0,
+        "equippable": true,
+        "sprite":""
       }
     ]
   }
+  
