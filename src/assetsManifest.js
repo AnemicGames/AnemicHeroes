@@ -41,7 +41,7 @@ export const assetsManifest = {
         '/assets/sprites/armor/iron_hlm.png',
         '/assets/sprites/armor/leather_arm.png',
         '/assets/sprites/armor/leather_bts.png',
-        '/assets/sprites/armor/leather_hlm.png',
+        '/assets/sprites/armor/leather_hood.png',
 
         // Bosses
         '/assets/sprites/bosses/dark_lord.png',
