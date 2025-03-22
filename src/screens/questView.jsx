@@ -8,7 +8,6 @@ export default function QuestScreen() {
   const completeQuest = useGameStore((state) => state.completeQuest);
   const setCurrentView = useGameStore((state) => state.setCurrentView);
 
-  // Load quests when the component mounts
   useEffect(() => {
     loadQuests();
   }, [loadQuests]);
