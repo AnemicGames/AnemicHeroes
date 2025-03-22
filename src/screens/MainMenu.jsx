@@ -1,15 +1,16 @@
 import { useState, useEffect } from "react";
 import { useGameStore } from "../store/useGameStore";
 
-const AnimatedImage = () => {
+const AnimatedBgImage = () => {
     const [currentFrame, setCurrentFrame] = useState(1);
-    const totalFrames = 10;
-    const frameRate = 170;
+    const currentWorld = "MOUNTAIN";
+    const totalFrames = 12;
+    const frameRate = 190;
     useEffect(() => {
         const imageCache = [];
         for (let i = 1; i <= totalFrames; i++) {
             const img = new Image();
-            img.src = `/assets/bonfire_bg/${i}.webp`;
+            img.src = `/assets/bonfire_bg/${currentWorld}/${i}.webp`;
             imageCache.push(img);
         }
     }, []);
@@ -24,7 +25,7 @@ const AnimatedImage = () => {
 
     return (
         <img
-            src={`/assets/bonfire_bg/${currentFrame}.webp`}
+            src={`/assets/bonfire_bg/${currentWorld}/${currentFrame}.webp`}
             alt="Animated bonfire"
             className="w-full"
         />
@@ -44,7 +45,7 @@ export default function MainMenu() {
 
     return (
         <div className="h-full w-full relative text-white">
-            <AnimatedImage />
+            <AnimatedBgImage />
 
             <div className="absolute top-[130px] flex flex-col items-center justify-center gap-2 left-[250px]">
                 <button
