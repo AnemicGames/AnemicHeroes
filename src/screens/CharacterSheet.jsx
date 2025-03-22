@@ -9,6 +9,10 @@ export default function CharacterSheet() {
   const totalFrames = 12;
   const frameRate = 583;
 
+  // Pagination
+  const [currentInventoryPage, setCurrentInventoryPage] = useState(1);
+  const itemsPerPage = 16;
+
   useEffect(() => {
     const imageCache = [];
     for (let i = 1; i <= totalFrames; i++) {
@@ -145,6 +149,18 @@ export default function CharacterSheet() {
     }
   };
 
+  const inventoryEntries = Object.entries(inventory.items);
+  const totalInventoryPages = Math.ceil(inventoryEntries.length / itemsPerPage);
+
+  if (currentInventoryPage > totalInventoryPages && totalInventoryPages > 0) {
+    setCurrentInventoryPage(totalInventoryPages);
+  }
+  const startIndex = (currentInventoryPage - 1) * itemsPerPage;
+  const currentItems = inventoryEntries.slice(
+    startIndex,
+    startIndex + itemsPerPage
+  );
+
   return (
     <div className="p-4 h-full text-white grid grid-cols-30 grid-rows-5 gap-2 relative">
       <img
@@ -190,20 +206,10 @@ export default function CharacterSheet() {
                       alt={item.name}
                       className="max-w-full max-h-full object-contain"
                     />
-
                     {/* Tooltip */}
                     <div className="absolute left-0 bottom-0 hidden group-hover:flex flex-col bg-black text-white p-2 rounded text-xs z-10">
                       <div className="mb-1 h-15">{item.name}</div>
-                      {/* <div>STR: {item.statModifiers?.strength ?? 0}</div>
-                      <div>DEF: {item.statModifiers?.defense ?? 0}</div>
-                      <div>SPD: {item.statModifiers?.speed ?? 0}</div> */}
                     </div>
-                    {/* <button
-                      onClick={() => handleUnequip(slot)}
-                      className="absolute top-0 right-0 bg-red-500 text-white text-xs p-1 rounded"
-                    >
-                      X
-                    </button> */}
                   </div>
                 ) : (
                   <div className="w-full h-full flex items-center justify-center">
@@ -286,8 +292,9 @@ export default function CharacterSheet() {
             <div>XP</div>
             {player.xp} / {player.xpToNextLvl}
           </div>
+
           {/* Exit */}
-          <button className="space-x-2 flex absolute bottom-2 right-2 cursor-pointer  hover:bg-red-800 rounded">
+          <button className="space-x-2 flex absolute bottom-2 right-2 cursor-pointer hover:bg-red-800 rounded">
             <img
               src="/assets/sprites/exit-nav-icon.png"
               alt="Exit"
@@ -299,61 +306,92 @@ export default function CharacterSheet() {
       </div>
 
       {/* Inventory */}
-      <div className="inventory rounded p-4 col-start-23 col-end-31 row-start-1 row-end-6 bg-gray-500/80">
+      <div className="inventory rounded p-4 col-start-23 col-end-31 row-start-1 row-end-6 bg-gray-500/80 relative">
         <div className="flex justify-between items-center mb-4">
           <h3 className="font-semibold mb-2">Inventory</h3>
           <div className="gold-count text-lg font-semibold">
             Gold: {inventory.gold || 0}
           </div>
         </div>
-        {inventory && Object.keys(inventory.items).length > 0 ? (
-          <div className="grid grid-cols-3 gap-1">
-            {Object.entries(inventory.items).map(([itemId, count]) => {
-              const item = getItemDetails(itemId);
-              if (!item) return null;
-              return (
-                <div
-                  key={itemId}
-                  className="inventory-item rounded p-2 w-24 h-24 relative group flex flex-col items-center justify-center bg-gray-800 cursor-pointer"
-                  onContextMenu={(e) => {
-                    if (item.type === "potion") handleDrink(item, e);
-                  }}
-                  title={
-                    item.type === "potion" ? "Right-click to drink" : undefined
-                  }
-                >
-                  <img
-                    src={item.sprite}
-                    alt={item.name}
-                    className="w-full h-16 object-contain mb-1"
-                  />
-                  <div className="absolute top-0 right-0 bg-gray-800 text-white text-2xl px-1">
-                    {count}
-                  </div>
+        {inventoryEntries.length > 0 ? (
+          <>
+            <div className="grid grid-cols-3 gap-1">
+              {currentItems.map(([itemId, count]) => {
+                const item = getItemDetails(itemId);
+                if (!item) return null;
+                return (
+                  <div
+                    key={itemId}
+                    className="inventory-item rounded p-2 w-24 h-24 relative group flex flex-col items-center justify-center bg-gray-800 cursor-pointer"
+                    onContextMenu={(e) => {
+                      if (item.type === "potion") handleDrink(item, e);
+                    }}
+                    title={
+                      item.type === "potion"
+                        ? "Right-click to drink"
+                        : undefined
+                    }
+                  >
+                    <img
+                      src={item.sprite}
+                      alt={item.name}
+                      className="w-full h-16 object-contain mb-1"
+                    />
+                    <div className="absolute top-0 right-0 bg-gray-800 text-white text-2xl px-1">
+                      {count}
+                    </div>
 
-                  {/* Tooltip for Inventory Item */}
-                  <div className="absolute left-0 bottom-0 h-24 w-24 hidden group-hover:flex flex-col bg-black text-white p-2 rounded text-xs z-10">
-                    {item.type === "potion" ? (
-                      <>
-                        <div className="mb-1">{item.name}</div>
-                        <div>Heal {item.healAmount} HP</div>
-                      </>
-                    ) : (
-                      <div
-                        onClick={() => handleEquip(item)}
-                        title={"Click to equip"}
-                      >
-                        <div className="mb-1">{item.name}</div>
-                        <div>STR: {item.statModifiers?.strength ?? 0}</div>
-                        <div>DEF: {item.statModifiers?.defense ?? 0}</div>
-                        <div>SPD: {item.statModifiers?.speed ?? 0}</div>
-                      </div>
-                    )}
+                    {/* Tooltip */}
+                    <div className="absolute left-0 bottom-0 h-24 w-24 hidden group-hover:flex flex-col bg-black text-white p-2 rounded text-xs z-10">
+                      {item.type === "potion" ? (
+                        <>
+                          <div className="mb-1">{item.name}</div>
+                          <div>Heal {item.healAmount} HP</div>
+                        </>
+                      ) : (
+                        <div
+                          onClick={() => handleEquip(item)}
+                          title="Click to equip"
+                        >
+                          <div className="mb-1">{item.name}</div>
+                          <div>STR: {item.statModifiers?.strength ?? 0}</div>
+                          <div>DEF: {item.statModifiers?.defense ?? 0}</div>
+                          <div>SPD: {item.statModifiers?.speed ?? 0}</div>
+                        </div>
+                      )}
+                    </div>
                   </div>
-                </div>
-              );
-            })}
-          </div>
+                );
+              })}
+            </div>
+
+            {/* Pagination */}
+            <div className="pagination-controls flex justify-between items-center px-4 absolute bottom-2 right-1 w-full">
+              <button
+                onClick={() =>
+                  setCurrentInventoryPage((prev) => Math.max(prev - 1, 1))
+                }
+                disabled={currentInventoryPage === 1}
+                className="bg-gray-700 px-2 py-1 rounded"
+              >
+                Previous
+              </button>
+              <span>
+                Page {currentInventoryPage} of {totalInventoryPages}
+              </span>
+              <button
+                onClick={() =>
+                  setCurrentInventoryPage((prev) =>
+                    Math.min(prev + 1, totalInventoryPages)
+                  )
+                }
+                disabled={currentInventoryPage === totalInventoryPages}
+                className="bg-gray-700 px-2 py-1 rounded"
+              >
+                Next
+              </button>
+            </div>
+          </>
         ) : (
           <p>No items in inventory.</p>
         )}
