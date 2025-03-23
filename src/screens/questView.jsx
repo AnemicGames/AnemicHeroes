@@ -99,7 +99,7 @@ export default function QuestScreen() {
                     quest.objective.current >= quest.objective.target && (
                       <button
                         onClick={() => completeQuest(quest.id)}
-                        className="ml-20 px-3 py-1  text-black hover:text-green-400 pointer text-3xl"
+                        className="ml-20 px-3 py-1  text-black hover:drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.8)] text-3xl cursor-pointer"
                       >
                         Claim
                       </button>
