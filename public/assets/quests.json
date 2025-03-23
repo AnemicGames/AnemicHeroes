@@ -1,0 +1,90 @@
+{
+  "quests": [
+    {
+      "id": "mob_10",
+      "title": "Win 10 Mob Battles",
+      "description": "Win 10 battles against mobs to begin your campaign.",
+      "status": "not accepted",
+      "objective": {
+        "type": "win_mobs",
+        "current": 0,
+        "target": 10
+      },
+      "chain": "mob_chain",
+      "chainMethod": "updateMobChainState",
+      "next": "mob_25"
+    },
+    {
+      "id": "mob_25",
+      "title": "Win 25 Mob Battles",
+      "description": "Continue and win 25 battles against mobs to prove your strength.",
+      "status": "locked",
+      "objective": {
+        "type": "win_mobs",
+        "current": 0,
+        "target": 25
+      },
+      "chain": "mob_chain",
+      "chainMethod": "updateMobChainState",
+      "previous": "mob_10",
+      "next": "mob_50"
+    },
+    {
+      "id": "mob_50",
+      "title": "Win 50 Mob Battles",
+      "description": "Achieve ultimate honor by winning 50 battles against mobs.",
+      "status": "locked",
+      "objective": {
+        "type": "win_mobs",
+        "current": 0,
+        "target": 50
+      },
+      "chain": "mob_chain",
+      "chainMethod": "updateMobChainState",
+      "previous": "mob_25"
+    },
+    {
+      "id": "boss_5",
+      "title": "Defeat 5 Bosses",
+      "description": "Defeat 5 bosses to demonstrate your valor.",
+      "status": "not accepted",
+      "objective": {
+        "type": "defeat_bosses",
+        "current": 0,
+        "target": 5
+      },
+      "chain": "boss_chain",
+      "chainMethod": "updateBossChainState",
+      "next": "boss_10"
+    },
+    {
+      "id": "boss_10",
+      "title": "Defeat 10 Bosses",
+      "description": "Continue your adventure and defeat 10 bosses.",
+      "status": "locked",
+      "objective": {
+        "type": "defeat_bosses",
+        "current": 0,
+        "target": 10
+      },
+      "chain": "boss_chain",
+      "chainMethod": "updateBossChainState",
+      "previous": "boss_5",
+      "next": "boss_20"
+    },
+    {
+      "id": "boss_20",
+      "title": "Defeat 20 Bosses",
+      "description": "Prove your endurance by defeating 20 bosses.",
+      "status": "locked",
+      "objective": {
+        "type": "defeat_bosses",
+        "current": 0,
+        "target": 20
+      },
+      "chain": "boss_chain",
+      "chainMethod": "updateBossChainState",
+      "previous": "boss_10"
+    }
+  ]
+}
