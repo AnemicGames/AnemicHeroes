@@ -14,6 +14,8 @@ export default function QuestScreen() {
 
   const goToMainMenu = () => setCurrentView("MAIN_MENU");
 
+  const availableQuests = quests.filter((quest) => quest.status !== "locked");
+
   return (
     <div className="p-4 text-white">
       <h2 className="text-4xl font-bold mb-4">Quests</h2>
@@ -23,9 +25,9 @@ export default function QuestScreen() {
       >
         Back to Main Menu
       </button>
-      {quests && quests.length > 0 ? (
+      {availableQuests && availableQuests.length > 0 ? (
         <ul className="space-y-4">
-          {quests.map((quest) => (
+          {availableQuests.map((quest) => (
             <li key={quest.id} className="p-4 bg-gray-800 rounded shadow-md">
               <h3 className="text-2xl font-semibold">{quest.title}</h3>
               <p>{quest.description}</p>
