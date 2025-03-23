@@ -33,7 +33,7 @@ export default function QuestScreen() {
             >
               <div>
                 <h3 className="text-2xl font-semibold">{quest.title}</h3>
-                <p>{quest.description}</p>
+
                 {quest.objective && (
                   <p>
                     Progress: {quest.objective.current} /{" "}
