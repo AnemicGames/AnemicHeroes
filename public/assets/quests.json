@@ -4,7 +4,7 @@
       "id": "mob_10",
       "title": "Win 10 Mob Battles",
       "description": "Win 10 battles against mobs to begin your campaign.",
-      "status": "not accepted",
+      "status": "active",
       "xpReward": 50,
       "objective": {
         "type": "win_mobs",
@@ -50,7 +50,7 @@
       "id": "boss_5",
       "title": "Defeat 5 Bosses",
       "description": "Defeat 5 bosses to demonstrate your valor.",
-      "status": "not accepted",
+      "status": "active",
       "xpReward": 300,
       "objective": {
         "type": "defeat_bosses",
