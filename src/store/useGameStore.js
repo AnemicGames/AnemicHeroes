@@ -6,6 +6,7 @@ import { createPlayerSlice } from './playerSlice';
 import { createInventorySlice } from './inventorySlice';
 import { createMapSlice } from './mapSlice';
 import { createBattleSlice } from './battleSlice';
+import { createWorldSlice } from './worldSlice';
 
 export const useGameStore = create(
   persist(
@@ -15,6 +16,7 @@ export const useGameStore = create(
       ...createInventorySlice(set, get),
       ...createMapSlice(set, get),
       ...createBattleSlice(set, get),
+      ...createWorldSlice(set, get),
     }),
     {
       name: 'anemic-heroes-store',
