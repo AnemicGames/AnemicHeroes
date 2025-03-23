@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useGameStore } from "../store/useGameStore";
-import styles from "./MapView.module.css";
+import mapViewStyles from "./MapView.module.css"; // Animation
+import questViewStyles from "./QuestView.module.css"; // Font
 
 const AnimatedBgImage = () => {
   const [currentFrame, setCurrentFrame] = useState(1);
@@ -57,12 +58,12 @@ export default function QuestScreen() {
   };
 
   return (
-    <div className="h-full w-full relative text-white">
+    <div className="h-full w-full relative text-black">
       <AnimatedBgImage />
 
       <div
         className={`absolute w-full h-full z-50 ${
-          journalClosing ? styles.mapClose : styles.mapOpen
+          journalClosing ? mapViewStyles.mapClose : mapViewStyles.mapOpen
         }`}
       >
         <img
@@ -72,14 +73,17 @@ export default function QuestScreen() {
         />
 
         {/* Quests */}
-        <div className="absolute inset-0 p-8 overflow-auto">
+        <div
+          className={`absolute inset-0 left-[220px] mt-4 p-8 overflow-auto ${questViewStyles.journalContent}`}
+          style={{ fontFamily: "Caveat, cursive" }}
+        >
           <h2 className="text-4xl font-bold mb-4">Quests</h2>
           {availableQuests && availableQuests.length > 0 ? (
-            <ul className="space-y-4">
+            <ul className="absolute left-[50px]">
               {availableQuests.map((quest) => (
                 <li
                   key={quest.id}
-                  className="p-4 bg-gray-800 bg-opacity-75 rounded shadow-md flex justify-between items-center"
+                  className="py-2 rounded flex justify-between items-center"
                 >
                   <div>
                     <h3 className="text-2xl font-semibold">{quest.title}</h3>
@@ -95,7 +99,7 @@ export default function QuestScreen() {
                     quest.objective.current >= quest.objective.target && (
                       <button
                         onClick={() => completeQuest(quest.id)}
-                        className="mt-2 px-3 py-1 bg-blue-600 rounded"
+                        className="ml-20 px-3 py-1  text-black hover:text-green-400 pointer text-3xl"
                       >
                         Claim
                       </button>
