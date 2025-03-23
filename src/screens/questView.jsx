@@ -4,7 +4,6 @@ import { useGameStore } from "../store/useGameStore";
 export default function QuestScreen() {
   const quests = useGameStore((state) => state.quests);
   const loadQuests = useGameStore((state) => state.loadQuests);
-  const acceptQuest = useGameStore((state) => state.acceptQuest);
   const completeQuest = useGameStore((state) => state.completeQuest);
   const setCurrentView = useGameStore((state) => state.setCurrentView);
 
@@ -28,31 +27,30 @@ export default function QuestScreen() {
       {availableQuests && availableQuests.length > 0 ? (
         <ul className="space-y-4">
           {availableQuests.map((quest) => (
-            <li key={quest.id} className="p-4 bg-gray-800 rounded shadow-md">
-              <h3 className="text-2xl font-semibold">{quest.title}</h3>
-              <p>{quest.description}</p>
-              <p>
-                Status:{" "}
-                <span className="font-bold">
-                  {quest.status ? quest.status : "not accepted"}
-                </span>
-              </p>
-              {(!quest.status || quest.status === "not accepted") && (
-                <button
-                  onClick={() => acceptQuest(quest.id)}
-                  className="mt-2 px-3 py-1 bg-green-600 rounded"
-                >
-                  Accept Quest
-                </button>
-              )}
-              {quest.status === "active" && (
-                <button
-                  onClick={() => completeQuest(quest.id)}
-                  className="mt-2 px-3 py-1 bg-blue-600 rounded"
-                >
-                  Complete Quest
-                </button>
-              )}
+            <li
+              key={quest.id}
+              className="p-4 bg-gray-800 rounded shadow-md flex justify-between items-center"
+            >
+              <div>
+                <h3 className="text-2xl font-semibold">{quest.title}</h3>
+                <p>{quest.description}</p>
+                {quest.objective && (
+                  <p>
+                    Progress: {quest.objective.current} /{" "}
+                    {quest.objective.target}
+                  </p>
+                )}
+              </div>
+              {quest.status === "active" &&
+                quest.objective &&
+                quest.objective.current >= quest.objective.target && (
+                  <button
+                    onClick={() => completeQuest(quest.id)}
+                    className="mt-2 px-3 py-1 bg-blue-600 rounded"
+                  >
+                    Claim
+                  </button>
+                )}
             </li>
           ))}
         </ul>
