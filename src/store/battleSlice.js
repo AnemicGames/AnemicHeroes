@@ -13,26 +13,45 @@ export const createBattleSlice = (set, get) => ({
 
     currentHP: 0,
   },
+  gameOver: false,
   turnCount: 0,
   nextToAttack: null,
+  isFighting: "notgihting",
 
-  setEnemy: (enemy) => set({ enemy, enemyHealth: enemy.baseHP }),
-  
+  startFighting: () =>
+    set({
+      isFighting: "fightstarted",
+    }),
+
+  stopFighting: () =>
+    set({
+      isFighting: "fightstopped",
+    }),
+
+  resetBattle: () =>
+    set({
+      gameOver: false,
+      turnCount: 0,
+    }),
+
+  setEnemy: (enemy) => set({ enemy, currentHP: enemy.baseHP }),
+
   damageEnemy: (amount) =>
     set((state) => {
-      const newHealth = Math.max(0, state.enemyHealth - amount);
+      const newHealth = Math.max(0, state.enemy.currentHP - amount);
       const enemyDefeated = newHealth === 0;
       if (enemyDefeated) {
         console.log(`${state.enemy.name} has been defeated!`);
       }
-      return { enemyHealth: newHealth, gameOver: enemyDefeated };
+      return {
+        enemy: { ...state.enemy, currentHP: newHealth },
+        gameOver: enemyDefeated,
+      };
     }),
 
-  damagePlayer: (amount) =>
-    set((state) => {
-      const newHealth = Math.max(0, state.playerHealth - amount);
-      const playerDefeated = newHealth === 0;
-      return { playerHealth: newHealth, gameOver: playerDefeated };
+  endBattle: () =>
+    set(() => {
+      return { gameOver: true };
     }),
 
   setTurnCount: () =>
@@ -42,12 +61,13 @@ export const createBattleSlice = (set, get) => ({
     }),
 
   rollInitiative: () => {
-    const playerSpeed = 5;
-    const enemySpeed = 5;
-    const playerInitiative = Math.floor(Math.random() * 20) + 1 + playerSpeed;
-    const enemyInitiative = Math.floor(Math.random() * 20) + 1 + enemySpeed;
-    const firstAttacker =
-      playerInitiative >= enemyInitiative ? "PLAYER" : "ENEMY";
-    set({ nextToAttack: firstAttacker });
+    // const playerSpeed = 5;
+    // const enemySpeed = 5;
+    // const playerInitiative = Math.floor(Math.random() * 20) + 1 + playerSpeed;
+    // const enemyInitiative = Math.floor(Math.random() * 20) + 1 + enemySpeed;
+    // const firstAttacker =
+    //   playerInitiative >= enemyInitiative ? "PLAYER" : "ENEMY";
+    // set({ nextToAttack: firstAttacker });
+    set({ nextToAttack: "PLAYER" });
   },
 });

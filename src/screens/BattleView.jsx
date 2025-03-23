@@ -4,30 +4,39 @@ import { useEffect, useState } from "react";
 import { ActionBar } from "../../components/Actionbar";
 
 export default function BattleView() {
-  const [action, setAction] = useState("FIGHT")
+  const [action, setAction] = useState("FIGHT");
   const setEnemy = useGameStore((state) => state.setEnemy);
+  const rollInitiative = useGameStore((state) => state.rollInitiative);
+  const heal = useGameStore((state) => state.heal);
+  const resetBattle = useGameStore((state) => state.resetBattle);
+  const [mobs, setMobs] = useState([]);
   const setCurrentView = useGameStore((state) => state.setCurrentView);
   const player = useGameStore((state) => state.player);
   const enemy = useGameStore((state) => state.enemy);
 
   const playerHealthPercent = (player.currentHp / player.maxHp) * 100;
-  const enemyHealthPercent = (enemy.currentHp / 100) * 100;
+  const enemyHealthPercent = (enemy.currentHP / enemy.baseHP) * 100;
 
-  function fetchRandomEnemy(mobs){
-    const randomMob = mobs[Math.floor(Math.random() * mobs.length)]
+  function fetchRandomEnemy(mobs) {
+    const randomMob = mobs[Math.floor(Math.random() * mobs.length)];
 
     return {
       currentHP: randomMob.baseHP,
-      ...randomMob
-    }
+      ...randomMob,
+    };
   }
 
   useEffect(() => {
     fetch("/assets/mobs.json")
       .then((response) => response.json())
-      .then((data) =>
-        setEnemy(fetchRandomEnemy(data))
-      )
+      .then((data) => {
+        setMobs(data);
+        resetBattle();
+        heal(player.maxHp);
+        setEnemy(fetchRandomEnemy(data));
+        rollInitiative();
+        // Alle her skal ut til map.
+      })
       .catch((error) => console.error("Error loading mobs:", error));
   }, []);
 
@@ -36,7 +45,7 @@ export default function BattleView() {
   const goToMap = () => setCurrentView("MAP");
   const goToBattle = () => setCurrentView("BATTLE");
   const goToCharacterSheet = () => setCurrentView("CHARACTER_SHEET");
-  const goToShop = () => setCurrentView("SHOP");  
+  const goToShop = () => setCurrentView("SHOP");
 
   return (
     <>
@@ -109,7 +118,8 @@ export default function BattleView() {
             <div className="flex gap-4 justify-center">
               {/* Player Health Bar */}
               <div className="w-[40%] mr-20">
-                <p className="text-xl text-white">{`${player.maxHp}/${player.currentHp}`}</p>
+                <p className="text-xl text-white">{player.name}</p>
+                <p className="text-xl text-white">{`${player.currentHp}/${player.maxHp}`}</p>
                 <div className="w-full bg-gray-300 rounded-full h-4">
                   <div
                     className="h-full rounded-full bg-red-500"
@@ -120,6 +130,7 @@ export default function BattleView() {
 
               {/* Enemy Health Bar */}
               <div className="w-[40%]">
+                <p className="text-xl text-white">{enemy.name}</p>
                 <p className="text-xl text-white">{`${enemy.currentHP}/${enemy.baseHP}`}</p>
                 <div className="w-full bg-gray-300 rounded-full h-4">
                   <div

@@ -7,5 +7,5 @@ export function CombatInventory({ callback }) {
     }, 10000);
   }, []);
 
-  return <p>Your Health Potions</p>;
+  return <p className="text-white">Your Health Potions</p>;
 }
