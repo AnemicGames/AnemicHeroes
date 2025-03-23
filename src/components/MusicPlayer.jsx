@@ -1,10 +1,11 @@
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState } from 'react';
 import { useGameStore } from '../store/useGameStore';
 import { Howl } from 'howler';
 
 function MusicPlayer() {
   const currentView = useGameStore((state) => state.currentView);
   const embark = useGameStore((state) => state.embark);
+  const currentWorld = useGameStore((state) => state.currentWorld);
 
   const [currentHowl, setCurrentHowl] = useState(null);
   const [currentSrc, setCurrentSrc] = useState('');
@@ -13,8 +14,11 @@ function MusicPlayer() {
     if (embark) {
       return '/assets/audio/bgm/loop3.ogg';
     }
+    if (currentView === 'SPLASH' || currentView === 'CREATE_CHARACTER') {
+      return '/assets/audio/bgm/dread_march_loop.ogg';
+    }
 
-    if (currentView === 'MAIN_MENU' || currentView === 'MAP') {
+    if (currentWorld === 'FOREST' && currentView === 'MAIN_MENU' || currentWorld === 'FOREST' && currentView === 'MAP') {
       return '/assets/audio/bgm/loop2.ogg';
     }
 
