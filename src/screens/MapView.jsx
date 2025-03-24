@@ -119,7 +119,7 @@ export default function MapView() {
 >
                 <img
                     src="/assets/map.webp"
-                    alt="Easter Egg!!!!! <<3<3<3<3<3<3<<3<33<3<<<3<3<ÆØDÅDØASÅDØASÅDØÅA"
+                    alt="map background"
                     className={`absolute w-full h-[720px]`}
                 />
                 <div
@@ -133,29 +133,29 @@ export default function MapView() {
                                 <div
                                     key={cell.id}
                                     onClick={() => handleTileClick(cell)}
-                                    className={`w-10 h-10 flex items-center justify-center rounded ${
+                                    className={`relative w-10 h-10 flex items-center justify-center rounded-xl ${
                                         isPlayer
-                                            ? "bg-blue-500 border cursor-pointer"
+                                            ? "border-2 bg-blue-800/80 cursor-pointer p-[.75px]"
                                             : isWalkable
-                                            ? "bg-yellow-200 border cursor-pointer"
+                                            ? "border-2 bg-gray-100/80 cursor-pointer p-[.75px]"
                                             : cell.type === "START"
-                                            ? "bg-emerald-700 border cursor-pointer"
+                                            ? "border-2 bg-green-950/80 cursor-pointer p-[.75px]"
                                             : cell.type === "BATTLE"
-                                            ? "bg-red-200 border cursor-pointer"
+                                            ? "border-2 bg-gray-900/80 cursor-pointer p-[.75px]"
                                             : cell.type === "BOSS"
-                                            ? "bg-orange-400 border cursor-pointer"
+                                            ? "border-2 bg-red-950 cursor-pointer"
                                             : cell.type === "SHOP"
-                                            ? "bg-green-400 border cursor-pointer"
+                                            ? "border-2 bg-gray-100/80 cursor-pointer p-[.75px]"
                                             : cell.type === "EVENT"
-                                            ? "bg-cyan-400 border cursor-pointer"
+                                            ? "border-2 bg-amber-400-80 cursor-pointer p-[.75px]"
                                             : "transparent"
                                     }`}
                                 >
-                                    {cell.type === "START" ? "🏠" : ""}
-                                    {cell.type === "BATTLE" ? "🗺️" : ""}
-                                    {cell.type === "EVENT" ? "🎁" : ""}
-                                    {cell.type === "SHOP" ? "🪙" : ""}
-                                    {cell.type === "BOSS" ? "😡" : ""}
+                                    {cell.type === "START" ? <img src={'./assets/sprites/map/fc911.png'} alt="START" /> : ""}
+                                    {cell.type === "BATTLE" ? <img src={'./assets/sprites/map/fc729.png'} alt="BATTLE" /> : ""}
+                                    {cell.type === "EVENT" ? <img src={'./assets/sprites/map/fc13.png'} alt="RANDOM" /> : ""}
+                                    {cell.type === "SHOP" ? <img src={'./assets/sprites/map/fc133.png'} alt="SHOP" /> : ""}
+                                    {cell.type === "BOSS" ? <img src={'./assets/sprites/map/fc1231.png'} alt="Boss" /> : ""}
                                 </div>
                             );
                         })
