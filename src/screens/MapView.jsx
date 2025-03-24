@@ -2,15 +2,16 @@ import { useEffect, useState } from "react";
 import { useGameStore } from "../store/useGameStore";
 import styles from "./MapView.module.css";
 
-const AnimatedImage = () => {
+const AnimatedBgImage = () => {
     const [currentFrame, setCurrentFrame] = useState(1);
-    const totalFrames = 10;
-    const frameRate = 170;
+    const currentWorld = useGameStore((state) => state.currentWorld);
+    const totalFrames = 12;
+    const frameRate = 190;
     useEffect(() => {
         const imageCache = [];
         for (let i = 1; i <= totalFrames; i++) {
             const img = new Image();
-            img.src = `/assets/bonfire_bg/${i}.webp`;
+            img.src = `/assets/bonfire_bg/${currentWorld}/${i}.webp`;
             imageCache.push(img);
         }
     }, []);
@@ -25,7 +26,7 @@ const AnimatedImage = () => {
 
     return (
         <img
-            src={`/assets/bonfire_bg/${currentFrame}.webp`}
+            src={`/assets/bonfire_bg/${currentWorld}/${currentFrame}.webp`}
             alt="Animated bonfire"
             className="w-full top-0 absolute -z-10"
         />
@@ -110,7 +111,7 @@ export default function MapView() {
 
     return (
         <div className="relative h-full w-full">
-            <AnimatedImage />
+            <AnimatedBgImage />
 
             <div
                 className={`absolute w-full h-max ${

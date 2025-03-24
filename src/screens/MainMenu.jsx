@@ -1,9 +1,9 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, use } from "react";
 import { useGameStore } from "../store/useGameStore";
 
 const AnimatedBgImage = () => {
     const [currentFrame, setCurrentFrame] = useState(1);
-    const currentWorld = "MOUNTAIN";
+    const currentWorld = useGameStore((state) => state.currentWorld);
     const totalFrames = 12;
     const frameRate = 190;
     useEffect(() => {

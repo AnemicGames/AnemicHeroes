@@ -1,15 +1,16 @@
 import { useState, useEffect } from "react";
 import { useGameStore } from "../store/useGameStore";
 
-const AnimatedImage = () => {
+const AnimatedBgImage = () => {
     const [currentFrame, setCurrentFrame] = useState(1);
-    const totalFrames = 10;
-    const frameRate = 170;
+    const currentWorld = useGameStore((state) => state.currentWorld);
+    const totalFrames = 12;
+    const frameRate = 190;
     useEffect(() => {
         const imageCache = [];
         for (let i = 1; i <= totalFrames; i++) {
             const img = new Image();
-            img.src = `/assets/bonfire_bg/${i}.webp`;
+            img.src = `/assets/bonfire_bg/${currentWorld}/${i}.webp`;
             imageCache.push(img);
         }
     }, []);
@@ -24,7 +25,7 @@ const AnimatedImage = () => {
 
     return (
         <img
-            src={`/assets/bonfire_bg/${currentFrame}.webp`}
+            src={`/assets/bonfire_bg/${currentWorld}/${currentFrame}.webp`}
             alt="Animated bonfire"
             className="w-full"
         />
@@ -101,7 +102,7 @@ export default function CreateCharacter() {
 
     return (
         <div className="h-full w-full relative text-white">
-            <AnimatedImage />
+            <AnimatedBgImage />
 
             <div className="flex flex-col items-center justify-center  absolute left-[500px] top-0 z-20 h-full">
                 <h1 className="text-4xl font-bold mb-6">Create Your Hero</h1>
