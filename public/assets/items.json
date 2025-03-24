@@ -599,12 +599,12 @@
         },
         "dropChance": 25,
         "equippable": true,
-        "sprite": "/assets/sprites/armor/random_boots.png"
+        "sprite": "/assets/sprites/armor/shadow_bts.png"
       },
       {
         "id": "47",
         "name": "Frost Aegis",
-        "type": "armor",
+        "type": "trinket",
         "statModifiers": {
           "strength": 0,
           "speed": 0,
@@ -612,7 +612,7 @@
         },
         "dropChance": 10,
         "equippable": true,
-        "sprite": "/assets/sprites/armor/random_armor.png"
+        "sprite": "/assets/sprites/trinkets/frost_aegis.png"
       },
       {
         "id": "48",
@@ -625,11 +625,11 @@
         },
         "dropChance": 8,
         "equippable": true,
-        "sprite": "/assets/sprites/weapons/random_weapon.png"
+        "sprite": "/assets/sprites/weapons/war_axe.png"
       },
       {
         "id": "49",
-        "name": "Broken Compass",
+        "name": "Highschool diploma",
         "type": "junk",
         "statModifiers": {
           "strength": 0,
@@ -638,7 +638,7 @@
         },
         "dropChance": 40,
         "equippable": false,
-        "sprite": "/assets/sprites/junk/random_junk.png"
+        "sprite": "/assets/sprites/junk/diploma.png"
       },
       {
         "id": "50",
@@ -651,11 +651,11 @@
         },
         "dropChance": 13,
         "equippable": false,
-        "sprite": "/assets/sprites/junk/random_junk.png"
+        "sprite": "/assets/sprites/junk/red_scroll.png"
       },
       {
         "id": "51",
-        "name": "Simple Leather Helm",
+        "name": "Leather Cape",
         "type": "helm",
         "statModifiers": {
           "strength": 0,
@@ -664,7 +664,7 @@
         },
         "dropChance": 22,
         "equippable": true,
-        "sprite": "/assets/sprites/armor/random_helm.png"
+        "sprite": "/assets/sprites/trinkets/cape.png"
       },
       {
         "id": "52",
@@ -677,7 +677,7 @@
         },
         "dropChance": 15,
         "equippable": true,
-        "sprite": "/assets/sprites/trinkets/random_trinket.png"
+        "sprite": "/assets/sprites/trinkets/steel_gloves.png"
       },
       {
         "id": "53",
@@ -690,7 +690,7 @@
         },
         "dropChance": 14,
         "equippable": true,
-        "sprite": "/assets/sprites/armor/random_boots.png"
+        "sprite": "/assets/sprites/armor/shadow_bts.png"
       },
       {
         "id": "54",
@@ -703,7 +703,7 @@
         },
         "dropChance": 9,
         "equippable": true,
-        "sprite": "/assets/sprites/trinkets/random_trinket.png"
+        "sprite": "/assets/sprites/trinkets/tower_shield.png"
       },
       {
         "id": "55",
@@ -716,16 +716,20 @@
         },
         "dropChance": 36,
         "equippable": false,
-        "sprite": "/assets/sprites/junk/random_junk.png"
+        "sprite": "/assets/sprites/junk/pouch.png"
       },
       {
         "id": "56",
-        "name": "Hero's Elixir",
-        "type": "potion",
-        "healAmount": 100,
-        "dropChance": 5,
-        "equippable": false,
-        "sprite": "/assets/sprites/potions/random_potion.png"
+        "name": "Sapphire Ring",
+        "type": "trinket",
+        "statModifiers": {
+          "strength": 0,
+          "speed": 2,
+          "defense": 1
+        },
+        "dropChance": 18,
+        "equippable": true,
+        "sprite": "/assets/sprites/trinkets/sapphire_ring.png"
       },
       {
         "id": "57",
@@ -738,7 +742,7 @@
         },
         "dropChance": 11,
         "equippable": true,
-        "sprite": "/assets/sprites/armor/random_armor.png"
+        "sprite": "/assets/sprites/armor/blu_breastplate.png"
       },
       {
         "id": "58",
@@ -751,7 +755,7 @@
         },
         "dropChance": 14,
         "equippable": true,
-        "sprite": "/assets/sprites/weapons/random_weapon.png"
+        "sprite": "/assets/sprites/weapons/gr_longbow.png"
       },
       {
         "id": "59",
@@ -764,7 +768,7 @@
         },
         "dropChance": 21,
         "equippable": true,
-        "sprite": "/assets/sprites/trinkets/random_trinket.png"
+        "sprite": "/assets/sprites/trinkets/sapphire_necklace.png"
       },
       {
         "id": "60",
@@ -777,20 +781,24 @@
         },
         "dropChance": 9,
         "equippable": false,
-        "sprite": "/assets/sprites/junk/random_junk.png"
+        "sprite": "/assets/sprites/junk/yl_fang.png"
       },
       {
         "id": "61",
-        "name": "Spicy Brew",
-        "type": "potion",
-        "healAmount": 20,
-        "dropChance": 24,
-        "equippable": false,
-        "sprite": "/assets/sprites/potions/random_potion.png"
+        "name": "Sapphire Circlet",
+        "type": "helm",
+        "statModifiers": {
+          "strength": 0,
+          "speed": 1,
+          "defense": 1
+        },
+        "dropChance": 23,
+        "equippable": true,
+        "sprite": "/assets/sprites/armor/blu_circlet.png"
       },
       {
         "id": "62",
-        "name": "Spiral Dagger",
+        "name": "Shank",
         "type": "weapon",
         "statModifiers": {
           "strength": 4,
@@ -799,11 +807,11 @@
         },
         "dropChance": 16,
         "equippable": true,
-        "sprite": "/assets/sprites/weapons/random_weapon.png"
+        "sprite": "/assets/sprites/weapons/dagger.png"
       },
       {
         "id": "63",
-        "name": "Scale Cap",
+        "name": "Crocodile Skin Hat",
         "type": "helm",
         "statModifiers": {
           "strength": 1,
@@ -812,7 +820,7 @@
         },
         "dropChance": 12,
         "equippable": true,
-        "sprite": "/assets/sprites/armor/random_helm.png"
+        "sprite": "/assets/sprites/armor/gr_hat.png"
       },
       {
         "id": "64",
@@ -825,7 +833,7 @@
         },
         "dropChance": 33,
         "equippable": false,
-        "sprite": "/assets/sprites/junk/random_junk.png"
+        "sprite": "/assets/sprites/junk/blu_scroll.png"
       },
       {
         "id": "65",
@@ -838,11 +846,11 @@
         },
         "dropChance": 20,
         "equippable": true,
-        "sprite": "/assets/sprites/trinkets/random_trinket.png"
+        "sprite": "/assets/sprites/trinkets/arc_focus.png"
       },
       {
         "id": "66",
-        "name": "Heavy Girdle",
+        "name": "Heavy Gambeson",
         "type": "armor",
         "statModifiers": {
           "strength": 1,
@@ -851,11 +859,11 @@
         },
         "dropChance": 10,
         "equippable": true,
-        "sprite": "/assets/sprites/armor/random_armor.png"
+        "sprite": "/assets/sprites/armor/blu_gambeson.png"
       },
       {
         "id": "67",
-        "name": "Lightning Lance",
+        "name": "Lightning Sword",
         "type": "weapon",
         "statModifiers": {
           "strength": 8,
@@ -864,11 +872,11 @@
         },
         "dropChance": 9,
         "equippable": true,
-        "sprite": "/assets/sprites/weapons/random_weapon.png"
+        "sprite": "/assets/sprites/weapons/yl_sword.png"
       },
       {
         "id": "68",
-        "name": "Gold Locket",
+        "name": "Ruby Gold Necklace",
         "type": "trinket",
         "statModifiers": {
           "strength": 2,
@@ -877,11 +885,11 @@
         },
         "dropChance": 5,
         "equippable": true,
-        "sprite": "/assets/sprites/trinkets/random_trinket.png"
+        "sprite": "/assets/sprites/trinkets/ruby_necklace.png"
       },
       {
         "id": "69",
-        "name": "Torn Banner",
+        "name": "Red Banner",
         "type": "junk",
         "statModifiers": {
           "strength": 0,
@@ -890,16 +898,7 @@
         },
         "dropChance": 31,
         "equippable": false,
-        "sprite": "/assets/sprites/junk/random_junk.png"
-      },
-      {
-        "id": "70",
-        "name": "Prismatic Brew",
-        "type": "potion",
-        "healAmount": 60,
-        "dropChance": 14,
-        "equippable": false,
-        "sprite": "/assets/sprites/potions/random_potion.png"
+        "sprite": "/assets/sprites/junk/red_banner.png"
       },
       {
         "id": "71",
@@ -912,7 +911,7 @@
         },
         "dropChance": 6,
         "equippable": true,
-        "sprite": "/assets/sprites/weapons/random_weapon.png"
+        "sprite": "/assets/sprites/weapons/red_sword.png"
       },
       {
         "id": "72",
@@ -925,7 +924,7 @@
         },
         "dropChance": 10,
         "equippable": true,
-        "sprite": "/assets/sprites/armor/random_helm.png"
+        "sprite": "/assets/sprites/armor/steel_helm_red.png"
       },
       {
         "id": "73",
@@ -938,11 +937,11 @@
         },
         "dropChance": 17,
         "equippable": true,
-        "sprite": "/assets/sprites/trinkets/random_trinket.png"
+        "sprite": "/assets/sprites/trinkets/steel_gauntlet.png"
       },
       {
         "id": "74",
-        "name": "Coarse Rope",
+        "name": "Beartrap",
         "type": "junk",
         "statModifiers": {
           "strength": 0,
@@ -951,7 +950,7 @@
         },
         "dropChance": 37,
         "equippable": false,
-        "sprite": "/assets/sprites/junk/random_junk.png"
+        "sprite": "/assets/sprites/junk/beartrap.png"
       },
       {
         "id": "75",
@@ -964,7 +963,7 @@
         },
         "dropChance": 40,
         "equippable": false,
-        "sprite": "/assets/sprites/junk/random_junk.png"
+        "sprite": "/assets/sprites/junk/red_scroll.png"
       },
       {
         "id": "76",
@@ -977,12 +976,12 @@
         },
         "dropChance": 26,
         "equippable": true,
-        "sprite": "/assets/sprites/armor/random_boots.png"
+        "sprite": "/assets/sprites/armor/leather_bts.png"
       },
       {
         "id": "77",
         "name": "Shimmering Cloak",
-        "type": "armor",
+        "type": "trinket",
         "statModifiers": {
           "strength": 0,
           "speed": 2,
@@ -990,7 +989,7 @@
         },
         "dropChance": 18,
         "equippable": true,
-        "sprite": "/assets/sprites/armor/random_armor.png"
+        "sprite": "/assets/sprites/trinkets/blu_cape.png"
       },
       {
         "id": "78",
@@ -1003,7 +1002,7 @@
         },
         "dropChance": 8,
         "equippable": true,
-        "sprite": "/assets/sprites/weapons/random_weapon.png"
+        "sprite": "/assets/sprites/weapons/white_sword.png"
       },
       {
         "id": "79",
@@ -1016,16 +1015,7 @@
         },
         "dropChance": 1,
         "equippable": false,
-        "sprite": "/assets/sprites/junk/random_junk.png"
-      },
-      {
-        "id": "80",
-        "name": "Potion of Iron Skin",
-        "type": "potion",
-        "healAmount": 30,
-        "dropChance": 16,
-        "equippable": false,
-        "sprite": "/assets/sprites/potions/random_potion.png"
+        "sprite": "/assets/sprites/junk/what.png"
       },
       {
         "id": "81",
@@ -1038,7 +1028,7 @@
         },
         "dropChance": 24,
         "equippable": true,
-        "sprite": "/assets/sprites/armor/random_helm.png"
+        "sprite": "/assets/sprites/armor/wing_helm.png"
       },
       {
         "id": "82",
@@ -1051,7 +1041,7 @@
         },
         "dropChance": 21,
         "equippable": true,
-        "sprite": "/assets/sprites/armor/random_boots.png"
+        "sprite": "/assets/sprites/armor/leather_bts.png"
       },
       {
         "id": "83",
@@ -1064,7 +1054,7 @@
         },
         "dropChance": 15,
         "equippable": true,
-        "sprite": "/assets/sprites/armor/random_armor.png"
+        "sprite": "/assets/sprites/armor/leath_armor.png"
       },
       {
         "id": "84",
@@ -1077,20 +1067,7 @@
         },
         "dropChance": 12,
         "equippable": true,
-        "sprite": "/assets/sprites/weapons/random_weapon.png"
-      },
-      {
-        "id": "85",
-        "name": "Bottle of Rum",
-        "type": "junk",
-        "statModifiers": {
-          "strength": 0,
-          "speed": 0,
-          "defense": 0
-        },
-        "dropChance": 42,
-        "equippable": false,
-        "sprite": "/assets/sprites/junk/random_junk.png"
+        "sprite": "/assets/sprites/weapons/warhammer.png"
       },
       {
         "id": "86",
@@ -1103,16 +1080,7 @@
         },
         "dropChance": 30,
         "equippable": true,
-        "sprite": "/assets/sprites/trinkets/random_trinket.png"
-      },
-      {
-        "id": "87",
-        "name": "Potion of Giant Strength",
-        "type": "potion",
-        "healAmount": 35,
-        "dropChance": 25,
-        "equippable": false,
-        "sprite": "/assets/sprites/potions/random_potion.png"
+        "sprite": "/assets/sprites/trinkets/rune.png"
       },
       {
         "id": "88",
@@ -1125,20 +1093,7 @@
         },
         "dropChance": 3,
         "equippable": true,
-        "sprite": "/assets/sprites/armor/random_helm.png"
-      },
-      {
-        "id": "89",
-        "name": "Darkwood Totem",
-        "type": "trinket",
-        "statModifiers": {
-          "strength": 0,
-          "speed": 0,
-          "defense": 5
-        },
-        "dropChance": 26,
-        "equippable": true,
-        "sprite": "/assets/sprites/trinkets/random_trinket.png"
+        "sprite": "/assets/sprites/armor/gld_crown.png"
       },
       {
         "id": "90",
@@ -1151,7 +1106,7 @@
         },
         "dropChance": 29,
         "equippable": false,
-        "sprite": "/assets/sprites/junk/random_junk.png"
+        "sprite": "/assets/sprites/junk/bone.png"
       },
       {
         "id": "91",
@@ -1164,20 +1119,20 @@
         },
         "dropChance": 10,
         "equippable": true,
-        "sprite": "/assets/sprites/trinkets/random_trinket.png"
+        "sprite": "/assets/sprites/trinkets/orb.png"
       },
       {
         "id": "92",
-        "name": "Burning Arrow",
+        "name": "Bow of Burning",
         "type": "weapon",
         "statModifiers": {
-          "strength": 0,
+          "strength": 2,
           "speed": 5,
           "defense": 0
         },
         "dropChance": 18,
         "equippable": true,
-        "sprite": "/assets/sprites/weapons/random_weapon.png"
+        "sprite": "/assets/sprites/weapons/red_bow.png"
       },
       {
         "id": "93",
@@ -1190,7 +1145,7 @@
         },
         "dropChance": 7,
         "equippable": true,
-        "sprite": "/assets/sprites/armor/random_helm.png"
+        "sprite": "/assets/sprites/armor/steel_helm_clsd.png"
       },
       {
         "id": "94",
@@ -1203,7 +1158,7 @@
         },
         "dropChance": 15,
         "equippable": true,
-        "sprite": "/assets/sprites/armor/random_boots.png"
+        "sprite": "/assets/sprites/armor/blu_bts.png"
       },
       {
         "id": "95",
@@ -1216,7 +1171,7 @@
         },
         "dropChance": 23,
         "equippable": true,
-        "sprite": "/assets/sprites/armor/random_armor.png"
+        "sprite": "/assets/sprites/armor/vest.png"
       },
       {
         "id": "96",
@@ -1229,7 +1184,7 @@
         },
         "dropChance": 25,
         "equippable": true,
-        "sprite": "/assets/sprites/trinkets/random_trinket.png"
+        "sprite": "/assets/sprites/trinkets/cit_band.png"
       },
       {
         "id": "97",
@@ -1242,16 +1197,7 @@
         },
         "dropChance": 44,
         "equippable": false,
-        "sprite": "/assets/sprites/junk/random_junk.png"
-      },
-      {
-        "id": "98",
-        "name": "Unstable Concoction",
-        "type": "potion",
-        "healAmount": 10,
-        "dropChance": 14,
-        "equippable": false,
-        "sprite": "/assets/sprites/potions/random_potion.png"
+        "sprite": "/assets/sprites/junk/green_ears.png"
       },
       {
         "id": "99",
@@ -1264,29 +1210,7 @@
         },
         "dropChance": 10,
         "equippable": true,
-        "sprite": "/assets/sprites/weapons/random_weapon.png"
-      },
-      {
-        "id": "10",
-        "name": "Typo Overlap Item",
-        "type": "junk",
-        "statModifiers": {
-          "strength": 0,
-          "speed": 0,
-          "defense": 0
-        },
-        "dropChance": 1,
-        "equippable": false,
-        "sprite": "/assets/sprites/junk/random_junk.png"
-      },
-      {
-        "id": "101",
-        "name": "Battle Mead",
-        "type": "potion",
-        "healAmount": 45,
-        "dropChance": 21,
-        "equippable": false,
-        "sprite": "/assets/sprites/potions/random_potion.png"
+        "sprite": "/assets/sprites/weapons/gr_spear.png"
       },
       {
         "id": "102",
@@ -1299,7 +1223,7 @@
         },
         "dropChance": 13,
         "equippable": true,
-        "sprite": "/assets/sprites/armor/random_helm.png"
+        "sprite": "/assets/sprites/armor/hrnd_hlm2.png"
       },
       {
         "id": "103",
@@ -1312,7 +1236,7 @@
         },
         "dropChance": 27,
         "equippable": true,
-        "sprite": "/assets/sprites/armor/random_boots.png"
+        "sprite": "/assets/sprites/armor/red_bts.png"
       },
       {
         "id": "104",
@@ -1325,7 +1249,7 @@
         },
         "dropChance": 2,
         "equippable": true,
-        "sprite": "/assets/sprites/armor/random_armor.png"
+        "sprite": "/assets/sprites/armor/blk_plate.png"
       },
       {
         "id": "105",
@@ -1338,7 +1262,7 @@
         },
         "dropChance": 19,
         "equippable": true,
-        "sprite": "/assets/sprites/trinkets/random_trinket.png"
+        "sprite": "/assets/sprites/trinkets/grn_necklace.png"
       },
       {
         "id": "106",
@@ -1351,16 +1275,7 @@
         },
         "dropChance": 50,
         "equippable": false,
-        "sprite": "/assets/sprites/junk/random_junk.png"
-      },
-      {
-        "id": "107",
-        "name": "Monk's Tonic",
-        "type": "potion",
-        "healAmount": 33,
-        "dropChance": 20,
-        "equippable": false,
-        "sprite": "/assets/sprites/potions/random_potion.png"
+        "sprite": "/assets/sprites/junk/bottle.png"
       },
       {
         "id": "108",
@@ -1373,7 +1288,7 @@
         },
         "dropChance": 12,
         "equippable": true,
-        "sprite": "/assets/sprites/armor/random_helm.png"
+        "sprite": "/assets/sprites/armor/red_plume_hlm.png"
       },
       {
         "id": "109",
@@ -1386,11 +1301,11 @@
         },
         "dropChance": 16,
         "equippable": true,
-        "sprite": "/assets/sprites/weapons/random_weapon.png"
+        "sprite": "/assets/sprites/weapons/saber.png"
       },
       {
         "id": "110",
-        "name": "Enchanted Pauldrons",
+        "name": "Enchanted Armor",
         "type": "armor",
         "statModifiers": {
           "strength": 2,
@@ -1399,7 +1314,7 @@
         },
         "dropChance": 9,
         "equippable": true,
-        "sprite": "/assets/sprites/armor/random_armor.png"
+        "sprite": "/assets/sprites/armor/stl_arm.png"
       },
       {
         "id": "111",
@@ -1412,7 +1327,7 @@
         },
         "dropChance": 28,
         "equippable": true,
-        "sprite": "/assets/sprites/trinkets/random_trinket.png"
+        "sprite": "/assets/sprites/trinkets/rune2.png"
       },
       {
         "id": "112",
@@ -1425,16 +1340,7 @@
         },
         "dropChance": 10,
         "equippable": false,
-        "sprite": "/assets/sprites/junk/random_junk.png"
-      },
-      {
-        "id": "113",
-        "name": "Potion of Clarity",
-        "type": "potion",
-        "healAmount": 25,
-        "dropChance": 30,
-        "equippable": false,
-        "sprite": "/assets/sprites/potions/random_potion.png"
+        "sprite": "/assets/sprites/junk/blu_candle.png"
       },
       {
         "id": "114",
@@ -1447,11 +1353,11 @@
         },
         "dropChance": 25,
         "equippable": true,
-        "sprite": "/assets/sprites/armor/random_helm.png"
+        "sprite": "/assets/sprites/armor/tiara.png"
       },
       {
         "id": "115",
-        "name": "Slingshot",
+        "name": "Club",
         "type": "weapon",
         "statModifiers": {
           "strength": 2,
@@ -1460,7 +1366,7 @@
         },
         "dropChance": 14,
         "equippable": true,
-        "sprite": "/assets/sprites/weapons/random_weapon.png"
+        "sprite": "/assets/sprites/weapons/club.png"
       },
       {
         "id": "116",
@@ -1473,11 +1379,11 @@
         },
         "dropChance": 22,
         "equippable": true,
-        "sprite": "/assets/sprites/armor/random_armor.png"
+        "sprite": "/assets/sprites/armor/blu_gambeson2.png"
       },
       {
         "id": "117",
-        "name": "Dreamcatcher",
+        "name": "Arcane Focus",
         "type": "trinket",
         "statModifiers": {
           "strength": 0,
@@ -1486,7 +1392,7 @@
         },
         "dropChance": 15,
         "equippable": true,
-        "sprite": "/assets/sprites/trinkets/random_trinket.png"
+        "sprite": "/assets/sprites/trinkets/arc_focus2.png"
       },
       {
         "id": "118",
@@ -1499,16 +1405,7 @@
         },
         "dropChance": 33,
         "equippable": false,
-        "sprite": "/assets/sprites/junk/random_junk.png"
-      },
-      {
-        "id": "119",
-        "name": "Arcane Salve",
-        "type": "potion",
-        "healAmount": 65,
-        "dropChance": 26,
-        "equippable": false,
-        "sprite": "/assets/sprites/potions/random_potion.png"
+        "sprite": "/assets/sprites/junk/pouch.png"
       },
       {
         "id": "120",
@@ -1521,7 +1418,7 @@
         },
         "dropChance": 4,
         "equippable": true,
-        "sprite": "/assets/sprites/trinkets/random_trinket.png"
+        "sprite": "/assets/sprites/trinkets/gld_shield.png"
       },
       {
         "id": "121",
@@ -1534,7 +1431,7 @@
         },
         "dropChance": 13,
         "equippable": true,
-        "sprite": "/assets/sprites/weapons/random_weapon.png"
+        "sprite": "/assets/sprites/weapons/red_halberd.png"
       },
       {
         "id": "122",
@@ -1547,11 +1444,11 @@
         },
         "dropChance": 19,
         "equippable": true,
-        "sprite": "/assets/sprites/trinkets/random_trinket.png"
+        "sprite": "/assets/sprites/trinkets/sapphire_necklace.png"
       },
       {
         "id": "123",
-        "name": "Stone Girdle",
+        "name": "White Tunic",
         "type": "armor",
         "statModifiers": {
           "strength": 2,
@@ -1560,11 +1457,11 @@
         },
         "dropChance": 15,
         "equippable": true,
-        "sprite": "/assets/sprites/armor/random_armor.png"
+        "sprite": "/assets/sprites/armor/white_tunic.png"
       },
       {
         "id": "124",
-        "name": "Arcane Signet",
+        "name": "Arcane Signet Ring",
         "type": "trinket",
         "statModifiers": {
           "strength": 0,
@@ -1573,11 +1470,11 @@
         },
         "dropChance": 22,
         "equippable": true,
-        "sprite": "/assets/sprites/trinkets/random_trinket.png"
+        "sprite": "/assets/sprites/trinkets/gld_ring.png"
       },
       {
         "id": "125",
-        "name": "Miner's Pickaxe",
+        "name": "Blacksmithe's Hammer",
         "type": "weapon",
         "statModifiers": {
           "strength": 5,
@@ -1586,29 +1483,7 @@
         },
         "dropChance": 27,
         "equippable": true,
-        "sprite": "/assets/sprites/weapons/random_weapon.png"
-      },
-      {
-        "id": "126",
-        "name": "Cracked Crystal",
-        "type": "junk",
-        "statModifiers": {
-          "strength": 0,
-          "speed": 0,
-          "defense": 0
-        },
-        "dropChance": 35,
-        "equippable": false,
-        "sprite": "/assets/sprites/loot/random_junk.png"
-      },
-      {
-        "id": "127",
-        "name": "Potion of Embers",
-        "type": "potion",
-        "healAmount": 55,
-        "dropChance": 18,
-        "equippable": false,
-        "sprite": "/assets/sprites/potions/random_potion.png"
+        "sprite": "/assets/sprites/weapons/blacksmith_hammer.png"
       },
       {
         "id": "128",
@@ -1622,1150 +1497,6 @@
         "dropChance": 9,
         "equippable": true,
         "sprite": "/assets/sprites/armor/random_armor.png"
-      },
-      {
-        "id": "129",
-        "name": "Winged Sandals",
-        "type": "boots",
-        "statModifiers": {
-          "strength": 0,
-          "speed": 6,
-          "defense": 0
-        },
-        "dropChance": 7,
-        "equippable": true,
-        "sprite": "/assets/sprites/armor/random_boots.png"
-      },
-      {
-        "id": "130",
-        "name": "Warden's Helm",
-        "type": "helm",
-        "statModifiers": {
-          "strength": 1,
-          "speed": 0,
-          "defense": 5
-        },
-        "dropChance": 13,
-        "equippable": true,
-        "sprite": "/assets/sprites/armor/random_helm.png"
-      },
-      {
-        "id": "131",
-        "name": "Goblin Mace",
-        "type": "weapon",
-        "statModifiers": {
-          "strength": 6,
-          "speed": 0,
-          "defense": 0
-        },
-        "dropChance": 20,
-        "equippable": true,
-        "sprite": "/assets/sprites/weapons/random_weapon.png"
-      },
-      {
-        "id": "132",
-        "name": "Silver Flagon",
-        "type": "junk",
-        "statModifiers": {
-          "strength": 0,
-          "speed": 0,
-          "defense": 0
-        },
-        "dropChance": 31,
-        "equippable": false,
-        "sprite": "/assets/sprites/loot/random_junk.png"
-      },
-      {
-        "id": "133",
-        "name": "Ensorcelled Candle",
-        "type": "junk",
-        "statModifiers": {
-          "strength": 0,
-          "speed": 0,
-          "defense": 0
-        },
-        "dropChance": 11,
-        "equippable": false,
-        "sprite": "/assets/sprites/loot/random_junk.png"
-      },
-      {
-        "id": "134",
-        "name": "Elixir of the Wolf",
-        "type": "potion",
-        "healAmount": 40,
-        "dropChance": 24,
-        "equippable": false,
-        "sprite": "/assets/sprites/potions/random_potion.png"
-      },
-      {
-        "id": "135",
-        "name": "Spiked Wristbands",
-        "type": "trinket",
-        "statModifiers": {
-          "strength": 2,
-          "speed": 0,
-          "defense": 1
-        },
-        "dropChance": 16,
-        "equippable": true,
-        "sprite": "/assets/sprites/trinkets/random_trinket.png"
-      },
-      {
-        "id": "136",
-        "name": "Stonegreave Armor",
-        "type": "armor",
-        "statModifiers": {
-          "strength": 1,
-          "speed": 0,
-          "defense": 7
-        },
-        "dropChance": 14,
-        "equippable": true,
-        "sprite": "/assets/sprites/armor/random_armor.png"
-      },
-      {
-        "id": "137",
-        "name": "Barbed Chain",
-        "type": "trinket",
-        "statModifiers": {
-          "strength": 1,
-          "speed": 0,
-          "defense": 2
-        },
-        "dropChance": 28,
-        "equippable": true,
-        "sprite": "/assets/sprites/trinkets/random_trinket.png"
-      },
-      {
-        "id": "138",
-        "name": "Steel Javelin",
-        "type": "weapon",
-        "statModifiers": {
-          "strength": 7,
-          "speed": 1,
-          "defense": 0
-        },
-        "dropChance": 15,
-        "equippable": true,
-        "sprite": "/assets/sprites/weapons/random_weapon.png"
-      },
-      {
-        "id": "139",
-        "name": "Mended Leather Hood",
-        "type": "helm",
-        "statModifiers": {
-          "strength": 0,
-          "speed": 1,
-          "defense": 3
-        },
-        "dropChance": 25,
-        "equippable": true,
-        "sprite": "/assets/sprites/armor/random_helm.png"
-      },
-      {
-        "id": "140",
-        "name": "Bandit Footwraps",
-        "type": "boots",
-        "statModifiers": {
-          "strength": 1,
-          "speed": 2,
-          "defense": 0
-        },
-        "dropChance": 17,
-        "equippable": true,
-        "sprite": "/assets/sprites/armor/random_boots.png"
-      },
-      {
-        "id": "141",
-        "name": "Bottled Light",
-        "type": "junk",
-        "statModifiers": {
-          "strength": 0,
-          "speed": 0,
-          "defense": 0
-        },
-        "dropChance": 42,
-        "equippable": false,
-        "sprite": "/assets/sprites/loot/random_junk.png"
-      },
-      {
-        "id": "142",
-        "name": "Purifying Tonic",
-        "type": "potion",
-        "healAmount": 50,
-        "dropChance": 16,
-        "equippable": false,
-        "sprite": "/assets/sprites/potions/random_potion.png"
-      },
-      {
-        "id": "143",
-        "name": "Sunforged Blade",
-        "type": "weapon",
-        "statModifiers": {
-          "strength": 8,
-          "speed": 1,
-          "defense": 0
-        },
-        "dropChance": 5,
-        "equippable": true,
-        "sprite": "/assets/sprites/weapons/random_weapon.png"
-      },
-      {
-        "id": "144",
-        "name": "Doom Candle",
-        "type": "junk",
-        "statModifiers": {
-          "strength": 0,
-          "speed": 0,
-          "defense": 0
-        },
-        "dropChance": 39,
-        "equippable": false,
-        "sprite": "/assets/sprites/loot/random_junk.png"
-      },
-      {
-        "id": "145",
-        "name": "Oracle's Eye",
-        "type": "trinket",
-        "statModifiers": {
-          "strength": 0,
-          "speed": 1,
-          "defense": 3
-        },
-        "dropChance": 10,
-        "equippable": true,
-        "sprite": "/assets/sprites/trinkets/random_trinket.png"
-      },
-      {
-        "id": "146",
-        "name": "Enlightened Robes",
-        "type": "armor",
-        "statModifiers": {
-          "strength": 0,
-          "speed": 0,
-          "defense": 6
-        },
-        "dropChance": 12,
-        "equippable": true,
-        "sprite": "/assets/sprites/armor/random_armor.png"
-      },
-      {
-        "id": "147",
-        "name": "Bloodstained Hammer",
-        "type": "weapon",
-        "statModifiers": {
-          "strength": 9,
-          "speed": -1,
-          "defense": 0
-        },
-        "dropChance": 8,
-        "equippable": true,
-        "sprite": "/assets/sprites/weapons/random_weapon.png"
-      },
-      {
-        "id": "148",
-        "name": "Midnight Cowl",
-        "type": "helm",
-        "statModifiers": {
-          "strength": 1,
-          "speed": 2,
-          "defense": 2
-        },
-        "dropChance": 20,
-        "equippable": true,
-        "sprite": "/assets/sprites/armor/random_helm.png"
-      },
-      {
-        "id": "149",
-        "name": "Ivory Sandals",
-        "type": "boots",
-        "statModifiers": {
-          "strength": 0,
-          "speed": 4,
-          "defense": 1
-        },
-        "dropChance": 14,
-        "equippable": true,
-        "sprite": "/assets/sprites/armor/random_boots.png"
-      },
-      {
-        "id": "150",
-        "name": "Broken Hourglass",
-        "type": "junk",
-        "statModifiers": {
-          "strength": 0,
-          "speed": 0,
-          "defense": 0
-        },
-        "dropChance": 33,
-        "equippable": false,
-        "sprite": "/assets/sprites/loot/random_junk.png"
-      },
-      {
-        "id": "151",
-        "name": "Brawler's Potion",
-        "type": "potion",
-        "healAmount": 35,
-        "dropChance": 25,
-        "equippable": false,
-        "sprite": "/assets/sprites/potions/random_potion.png"
-      },
-      {
-        "id": "152",
-        "name": "Jade Spear",
-        "type": "weapon",
-        "statModifiers": {
-          "strength": 8,
-          "speed": 2,
-          "defense": 0
-        },
-        "dropChance": 9,
-        "equippable": true,
-        "sprite": "/assets/sprites/weapons/random_weapon.png"
-      },
-      {
-        "id": "153",
-        "name": "Spore-Infused Hood",
-        "type": "helm",
-        "statModifiers": {
-          "strength": 0,
-          "speed": 0,
-          "defense": 4
-        },
-        "dropChance": 21,
-        "equippable": true,
-        "sprite": "/assets/sprites/armor/random_helm.png"
-      },
-      {
-        "id": "154",
-        "name": "Tinker's Footgear",
-        "type": "boots",
-        "statModifiers": {
-          "strength": 0,
-          "speed": 3,
-          "defense": 0
-        },
-        "dropChance": 28,
-        "equippable": true,
-        "sprite": "/assets/sprites/armor/random_boots.png"
-      },
-      {
-        "id": "155",
-        "name": "Torn Spell Scroll",
-        "type": "junk",
-        "statModifiers": {
-          "strength": 0,
-          "speed": 0,
-          "defense": 0
-        },
-        "dropChance": 40,
-        "equippable": false,
-        "sprite": "/assets/sprites/loot/random_junk.png"
-      },
-      {
-        "id": "156",
-        "name": "Champion's Belt",
-        "type": "trinket",
-        "statModifiers": {
-          "strength": 2,
-          "speed": 1,
-          "defense": 3
-        },
-        "dropChance": 11,
-        "equippable": true,
-        "sprite": "/assets/sprites/trinkets/random_trinket.png"
-      },
-      {
-        "id": "157",
-        "name": "Huntsman's Garb",
-        "type": "armor",
-        "statModifiers": {
-          "strength": 0,
-          "speed": 3,
-          "defense": 4
-        },
-        "dropChance": 23,
-        "equippable": true,
-        "sprite": "/assets/sprites/armor/random_armor.png"
-      },
-      {
-        "id": "158",
-        "name": "Dragonbone Bow",
-        "type": "weapon",
-        "statModifiers": {
-          "strength": 7,
-          "speed": 3,
-          "defense": 0
-        },
-        "dropChance": 6,
-        "equippable": true,
-        "sprite": "/assets/sprites/weapons/random_weapon.png"
-      },
-      {
-        "id": "159",
-        "name": "Golden Scale Helm",
-        "type": "helm",
-        "statModifiers": {
-          "strength": 3,
-          "speed": -1,
-          "defense": 4
-        },
-        "dropChance": 2,
-        "equippable": true,
-        "sprite": "/assets/sprites/armor/random_helm.png"
-      },
-      {
-        "id": "160",
-        "name": "Martial Greaves",
-        "type": "boots",
-        "statModifiers": {
-          "strength": 1,
-          "speed": 2,
-          "defense": 1
-        },
-        "dropChance": 14,
-        "equippable": true,
-        "sprite": "/assets/sprites/armor/random_boots.png"
-      },
-      {
-        "id": "161",
-        "name": "Rusted Compass",
-        "type": "junk",
-        "statModifiers": {
-          "strength": 0,
-          "speed": 0,
-          "defense": 0
-        },
-        "dropChance": 36,
-        "equippable": false,
-        "sprite": "/assets/sprites/loot/random_junk.png"
-      },
-      {
-        "id": "162",
-        "name": "Elixir of Haste",
-        "type": "potion",
-        "healAmount": 45,
-        "dropChance": 20,
-        "equippable": false,
-        "sprite": "/assets/sprites/potions/random_potion.png"
-      },
-      {
-        "id": "163",
-        "name": "Magma Mace",
-        "type": "weapon",
-        "statModifiers": {
-          "strength": 8,
-          "speed": -1,
-          "defense": 0
-        },
-        "dropChance": 10,
-        "equippable": true,
-        "sprite": "/assets/sprites/weapons/random_weapon.png"
-      },
-      {
-        "id": "164",
-        "name": "Dark Leather Helm",
-        "type": "helm",
-        "statModifiers": {
-          "strength": 1,
-          "speed": 1,
-          "defense": 3
-        },
-        "dropChance": 19,
-        "equippable": true,
-        "sprite": "/assets/sprites/armor/random_helm.png"
-      },
-      {
-        "id": "165",
-        "name": "Grit Boots",
-        "type": "boots",
-        "statModifiers": {
-          "strength": 0,
-          "speed": 1,
-          "defense": 2
-        },
-        "dropChance": 22,
-        "equippable": true,
-        "sprite": "/assets/sprites/armor/random_boots.png"
-      },
-      {
-        "id": "166",
-        "name": "Driftwood Idol",
-        "type": "junk",
-        "statModifiers": {
-          "strength": 0,
-          "speed": 0,
-          "defense": 0
-        },
-        "dropChance": 27,
-        "equippable": false,
-        "sprite": "/assets/sprites/loot/random_junk.png"
-      },
-      {
-        "id": "167",
-        "name": "Potion of Renewal",
-        "type": "potion",
-        "healAmount": 70,
-        "dropChance": 5,
-        "equippable": false,
-        "sprite": "/assets/sprites/potions/random_potion.png"
-      },
-      {
-        "id": "168",
-        "name": "Snakeskin Harness",
-        "type": "armor",
-        "statModifiers": {
-          "strength": 0,
-          "speed": 2,
-          "defense": 5
-        },
-        "dropChance": 24,
-        "equippable": true,
-        "sprite": "/assets/sprites/armor/random_armor.png"
-      },
-      {
-        "id": "169",
-        "name": "Ivory Dirk",
-        "type": "weapon",
-        "statModifiers": {
-          "strength": 4,
-          "speed": 4,
-          "defense": 0
-        },
-        "dropChance": 17,
-        "equippable": true,
-        "sprite": "/assets/sprites/weapons/random_weapon.png"
-      },
-      {
-        "id": "170",
-        "name": "Meteor Crown",
-        "type": "helm",
-        "statModifiers": {
-          "strength": 2,
-          "speed": 0,
-          "defense": 4
-        },
-        "dropChance": 3,
-        "equippable": true,
-        "sprite": "/assets/sprites/armor/random_helm.png"
-      },
-      {
-        "id": "171",
-        "name": "Velvet Slippers",
-        "type": "boots",
-        "statModifiers": {
-          "strength": 0,
-          "speed": 3,
-          "defense": 1
-        },
-        "dropChance": 16,
-        "equippable": true,
-        "sprite": "/assets/sprites/armor/random_boots.png"
-      },
-      {
-        "id": "172",
-        "name": "Crystal Shard",
-        "type": "junk",
-        "statModifiers": {
-          "strength": 0,
-          "speed": 0,
-          "defense": 0
-        },
-        "dropChance": 38,
-        "equippable": false,
-        "sprite": "/assets/sprites/loot/random_junk.png"
-      },
-      {
-        "id": "173",
-        "name": "Silver Draught",
-        "type": "potion",
-        "healAmount": 25,
-        "dropChance": 28,
-        "equippable": false,
-        "sprite": "/assets/sprites/potions/random_potion.png"
-      },
-      {
-        "id": "174",
-        "name": "Stormfire Bow",
-        "type": "weapon",
-        "statModifiers": {
-          "strength": 6,
-          "speed": 3,
-          "defense": 0
-        },
-        "dropChance": 14,
-        "equippable": true,
-        "sprite": "/assets/sprites/weapons/random_weapon.png"
-      },
-      {
-        "id": "175",
-        "name": "Wisp Lantern",
-        "type": "trinket",
-        "statModifiers": {
-          "strength": 0,
-          "speed": 2,
-          "defense": 1
-        },
-        "dropChance": 26,
-        "equippable": true,
-        "sprite": "/assets/sprites/trinkets/random_trinket.png"
-      },
-      {
-        "id": "176",
-        "name": "Moonsteel Breastplate",
-        "type": "armor",
-        "statModifiers": {
-          "strength": 2,
-          "speed": 0,
-          "defense": 7
-        },
-        "dropChance": 12,
-        "equippable": true,
-        "sprite": "/assets/sprites/armor/random_armor.png"
-      },
-      {
-        "id": "177",
-        "name": "Infernal Maul",
-        "type": "weapon",
-        "statModifiers": {
-          "strength": 10,
-          "speed": -2,
-          "defense": 0
-        },
-        "dropChance": 4,
-        "equippable": true,
-        "sprite": "/assets/sprites/weapons/random_weapon.png"
-      },
-      {
-        "id": "178",
-        "name": "Bandit's Mask",
-        "type": "helm",
-        "statModifiers": {
-          "strength": 1,
-          "speed": 2,
-          "defense": 2
-        },
-        "dropChance": 23,
-        "equippable": true,
-        "sprite": "/assets/sprites/armor/random_helm.png"
-      },
-      {
-        "id": "179",
-        "name": "Scout's Moccasins",
-        "type": "boots",
-        "statModifiers": {
-          "strength": 0,
-          "speed": 4,
-          "defense": 1
-        },
-        "dropChance": 19,
-        "equippable": true,
-        "sprite": "/assets/sprites/armor/random_boots.png"
-      },
-      {
-        "id": "180",
-        "name": "Bronze Key",
-        "type": "junk",
-        "statModifiers": {
-          "strength": 0,
-          "speed": 0,
-          "defense": 0
-        },
-        "dropChance": 33,
-        "equippable": false,
-        "sprite": "/assets/sprites/loot/random_junk.png"
-      },
-      {
-        "id": "181",
-        "name": "Gnomish Concoction",
-        "type": "potion",
-        "healAmount": 60,
-        "dropChance": 18,
-        "equippable": false,
-        "sprite": "/assets/sprites/potions/random_potion.png"
-      },
-      {
-        "id": "182",
-        "name": "Void Edge",
-        "type": "weapon",
-        "statModifiers": {
-          "strength": 8,
-          "speed": 2,
-          "defense": 0
-        },
-        "dropChance": 11,
-        "equippable": true,
-        "sprite": "/assets/sprites/weapons/random_weapon.png"
-      },
-      {
-        "id": "183",
-        "name": "Ritual Antlers",
-        "type": "helm",
-        "statModifiers": {
-          "strength": 2,
-          "speed": 0,
-          "defense": 3
-        },
-        "dropChance": 25,
-        "equippable": true,
-        "sprite": "/assets/sprites/armor/random_helm.png"
-      },
-      {
-        "id": "184",
-        "name": "Emberfoot Boots",
-        "type": "boots",
-        "statModifiers": {
-          "strength": 0,
-          "speed": 3,
-          "defense": 1
-        },
-        "dropChance": 13,
-        "equippable": true,
-        "sprite": "/assets/sprites/armor/random_boots.png"
-      },
-      {
-        "id": "185",
-        "name": "Broken Feather",
-        "type": "junk",
-        "statModifiers": {
-          "strength": 0,
-          "speed": 0,
-          "defense": 0
-        },
-        "dropChance": 29,
-        "equippable": false,
-        "sprite": "/assets/sprites/loot/random_junk.png"
-      },
-      {
-        "id": "186",
-        "name": "Flask of Clarity",
-        "type": "potion",
-        "healAmount": 35,
-        "dropChance": 22,
-        "equippable": false,
-        "sprite": "/assets/sprites/potions/random_potion.png"
-      },
-      {
-        "id": "187",
-        "name": "Arcanist's Wand",
-        "type": "weapon",
-        "statModifiers": {
-          "strength": 4,
-          "speed": 2,
-          "defense": 0
-        },
-        "dropChance": 24,
-        "equippable": true,
-        "sprite": "/assets/sprites/weapons/random_weapon.png"
-      },
-      {
-        "id": "188",
-        "name": "Ranger's Cap",
-        "type": "helm",
-        "statModifiers": {
-          "strength": 0,
-          "speed": 2,
-          "defense": 2
-        },
-        "dropChance": 16,
-        "equippable": true,
-        "sprite": "/assets/sprites/armor/random_helm.png"
-      },
-      {
-        "id": "189",
-        "name": "Featherlight Sandals",
-        "type": "boots",
-        "statModifiers": {
-          "strength": 0,
-          "speed": 5,
-          "defense": 0
-        },
-        "dropChance": 9,
-        "equippable": true,
-        "sprite": "/assets/sprites/armor/random_boots.png"
-      },
-      {
-        "id": "190",
-        "name": "Clockwork Gear",
-        "type": "junk",
-        "statModifiers": {
-          "strength": 0,
-          "speed": 0,
-          "defense": 0
-        },
-        "dropChance": 37,
-        "equippable": false,
-        "sprite": "/assets/sprites/loot/random_junk.png"
-      },
-      {
-        "id": "191",
-        "name": "Potion of Night Vision",
-        "type": "potion",
-        "healAmount": 15,
-        "dropChance": 25,
-        "equippable": false,
-        "sprite": "/assets/sprites/potions/random_potion.png"
-      },
-      {
-        "id": "192",
-        "name": "Ornamental Flail",
-        "type": "weapon",
-        "statModifiers": {
-          "strength": 7,
-          "speed": -1,
-          "defense": 0
-        },
-        "dropChance": 14,
-        "equippable": true,
-        "sprite": "/assets/sprites/weapons/random_weapon.png"
-      },
-      {
-        "id": "193",
-        "name": "Scaled Helmet",
-        "type": "helm",
-        "statModifiers": {
-          "strength": 1,
-          "speed": 0,
-          "defense": 4
-        },
-        "dropChance": 21,
-        "equippable": true,
-        "sprite": "/assets/sprites/armor/random_helm.png"
-      },
-      {
-        "id": "194",
-        "name": "Longstrider Boots",
-        "type": "boots",
-        "statModifiers": {
-          "strength": 0,
-          "speed": 4,
-          "defense": 0
-        },
-        "dropChance": 12,
-        "equippable": true,
-        "sprite": "/assets/sprites/armor/random_boots.png"
-      },
-      {
-        "id": "195",
-        "name": "Blessed Chainmail",
-        "type": "armor",
-        "statModifiers": {
-          "strength": 1,
-          "speed": 0,
-          "defense": 6
-        },
-        "dropChance": 23,
-        "equippable": true,
-        "sprite": "/assets/sprites/armor/random_armor.png"
-      },
-      {
-        "id": "196",
-        "name": "Arcane Conduit",
-        "type": "trinket",
-        "statModifiers": {
-          "strength": 0,
-          "speed": 2,
-          "defense": 2
-        },
-        "dropChance": 26,
-        "equippable": true,
-        "sprite": "/assets/sprites/trinkets/random_trinket.png"
-      },
-      {
-        "id": "197",
-        "name": "Tarnished Idol",
-        "type": "junk",
-        "statModifiers": {
-          "strength": 0,
-          "speed": 0,
-          "defense": 0
-        },
-        "dropChance": 44,
-        "equippable": false,
-        "sprite": "/assets/sprites/loot/random_junk.png"
-      },
-      {
-        "id": "198",
-        "name": "Curative Brew",
-        "type": "potion",
-        "healAmount": 55,
-        "dropChance": 15,
-        "equippable": false,
-        "sprite": "/assets/sprites/potions/random_potion.png"
-      },
-      {
-        "id": "199",
-        "name": "Viper Blade",
-        "type": "weapon",
-        "statModifiers": {
-          "strength": 5,
-          "speed": 3,
-          "defense": 0
-        },
-        "dropChance": 18,
-        "equippable": true,
-        "sprite": "/assets/sprites/weapons/random_weapon.png"
-      },
-      {
-        "id": "200",
-        "name": "Warlord's Visor",
-        "type": "helm",
-        "statModifiers": {
-          "strength": 3,
-          "speed": 0,
-          "defense": 4
-        },
-        "dropChance": 8,
-        "equippable": true,
-        "sprite": "/assets/sprites/armor/random_helm.png"
-      },
-      {
-        "id": "201",
-        "name": "Branded Sabatons",
-        "type": "boots",
-        "statModifiers": {
-          "strength": 1,
-          "speed": 2,
-          "defense": 1
-        },
-        "dropChance": 21,
-        "equippable": true,
-        "sprite": "/assets/sprites/armor/random_boots.png"
-      },
-      {
-        "id": "202",
-        "name": "Tome of Secrets",
-        "type": "junk",
-        "statModifiers": {
-          "strength": 0,
-          "speed": 0,
-          "defense": 0
-        },
-        "dropChance": 34,
-        "equippable": false,
-        "sprite": "/assets/sprites/loot/random_junk.png"
-      },
-      {
-        "id": "203",
-        "name": "Might Potion",
-        "type": "potion",
-        "healAmount": 30,
-        "dropChance": 27,
-        "equippable": false,
-        "sprite": "/assets/sprites/potions/random_potion.png"
-      },
-      {
-        "id": "204",
-        "name": "Crescent Bow",
-        "type": "weapon",
-        "statModifiers": {
-          "strength": 6,
-          "speed": 3,
-          "defense": 0
-        },
-        "dropChance": 14,
-        "equippable": true,
-        "sprite": "/assets/sprites/weapons/random_weapon.png"
-      },
-      {
-        "id": "205",
-        "name": "Tainted Idol",
-        "type": "trinket",
-        "statModifiers": {
-          "strength": 1,
-          "speed": 0,
-          "defense": 3
-        },
-        "dropChance": 10,
-        "equippable": true,
-        "sprite": "/assets/sprites/trinkets/random_trinket.png"
-      },
-      {
-        "id": "206",
-        "name": "Darkweave Cloak",
-        "type": "armor",
-        "statModifiers": {
-          "strength": 0,
-          "speed": 1,
-          "defense": 5
-        },
-        "dropChance": 22,
-        "equippable": true,
-        "sprite": "/assets/sprites/armor/random_armor.png"
-      },
-      {
-        "id": "207",
-        "name": "Phoenix Talon",
-        "type": "weapon",
-        "statModifiers": {
-          "strength": 8,
-          "speed": 2,
-          "defense": 0
-        },
-        "dropChance": 5,
-        "equippable": true,
-        "sprite": "/assets/sprites/weapons/random_weapon.png"
-      },
-      {
-        "id": "208",
-        "name": "Ornate Greathelm",
-        "type": "helm",
-        "statModifiers": {
-          "strength": 2,
-          "speed": -1,
-          "defense": 5
-        },
-        "dropChance": 12,
-        "equippable": true,
-        "sprite": "/assets/sprites/armor/random_helm.png"
-      },
-      {
-        "id": "209",
-        "name": "Lightstrider Boots",
-        "type": "boots",
-        "statModifiers": {
-          "strength": 0,
-          "speed": 5,
-          "defense": 0
-        },
-        "dropChance": 9,
-        "equippable": true,
-        "sprite": "/assets/sprites/armor/random_boots.png"
-      },
-      {
-        "id": "210",
-        "name": "Goblin Bone",
-        "type": "junk",
-        "statModifiers": {
-          "strength": 0,
-          "speed": 0,
-          "defense": 0
-        },
-        "dropChance": 31,
-        "equippable": false,
-        "sprite": "/assets/sprites/loot/random_junk.png"
-      },
-      {
-        "id": "211",
-        "name": "Tonic of Fury",
-        "type": "potion",
-        "healAmount": 35,
-        "dropChance": 23,
-        "equippable": false,
-        "sprite": "/assets/sprites/potions/random_potion.png"
-      },
-      {
-        "id": "212",
-        "name": "Twilight Scythe",
-        "type": "weapon",
-        "statModifiers": {
-          "strength": 10,
-          "speed": -1,
-          "defense": 0
-        },
-        "dropChance": 6,
-        "equippable": true,
-        "sprite": "/assets/sprites/weapons/random_weapon.png"
-      },
-      {
-        "id": "213",
-        "name": "Jester's Cap",
-        "type": "helm",
-        "statModifiers": {
-          "strength": 0,
-          "speed": 2,
-          "defense": 1
-        },
-        "dropChance": 18,
-        "equippable": true,
-        "sprite": "/assets/sprites/armor/random_helm.png"
-      },
-      {
-        "id": "214",
-        "name": "Treads of the Wind",
-        "type": "boots",
-        "statModifiers": {
-          "strength": 0,
-          "speed": 5,
-          "defense": 1
-        },
-        "dropChance": 15,
-        "equippable": true,
-        "sprite": "/assets/sprites/armor/random_boots.png"
-      },
-      {
-        "id": "215",
-        "name": "Dragon Egg Shell",
-        "type": "junk",
-        "statModifiers": {
-          "strength": 0,
-          "speed": 0,
-          "defense": 0
-        },
-        "dropChance": 40,
-        "equippable": false,
-        "sprite": "/assets/sprites/loot/random_junk.png"
-      },
-      {
-        "id": "216",
-        "name": "Amber Elixir",
-        "type": "potion",
-        "healAmount": 50,
-        "dropChance": 19,
-        "equippable": false,
-        "sprite": "/assets/sprites/potions/random_potion.png"
-      },
-      {
-        "id": "217",
-        "name": "Sigil of Might",
-        "type": "trinket",
-        "statModifiers": {
-          "strength": 2,
-          "speed": 0,
-          "defense": 2
-        },
-        "dropChance": 28,
-        "equippable": true,
-        "sprite": "/assets/sprites/trinkets/random_trinket.png"
-      },
-      {
-        "id": "218",
-        "name": "Bearskin Jerkin",
-        "type": "armor",
-        "statModifiers": {
-          "strength": 1,
-          "speed": 0,
-          "defense": 6
-        },
-        "dropChance": 11,
-        "equippable": true,
-        "sprite": "/assets/sprites/armor/random_armor.png"
-      },
-      {
-        "id": "219",
-        "name": "Blighted Flamberge",
-        "type": "weapon",
-        "statModifiers": {
-          "strength": 9,
-          "speed": -1,
-          "defense": 0
-        },
-        "dropChance": 4,
-        "equippable": true,
-        "sprite": "/assets/sprites/weapons/random_weapon.png"
-      },
-      {
-        "id": "220",
-        "name": "Crown of Feathers",
-        "type": "helm",
-        "statModifiers": {
-          "strength": 0,
-          "speed": 3,
-          "defense": 2
-        },
-        "dropChance": 7,
-        "equippable": true,
-        "sprite": "/assets/sprites/armor/random_helm.png"
       }
     ]
   }
