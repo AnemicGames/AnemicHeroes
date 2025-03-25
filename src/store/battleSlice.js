@@ -20,9 +20,8 @@ export const createBattleSlice = (set, get) => ({
   skipTurn: false,
 
   setSkipTurn: (skip) =>
-    set((state) => ({
+    set(() => ({
       player: {
-        ...state.player,
         skipTurn: skip,
       },
     })),

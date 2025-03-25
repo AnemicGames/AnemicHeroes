@@ -1,7 +1,7 @@
 import React from "react";
 import { useGameStore } from "../store/useGameStore";
 import { useEffect, useState } from "react";
-import { ActionBar } from "../../components/Actionbar";
+import { ActionBar } from "/src/components/ActionBar.jsx";
 
 export default function BattleView() {
   const [action, setAction] = useState("FIGHT");
