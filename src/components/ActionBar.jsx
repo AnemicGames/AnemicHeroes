@@ -19,8 +19,19 @@ export function ActionBar({ action, callback }) {
       }));
       removeItem(item.id, 1);
       setSkipTurn(true);
+      setTimeout(() => {
+        const damageAmount = Math.floor(Math.random() * (25 - 5 + 1)) + 5;
+        useGameStore.getState().takeDamage(damageAmount);
+        if (useGameStore.getState().player.currentHp - damageAmount <= 0) {
+          useGameStore.getState().endBattle();
+        } else {
+          useGameStore.getState().setTurnCount(); 
+        }
+        useGameStore.getState().setSkipTurn(false);
+      }, 1000);
     }
   };
+  
 
   switch (action) {
     case "INITIAL":
