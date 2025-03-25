@@ -236,11 +236,11 @@ export default function Shop() {
     if (!items) return <p>Loading items...</p>;
 
     const buyList = items.filter(
-        (it) =>
-            !limitedOffers.some((offer) => offer && offer.id === it.id) &&
-            !purchasedLimitedOfferIds.includes(it.id)
+      (it) =>
+        !limitedOffers.some((offer) => offer && offer.id === it.id) &&
+        !purchasedLimitedOfferIds.includes(it.id) &&
+        (!(cooldowns[it.id] && cooldowns[it.id] > Date.now()))
     );
-
     const inventoryArray = Object.entries(inventory.items)
         .map(([id, count]) => {
             const itemInfo = items.find((i) => i.id === id);
