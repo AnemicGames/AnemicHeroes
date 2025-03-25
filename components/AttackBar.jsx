@@ -15,13 +15,13 @@ export const AttackBar = ({ callback }) => {
     startFighting,
     stopFighting,
     isFighting,
+    enemyAttack,
+    setSkipTurn,
   } = useGameStore();
 
   const handleAttack = () => {
-    console.log(isFighting);
     if (nextToAttack === "PLAYER" && !gameOver) {
       startFighting();
-      console.log(isFighting);
       const damage = Math.floor(Math.random() * (25 - 5 + 1)) + 5;
       damageEnemy(damage);
       setTurnCount();
@@ -42,7 +42,7 @@ export const AttackBar = ({ callback }) => {
   };
 
   return (
-    <div className="flex flex-col gap-4 border-2 border-red-500 bg-blue-500 p-4">
+    <div className="p-4 bg-gray-900 text-white">
       <p className="text-white">Turn: {turnCount}</p>
       {!gameOver ? (
         nextToAttack === "PLAYER" && (
@@ -50,7 +50,7 @@ export const AttackBar = ({ callback }) => {
             <button
               onClick={handleAttack}
               disabled={gameOver}
-              className="border flex items-center justify-center gap-3 text-white"
+              className="border flex items-center justify-center gap-3 text-white p-2 mt-4"
             >
               Attack{" "}
               <img
@@ -58,7 +58,17 @@ export const AttackBar = ({ callback }) => {
                 alt=""
               ></img>
             </button>
-            <button onClick={() => callback("FIGHT")}></button>
+            <button
+              className="absolute bottom-0 left-0 m-4 p-2 hover:bg-red-800 rounded"
+              title="Exit"
+              onClick={() => callback("FIGHT")}
+            >
+              <img
+                src="/assets/sprites/exit-nav-icon.png"
+                alt="Exit"
+                className="w-10 h-11"
+              />
+            </button>
           </>
         )
       ) : (

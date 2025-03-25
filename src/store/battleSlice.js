@@ -16,16 +16,25 @@ export const createBattleSlice = (set, get) => ({
   gameOver: false,
   turnCount: 0,
   nextToAttack: null,
-  isFighting: "notgihting",
+  isFighting: true,
+  skipTurn: false,
+
+  setSkipTurn: (skip) =>
+    set((state) => ({
+      player: {
+        ...state.player,
+        skipTurn: skip,
+      },
+    })),
 
   startFighting: () =>
     set({
-      isFighting: "fightstarted",
+      isFighting: true,
     }),
 
   stopFighting: () =>
     set({
-      isFighting: "fightstopped",
+      isFighting: false,
     }),
 
   resetBattle: () =>
@@ -35,6 +44,7 @@ export const createBattleSlice = (set, get) => ({
     }),
 
   setEnemy: (enemy) => set({ enemy, currentHP: enemy.baseHP }),
+  
 
   damageEnemy: (amount) =>
     set((state) => {
@@ -61,13 +71,12 @@ export const createBattleSlice = (set, get) => ({
     }),
 
   rollInitiative: () => {
-    // const playerSpeed = 5;
-    // const enemySpeed = 5;
-    // const playerInitiative = Math.floor(Math.random() * 20) + 1 + playerSpeed;
-    // const enemyInitiative = Math.floor(Math.random() * 20) + 1 + enemySpeed;
-    // const firstAttacker =
-    //   playerInitiative >= enemyInitiative ? "PLAYER" : "ENEMY";
-    // set({ nextToAttack: firstAttacker });
+    const playerSpeed = 5;
+    const enemySpeed = 5;
+    const playerInitiative = Math.floor(Math.random() * 20) + 1 + playerSpeed;
+    const enemyInitiative = Math.floor(Math.random() * 20) + 1 + enemySpeed;
+    const firstAttacker =
+      playerInitiative >= enemyInitiative ? "PLAYER" : "ENEMY";
     set({ nextToAttack: "PLAYER" });
   },
 });
