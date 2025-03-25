@@ -141,6 +141,13 @@ export default function Shop() {
       setFinalBuyList(final);
     }
   }, [items]);
+  //helth potion countdown
+  useEffect(() => {
+    if (cooldowns["POT_HEALTH"] && cooldowns["POT_HEALTH"] <= Date.now()) {
+      setHealthPotionBought(0);
+    }
+  }, [cooldowns["POT_HEALTH"]]);
+  
   function getRandomItems(arr, count) {
     const shuffled = [...arr].sort(() => 0.5 - Math.random());
     return shuffled.slice(0, count);
