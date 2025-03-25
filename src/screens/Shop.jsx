@@ -50,6 +50,7 @@ export default function Shop() {
   const [floatingBuy, setFloatingBuy] = useState(null);
   const [countdown, setCountdown] = useState(60);
   const [finalBuyList, setFinalBuyList] = useState([]);
+  const [healthPotionBought, setHealthPotionBought] = useState(0);
 
   useEffect(() => {
     fetch("/assets/items.json")
@@ -129,6 +130,7 @@ export default function Shop() {
     }, 1000);
     return () => clearInterval(interval);
   }, [items]);
+
   useEffect(() => {
     if (items && items.length > 0) {
       const staticItem = items.find(item => item.id === "POT_HEALTH");
@@ -167,39 +169,50 @@ export default function Shop() {
 
   const handleBuy = (item) => {
     const price = getBuyPrice(item);
-    if (inventory.gold >= price) {
+    if (inventory.gold < price) {
+      console.warn("Not enough gold to buy this item!");
+      return;
+    }
+    if (item.id === "POT_HEALTH") {
+      if (healthPotionBought < 5) {
+
+        removeGold(price);
+        addItem(item.id, 1);
+        setHealthPotionBought(prev => prev + 1);
+        if (healthPotionBought + 1 === 5) {
+          setCooldowns(prev => ({ ...prev, [item.id]: Date.now() + 120 * 1000 }));
+        }
+      } else {
+
+        setBuyMessage("Health Potion on cooldown!");
+        setTimeout(() => setBuyMessage(""), 2000);
+        return;
+      }
+    } else if (limitedOffers.some((offer) => offer && offer.id === item.id)) {
+      setLimitedOffers((prevOffers) =>
+        prevOffers.map((offer) => (offer && offer.id === item.id ? null : offer))
+      );
+      setPurchasedLimitedOfferIds((prev) => [...prev, item.id]);
+      localStorage.setItem(
+        "limitedOffers",
+        JSON.stringify(
+          limitedOffers.map((offer) => (offer && offer.id === item.id ? null : offer))
+        )
+      );
       removeGold(price);
       addItem(item.id, 1);
-      if (limitedOffers.some((offer) => offer && offer.id === item.id)) {
-        setLimitedOffers((prevOffers) =>
-          prevOffers.map((offer) =>
-            offer && offer.id === item.id ? null : offer
-          )
-        );
-        setPurchasedLimitedOfferIds((prev) => [...prev, item.id]);
-        localStorage.setItem(
-          "limitedOffers",
-          JSON.stringify(
-            limitedOffers.map((offer) =>
-              offer && offer.id === item.id ? null : offer
-            )
-          )
-        );
-      } else {
-        setCooldowns((prev) => ({
-          ...prev,
-          [item.id]: Date.now() + 120 * 1000,
-        }));
-      }
-      setBuyMessage(`Bought ${item.name}`);
-      setFloatingBuy(`${item.name} -${price} gold`);
-      setTimeout(() => {
-        setFloatingBuy(null);
-        setBuyMessage("");
-      }, 2000);
     } else {
-      console.warn("Not enough gold to buy this item!");
+      removeGold(price);
+      addItem(item.id, 1);
+      setCooldowns(prev => ({ ...prev, [item.id]: Date.now() + 120 * 1000 }));
     }
+    
+    setBuyMessage(`Bought ${item.name}`);
+    setFloatingBuy(`${item.name} -${price} gold`);
+    setTimeout(() => {
+      setFloatingBuy(null);
+      setBuyMessage("");
+    }, 2000);
   };
 
   const handleSell = (item) => {
@@ -226,9 +239,15 @@ export default function Shop() {
 
   if (!items) return <p>Loading items...</p>;
 
-  const visibleBuyList = finalBuyList.filter(
-    (item) => !(cooldowns[item.id] && cooldowns[item.id] > Date.now())
-  );
+  const visibleBuyList = finalBuyList.filter((item) => {
+    if (item.id === "POT_HEALTH") {
+      const count = inventory.items[item.id] || 0;
+      if (count < 5) return true;
+      return !(cooldowns[item.id] && cooldowns[item.id] > Date.now());
+    }
+
+    return !(cooldowns[item.id] && cooldowns[item.id] > Date.now());
+  });
     
   const inventoryArray = Object.entries(inventory.items)
     .map(([id, count]) => {
