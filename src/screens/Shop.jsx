@@ -478,9 +478,9 @@ export default function Shop() {
           </div>
           {/* Høyre kolonne: Varedetaljer */}
           <div className="bg-gray-800/80 p-2 rounded flex flex-col items-center w-[20%]">
-            <h3 className="text-lg font-semibold mb-2">Varedetaljer</h3>
+            <h3 className="text-lg font-semibold mb-2">Item Details</h3>
             {!selectedItem ? (
-              <p className="text-center text-xs">Ingen vare valgt</p>
+              <p className="text-center text-xs">No item chosen</p>
             ) : (
               <div className="space-y-2 text-center w-full">
                 <p className="font-semibold text-sm">{selectedItem.name}</p>
@@ -493,9 +493,9 @@ export default function Shop() {
                 )}
                 {selectedItem.statModifiers && (
                   <ul className="text-xs">
-                    <li>Styrke: {selectedItem.statModifiers.strength || 0}</li>
-                    <li>Hastighet: {selectedItem.statModifiers.speed || 0}</li>
-                    <li>Forsvar: {selectedItem.statModifiers.defense || 0}</li>
+                    <li>Strength: {selectedItem.statModifiers.strength || 0}</li>
+                    <li>Speed: {selectedItem.statModifiers.speed || 0}</li>
+                    <li>Defense: {selectedItem.statModifiers.defense || 0}</li>
                   </ul>
                 )}
                 {selectedItem.healAmount && (
