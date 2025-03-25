@@ -141,13 +141,22 @@ export default function Shop() {
       setFinalBuyList(final);
     }
   }, [items]);
+  const [tick, setTick] = useState(0);
+useEffect(() => {
+  const interval = setInterval(() => setTick((prev) => prev + 1), 1000);
+  return () => clearInterval(interval);
+}, []);
   //helth potion countdown
   useEffect(() => {
     if (cooldowns["POT_HEALTH"] && cooldowns["POT_HEALTH"] <= Date.now()) {
       setHealthPotionBought(0);
+      setCooldowns((prev) => {
+        const { POT_HEALTH, ...rest } = prev;
+        return rest;
+      });
     }
-  }, [cooldowns["POT_HEALTH"]]);
-  
+  }, [tick,cooldowns["POT_HEALTH"]]);
+
   function getRandomItems(arr, count) {
     const shuffled = [...arr].sort(() => 0.5 - Math.random());
     return shuffled.slice(0, count);
