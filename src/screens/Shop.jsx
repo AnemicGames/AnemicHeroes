@@ -241,8 +241,7 @@ export default function Shop() {
 
   const visibleBuyList = finalBuyList.filter((item) => {
     if (item.id === "POT_HEALTH") {
-      const count = inventory.items[item.id] || 0;
-      if (count < 5) return true;
+      if (healthPotionBought < 5) return true;
       return !(cooldowns[item.id] && cooldowns[item.id] > Date.now());
     }
 
