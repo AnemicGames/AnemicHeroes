@@ -8,7 +8,9 @@ export function CombatInventory({ callback, handleDrink }) {
       .then((response) => response.json())
       .then((data) => {
         if (data.itemTable && Array.isArray(data.itemTable)) {
-          const potionItems = data.itemTable.filter((item) => item.type === "potion");
+          const potionItems = data.itemTable.filter(
+            (item) => item.type === "potion"
+          );
           setPotions(potionItems);
         } else {
           console.error("Invalid data format:", data);
@@ -35,7 +37,9 @@ export function CombatInventory({ callback, handleDrink }) {
                 className="w-7 h-5 object-contain"
               />
               <p>{potion.name}</p>
-              <button className="text-green-400">+{potion.healAmount} HP</button>
+              <button className="text-green-400">
+                +{potion.healAmount} HP
+              </button>
             </div>
           ))}
         </div>

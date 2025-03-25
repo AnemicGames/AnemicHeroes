@@ -5,6 +5,7 @@ import { CombatInventory } from "./CombatInventory";
 export function ActionBar({ action, callback }) {
   const removeItem = useGameStore((state) => state.removeItem);
   const setSkipTurn = useGameStore((state) => state.setSkipTurn);
+
   const handleDrink = (item, event) => {
     event.preventDefault();
     if (item.type === "potion" && item.healAmount) {
@@ -52,14 +53,14 @@ export function ActionBar({ action, callback }) {
               onClick={() => callback("ATTACK")}
             >
               Attack{" "}
-              <img src="./public/assets/sprites/weapons/sword_wpn.png" alt="" />
+              <img src="./public/assets/sprites/weapons/sword_wpn.png" alt="attack" />
             </button>
             <button
               className="w-1/2 border-2 bg-neutral-100 text-xl flex items-center justify-center gap-3"
               onClick={() => callback("INVENTORY")}
             >
               Health Potion{" "}
-              <img src="./public/assets/sprites/potions/hp_pot.png" alt="" />
+              <img src="./public/assets/sprites/potions/hp_pot.png" alt="consumables" />
             </button>
           </div>
           <div className="flex gap-4 h-12">
