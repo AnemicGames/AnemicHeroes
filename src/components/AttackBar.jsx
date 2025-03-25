@@ -1,5 +1,5 @@
 import React from "react";
-import { useGameStore } from "../src/store/useGameStore";
+import { useGameStore } from "../store/useGameStore";
 
 export const AttackBar = ({ callback }) => {
   const {

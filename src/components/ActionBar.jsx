@@ -1,6 +1,6 @@
-import { useGameStore } from "../src/store/useGameStore";
+import { useGameStore } from "../store/useGameStore";
 import { AttackBar } from "./AttackBar";
-import { CombatInventory } from "../components/CombatInventory";
+import { CombatInventory } from "./CombatInventory";
 
 export function ActionBar({ action, callback }) {
   const removeItem = useGameStore((state) => state.removeItem);
