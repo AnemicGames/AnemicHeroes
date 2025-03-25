@@ -20,11 +20,11 @@ export function CombatInventory({ callback, handleDrink }) {
   }, []);
 
   return (
-    <div className="p-4 bg-gray-900 text-white">
+    <div className="text-white flex items-center flex-col h-20">
       <h2 className="text-lg font-bold mb-2">Your Health Potions</h2>
 
       {potions.length > 0 ? (
-        <div className="flex gap-4">
+        <div className="flex gap-4 mb-4 bg-black">
           {potions.map((potion) => (
             <div
               key={potion.id}
@@ -56,7 +56,7 @@ export function CombatInventory({ callback, handleDrink }) {
           <img
             src="/assets/sprites/exit-nav-icon.png"
             alt="Exit"
-            className="w-10 h-11"
+            className="w-14 h-14"
           />
         </button>
       </div>

@@ -42,15 +42,15 @@ export const AttackBar = ({ callback }) => {
   };
 
   return (
-    <div className="p-4 bg-gray-900 text-white">
-      <p className="text-white">Turn: {turnCount}</p>
+    <div className="text-black flex items-center flex-col h-12">
+      <p className="text-white text-xl">Turn: {turnCount}</p>
       {!gameOver ? (
         nextToAttack === "PLAYER" && (
           <>
             <button
               onClick={handleAttack}
               disabled={gameOver}
-              className="border flex items-center justify-center gap-3 text-white p-2 mt-4"
+              className="border flex items-center justify-center gap-3 text-white p-2 mt-4 bg-black"
             >
               Attack{" "}
               <img
@@ -66,13 +66,13 @@ export const AttackBar = ({ callback }) => {
               <img
                 src="/assets/sprites/exit-nav-icon.png"
                 alt="Exit"
-                className="w-10 h-11"
+                className="w-14 h-14"
               />
             </button>
           </>
         )
       ) : (
-        <p>{enemy.currentHP === 0 ? "You defeated the enemy!" : "Game Over"}</p>
+        <p className="text-white text-lg">{enemy.currentHP === 0 ? "You defeated the enemy!" : "Game Over"}</p>
       )}
     </div>
   );

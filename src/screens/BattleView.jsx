@@ -15,6 +15,8 @@ export default function BattleView() {
   const setCurrentView = useGameStore((state) => state.setCurrentView);
   const player = useGameStore((state) => state.player);
   const enemy = useGameStore((state) => state.enemy);
+  const currentWorld = useGameStore((state) => state.currentWorld);
+
   const playerHealthPercent = (player.currentHp / player.maxHp) * 100;
   const enemyHealthPercent = (enemy.currentHP / enemy.baseHP) * 100;
 
@@ -89,7 +91,7 @@ export default function BattleView() {
           Shop
         </button>
       </div>
-      <div className="w-7xl flex flex-col gap-4 relative h-[500px]">
+      <div className="w-7xl flex flex-col gap-4 relative h-[600px]">
         {/* Background image */}
         <div className="relative w-full h-full">
           <BackgroundImage/>
@@ -98,7 +100,7 @@ export default function BattleView() {
           <img
             src={"./public/assets/sprites/heroes/mage.png"}
             alt="Player Sprite"
-            className={`absolute bottom-20 left-1/5 transform w-[200px] transition-transform duration-300 
+            className={`absolute bottom-8 left-1/6 transform w-[300px] transition-transform duration-300 
     ${player.currentHp <= 0 ? "rotate-[-90deg] opacity-50 top-[300px]" : ""}`}
           />
 
@@ -106,7 +108,7 @@ export default function BattleView() {
           <img
             src={enemy.sprite}
             alt="Enemy"
-            className={`absolute bottom-20 right-1/5 w-[200px] transition-transform duration-500 
+            className={`absolute bottom-8 right-1/6 w-[300px] transition-transform duration-500 
     ${enemy.currentHP <= 0 ? "rotate-90 opacity-60 top-[300px]" : ""}`}
           />
 
@@ -141,7 +143,7 @@ export default function BattleView() {
         </div>
 
         {/* Action Bar */}
-        <div className="flex gap-4 flex-col">
+        <div className="flex gap-4 flex-col relative">
           <ActionBar
             action={action}
             callback={setAction}
