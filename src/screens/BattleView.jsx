@@ -1,7 +1,9 @@
 import React from "react";
 import { useGameStore } from "../store/useGameStore";
 import { useEffect, useState } from "react";
-import { ActionBar } from "/src/components/ActionBar.jsx";
+import { ActionBar } from "../components/ActionBar.jsx";
+import { BackgroundImage } from "../components/BattleBackground.jsx";
+// import { ActionBar } from "/src/components/ActionBar.jsx"; bruk denne når du pusher
 
 export default function BattleView() {
   const [action, setAction] = useState("FIGHT");
@@ -13,7 +15,6 @@ export default function BattleView() {
   const setCurrentView = useGameStore((state) => state.setCurrentView);
   const player = useGameStore((state) => state.player);
   const enemy = useGameStore((state) => state.enemy);
-
   const playerHealthPercent = (player.currentHp / player.maxHp) * 100;
   const enemyHealthPercent = (enemy.currentHP / enemy.baseHP) * 100;
 
@@ -91,11 +92,7 @@ export default function BattleView() {
       <div className="w-7xl flex flex-col gap-4 relative h-[500px]">
         {/* Background image */}
         <div className="relative w-full h-full">
-          <img
-            src="./public/assets/battle_bg/13.webp"
-            alt="Your Hero"
-            className="h-full brightness-200 w-7xl"
-          />
+          <BackgroundImage/>
 
           {/* Player sprite */}
           <img
