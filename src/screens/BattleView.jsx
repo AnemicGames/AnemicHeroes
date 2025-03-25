@@ -91,7 +91,7 @@ export default function BattleView() {
           Shop
         </button>
       </div>
-      <div className="w-7xl flex flex-col gap-4 relative h-[600px]">
+      <div className="w-7xl flex flex-col gap-4 absolute h-[600px]">
         {/* Background image */}
         <div className="relative w-full h-full">
           <BackgroundImage/>
@@ -100,7 +100,7 @@ export default function BattleView() {
           <img
             src={"./public/assets/sprites/heroes/mage.png"}
             alt="Player Sprite"
-            className={`absolute bottom-8 left-1/6 transform w-[300px] transition-transform duration-300 
+            className={`absolute bottom-12 left-1/6 transform w-[300px] transition-transform duration-300 
     ${player.currentHp <= 0 ? "rotate-[-90deg] opacity-50 top-[300px]" : ""}`}
           />
 
@@ -108,7 +108,7 @@ export default function BattleView() {
           <img
             src={enemy.sprite}
             alt="Enemy"
-            className={`absolute bottom-8 right-1/6 w-[300px] transition-transform duration-500 
+            className={`absolute bottom-12 right-1/6 w-[300px] transition-transform duration-500 
     ${enemy.currentHP <= 0 ? "rotate-90 opacity-60 top-[300px]" : ""}`}
           />
 

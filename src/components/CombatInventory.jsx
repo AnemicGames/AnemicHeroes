@@ -20,11 +20,11 @@ export function CombatInventory({ callback, handleDrink }) {
   }, []);
 
   return (
-    <div className="text-white flex items-center flex-col h-20">
-      <h2 className="text-lg font-bold mb-2">Your Health Potions</h2>
+    <div className="text-white flex items-center flex-col h-17">
+      <h2 className="text-white text-xl font-bold mb-2">Your Health Potions</h2>
 
       {potions.length > 0 ? (
-        <div className="flex gap-4 mb-4 bg-black">
+        <div className="flex gap-4 mb-4 bg-black relative">
           {potions.map((potion) => (
             <div
               key={potion.id}
