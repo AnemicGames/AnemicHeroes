@@ -65,7 +65,7 @@
         },
         "dropChance": 20,
         "equippable": true,
-        "sprite":"/assets/sprites/armor/leather_hlm.png"
+        "sprite":"/assets/sprites/armor/leather_hood.png"
       },
       {
         "id": "HLM_HELMET",
@@ -202,8 +202,6 @@
         "equippable": true,
         "sprite":"/assets/sprites/trinkets/warr_trk.png"
       },
-  
- 
       {
         "id": "POT_HEALTH",
         "name": "Health Potion",
@@ -212,6 +210,1293 @@
         "dropChance": 60,
         "equippable": false,
         "sprite":"/assets/sprites/potions/hp_pot.png"
+      },
+      {
+        "id": "GLD_HELM",
+        "name": "Golden Helmet",
+        "type": "helm",
+        "statModifiers": {
+          "strength": 10,
+          "speed": -2,
+          "defense": 2
+        },
+        "dropChance": 1,
+        "equippable": true,
+        "sprite":"/assets/sprites/armor/gld_hlm.png"
+      },
+      {
+        "id": "GLD_ARM",
+        "name": "Golden Armor",
+        "type": "armor",
+        "statModifiers": {
+          "strength": 10,
+          "speed": -5,
+          "defense": 5
+        },
+        "dropChance": 1,
+        "equippable": true,
+        "sprite":"/assets/sprites/armor/gld_arm.png"
+      },
+      {
+        "id": "SPD_BTS",
+        "name": "Swift Shoes",
+        "type": "boots",
+        "statModifiers": {
+          "strength": -2,
+          "speed": 10,
+          "defense": 2
+        },
+        "dropChance": 10,
+        "equippable": true,
+        "sprite":"/assets/sprites/armor/orng_bts.png"
+      },
+      {
+        "id": "20",
+        "name": "Fancy Hat",
+        "type": "helm",
+        "statModifiers": {
+          "strength": 0,
+          "speed": 2,
+          "defense": 3
+        },
+        "dropChance": 25,
+        "equippable": true,
+        "sprite":"/assets/sprites/armor/grn_tophat.png"
+      },
+      {
+        "id": "21",
+        "name": "The One Ring",
+        "type": "trinket",
+        "statModifiers": {
+          "strength": 0,
+          "speed": 5,
+          "defense": 15
+        },
+        "dropChance": 1,
+        "equippable": true,
+        "sprite":"/assets/sprites/trinkets/gld_ring.png"
+      },
+      {
+        "id": "22",
+        "name": "Sturdy Shield",
+        "type": "trinket",
+        "statModifiers": {
+          "strength": 0,
+          "speed": 0,
+          "defense": 25
+        },
+        "dropChance": 12,
+        "equippable": true,
+        "sprite":"/assets/sprites/trinkets/wood_shield.png"
+      },
+      {
+        "id": "23",
+        "name": "Lost Wedding Band",
+        "type": "trinket",
+        "statModifiers": {
+          "strength": 0,
+          "speed": 2,
+          "defense": 0
+        },
+        "dropChance": 15,
+        "equippable": true,
+        "sprite":"/assets/sprites/trinkets/gld_ring.png"
+      },
+      {
+        "id": "24",
+        "name": "Sturdy Crossbow",
+        "type": "weapon",
+        "statModifiers": {
+          "strength": 10,
+          "speed": 0,
+          "defense": 0
+        },
+        "dropChance": 10,
+        "equippable": true,
+        "sprite":"/assets/sprites/weapons/iron_crossbow.png"
+      },
+      {
+        "id": "25",
+        "name": "Shuriken",
+        "type": "weapon",
+        "statModifiers": {
+          "strength": 0,
+          "speed": 5,
+          "defense": 0
+        },
+        "dropChance": 17,
+        "equippable": true,
+        "sprite":"/assets/sprites/weapons/throwing_star.png"
+      },
+      {
+        "id": "26",
+        "name": "Iron Mallet",
+        "type": "weapon",
+        "statModifiers": {
+          "strength": 8,
+          "speed": 0,
+          "defense": 0
+        },
+        "dropChance": 19,
+        "equippable": true,
+        "sprite":"/assets/sprites/weapons/iron_mallet.png"
+      },
+      {
+        "id": "27",
+        "name": "Meat Cleaver",
+        "type": "weapon",
+        "statModifiers": {
+          "strength": 2,
+          "speed": 2,
+          "defense": 0
+        },
+        "dropChance": 50,
+        "equippable": true,
+        "sprite":"/assets/sprites/weapons/iron_cleaver.png"
+      },
+      {
+        "id": "28",
+        "name": "Gold Goblet",
+        "type": "junk",
+        "statModifiers": {
+          "strength": 0,
+          "speed": 0,
+          "defense": 0
+        },
+        "dropChance": 5,
+        "equippable": false,
+        "sprite":"/assets/sprites/junk/gold_goblet.png"
+      },
+      {
+        "id": "29",
+        "name": "Lost Letter",
+        "type": "junk",
+        "statModifiers": {
+          "strength": 0,
+          "speed": 0,
+          "defense": 0
+        },
+        "dropChance": 35,
+        "equippable": false,
+        "sprite":"/assets/sprites/junk/letter.png"
+      },
+      {
+        "id": "30",
+        "name": "Blazing Longsword",
+        "type": "weapon",
+        "statModifiers": {
+          "strength": 7,
+          "speed": 1,
+          "defense": 0
+        },
+        "dropChance": 25,
+        "equippable": true,
+        "sprite": "/assets/sprites/weapons/blz_longsword.png"
+      },
+      {
+        "id": "31",
+        "name": "Horned Skullcap",
+        "type": "helm",
+        "statModifiers": {
+          "strength": 2,
+          "speed": 0,
+          "defense": 4
+        },
+        "dropChance": 17,
+        "equippable": true,
+        "sprite": "/assets/sprites/armor/hrnd_hlm.png"
+      },
+      {
+        "id": "32",
+        "name": "Cracked Shield",
+        "type": "trinket",
+        "statModifiers": {
+          "strength": 0,
+          "speed": -1,
+          "defense": 10
+        },
+        "dropChance": 30,
+        "equippable": true,
+        "sprite": "/assets/sprites/trinkets/crckd_shld.png"
+      },
+      {
+        "id": "33",
+        "name": "Rawhide Boots",
+        "type": "boots",
+        "statModifiers": {
+          "strength": 0,
+          "speed": 2,
+          "defense": 1
+        },
+        "dropChance": 22,
+        "equippable": true,
+        "sprite": "/assets/sprites/armor/rawhide_bts.png"
+      },
+      {
+        "id": "34",
+        "name": "Looking Glass",
+        "type": "junk",
+        "statModifiers": {
+          "strength": 0,
+          "speed": 0,
+          "defense": 0
+        },
+        "dropChance": 8,
+        "equippable": false,
+        "sprite": "/assets/sprites/junk/looking_glass.png"
+      },
+      {
+        "id": "35",
+        "name": "Steel Halberd",
+        "type": "weapon",
+        "statModifiers": {
+          "strength": 6,
+          "speed": 0,
+          "defense": 0
+        },
+        "dropChance": 23,
+        "equippable": true,
+        "sprite": "/assets/sprites/weapons/steel_halberd.png"
+      },
+      {
+        "id": "36",
+        "name": "Ivory Necklace",
+        "type": "trinket",
+        "statModifiers": {
+          "strength": 1,
+          "speed": 2,
+          "defense": 1
+        },
+        "dropChance": 27,
+        "equippable": true,
+        "sprite": "/assets/sprites/trinkets/necklace.png"
+      },
+      {
+        "id": "37",
+        "name": "Steel flail",
+        "type": "weapon",
+        "statModifiers": {
+          "strength": 6,
+          "speed": 0,
+          "defense": 0
+        },
+        "dropChance": 23,
+        "equippable": true,
+        "sprite": "/assets/sprites/weapons/flail.png"
+      },
+      {
+        "id": "38",
+        "name": "Reinforced Leather Armor",
+        "type": "armor",
+        "statModifiers": {
+          "strength": 1,
+          "speed": 0,
+          "defense": 6
+        },
+        "dropChance": 20,
+        "equippable": true,
+        "sprite": "/assets/sprites/armor/leath_armor.png"
+      },
+      {
+        "id": "39",
+        "name": "Longbow",
+        "type": "helm",
+        "statModifiers": {
+          "strength": 2,
+          "speed": 3,
+          "defense": 0
+        },
+        "dropChance": 29,
+        "equippable": true,
+        "sprite": "/assets/sprites/weapons/longbow.png"
+      },
+      {
+        "id": "40",
+        "name": "Red Bandana",
+        "type": "helm",
+        "statModifiers": {
+          "strength": 0,
+          "speed": 3,
+          "defense": 2
+        },
+        "dropChance": 29,
+        "equippable": true,
+        "sprite": "/assets/sprites/armor/bandana.png"
+      },
+      {
+        "id": "41",
+        "name": "Ruby Ring",
+        "type": "trinket",
+        "statModifiers": {
+          "strength": 2,
+          "speed": 2,
+          "defense": 0
+        },
+        "dropChance": 19,
+        "equippable": true,
+        "sprite": "/assets/sprites/trinkets/ruby_trinket.png"
+      },
+      {
+        "id": "42",
+        "name": "Hourglass",
+        "type": "junk",
+        "statModifiers": {
+          "strength": 0,
+          "speed": 0,
+          "defense": 0
+        },
+        "dropChance": 35,
+        "equippable": false,
+        "sprite": "/assets/sprites/junk/hourglass.png"
+      },
+      {
+        "id": "43",
+        "name": "Tankard",
+        "type": "junk",
+        "statModifiers": {
+          "strength": 0,
+          "speed": 0,
+          "defense": 0
+        },
+        "dropChance": 45,
+        "equippable": false,
+        "sprite": "/assets/sprites/junk/tankard.png"
+      },
+      {
+        "id": "44",
+        "name": "Iron Basinet",
+        "type": "helm",
+        "statModifiers": {
+          "strength": 1,
+          "speed": 0,
+          "defense": 5
+        },
+        "dropChance": 15,
+        "equippable": true,
+        "sprite": "/assets/sprites/armor/iron_hlm.png"
+      },
+      {
+        "id": "45",
+        "name": "Lucky Horseshoe",
+        "type": "trinket",
+        "statModifiers": {
+          "strength": 0,
+          "speed": 1,
+          "defense": 0
+        },
+        "dropChance": 12,
+        "equippable": true,
+        "sprite": "/assets/sprites/trinkets/horseshoe.png"
+      },
+      {
+        "id": "46",
+        "name": "Shadow Leather Boots",
+        "type": "boots",
+        "statModifiers": {
+          "strength": 0,
+          "speed": 4,
+          "defense": 0
+        },
+        "dropChance": 25,
+        "equippable": true,
+        "sprite": "/assets/sprites/armor/shadow_bts.png"
+      },
+      {
+        "id": "47",
+        "name": "Frost Aegis",
+        "type": "trinket",
+        "statModifiers": {
+          "strength": 0,
+          "speed": 0,
+          "defense": 7
+        },
+        "dropChance": 10,
+        "equippable": true,
+        "sprite": "/assets/sprites/trinkets/frost_aegis.png"
+      },
+      {
+        "id": "48",
+        "name": "Cursed War Axe",
+        "type": "weapon",
+        "statModifiers": {
+          "strength": 9,
+          "speed": -1,
+          "defense": 0
+        },
+        "dropChance": 8,
+        "equippable": true,
+        "sprite": "/assets/sprites/weapons/war_axe.png"
+      },
+      {
+        "id": "49",
+        "name": "Highschool diploma",
+        "type": "junk",
+        "statModifiers": {
+          "strength": 0,
+          "speed": 0,
+          "defense": 0
+        },
+        "dropChance": 40,
+        "equippable": false,
+        "sprite": "/assets/sprites/junk/diploma.png"
+      },
+      {
+        "id": "50",
+        "name": "Scroll of Flames",
+        "type": "junk",
+        "statModifiers": {
+          "strength": 0,
+          "speed": 0,
+          "defense": 0
+        },
+        "dropChance": 13,
+        "equippable": false,
+        "sprite": "/assets/sprites/junk/red_scroll.png"
+      },
+      {
+        "id": "51",
+        "name": "Leather Cape",
+        "type": "helm",
+        "statModifiers": {
+          "strength": 0,
+          "speed": 0,
+          "defense": 3
+        },
+        "dropChance": 22,
+        "equippable": true,
+        "sprite": "/assets/sprites/trinkets/cape.png"
+      },
+      {
+        "id": "52",
+        "name": "Barbed Gloves",
+        "type": "trinket",
+        "statModifiers": {
+          "strength": 2,
+          "speed": 0,
+          "defense": 1
+        },
+        "dropChance": 15,
+        "equippable": true,
+        "sprite": "/assets/sprites/trinkets/steel_gloves.png"
+      },
+      {
+        "id": "53",
+        "name": "Moonlight Greaves",
+        "type": "boots",
+        "statModifiers": {
+          "strength": 0,
+          "speed": 3,
+          "defense": 1
+        },
+        "dropChance": 14,
+        "equippable": true,
+        "sprite": "/assets/sprites/armor/shadow_bts.png"
+      },
+      {
+        "id": "54",
+        "name": "Tower Shield",
+        "type": "trinket",
+        "statModifiers": {
+          "strength": 0,
+          "speed": -2,
+          "defense": 20
+        },
+        "dropChance": 9,
+        "equippable": true,
+        "sprite": "/assets/sprites/trinkets/tower_shield.png"
+      },
+      {
+        "id": "55",
+        "name": "Torn Pouch",
+        "type": "junk",
+        "statModifiers": {
+          "strength": 0,
+          "speed": 0,
+          "defense": 0
+        },
+        "dropChance": 36,
+        "equippable": false,
+        "sprite": "/assets/sprites/junk/pouch.png"
+      },
+      {
+        "id": "56",
+        "name": "Sapphire Ring",
+        "type": "trinket",
+        "statModifiers": {
+          "strength": 0,
+          "speed": 2,
+          "defense": 1
+        },
+        "dropChance": 18,
+        "equippable": true,
+        "sprite": "/assets/sprites/trinkets/sapphire_ring.png"
+      },
+      {
+        "id": "57",
+        "name": "Warden's Breastplate",
+        "type": "armor",
+        "statModifiers": {
+          "strength": 2,
+          "speed": 0,
+          "defense": 6
+        },
+        "dropChance": 11,
+        "equippable": true,
+        "sprite": "/assets/sprites/armor/blu_breastplate.png"
+      },
+      {
+        "id": "58",
+        "name": "Serpent Bow",
+        "type": "weapon",
+        "statModifiers": {
+          "strength": 5,
+          "speed": 3,
+          "defense": 0
+        },
+        "dropChance": 14,
+        "equippable": true,
+        "sprite": "/assets/sprites/weapons/gr_longbow.png"
+      },
+      {
+        "id": "59",
+        "name": "Sapphire Necklace",
+        "type": "trinket",
+        "statModifiers": {
+          "strength": 0,
+          "speed": 3,
+          "defense": 2
+        },
+        "dropChance": 21,
+        "equippable": true,
+        "sprite": "/assets/sprites/trinkets/sapphire_necklace.png"
+      },
+      {
+        "id": "60",
+        "name": "Glowing Fang",
+        "type": "junk",
+        "statModifiers": {
+          "strength": 0,
+          "speed": 0,
+          "defense": 0
+        },
+        "dropChance": 9,
+        "equippable": false,
+        "sprite": "/assets/sprites/junk/yl_fang.png"
+      },
+      {
+        "id": "61",
+        "name": "Sapphire Circlet",
+        "type": "helm",
+        "statModifiers": {
+          "strength": 0,
+          "speed": 1,
+          "defense": 1
+        },
+        "dropChance": 23,
+        "equippable": true,
+        "sprite": "/assets/sprites/armor/blu_circlet.png"
+      },
+      {
+        "id": "62",
+        "name": "Shank",
+        "type": "weapon",
+        "statModifiers": {
+          "strength": 4,
+          "speed": 4,
+          "defense": 0
+        },
+        "dropChance": 16,
+        "equippable": true,
+        "sprite": "/assets/sprites/weapons/dagger.png"
+      },
+      {
+        "id": "63",
+        "name": "Crocodile Skin Hat",
+        "type": "helm",
+        "statModifiers": {
+          "strength": 1,
+          "speed": 0,
+          "defense": 4
+        },
+        "dropChance": 12,
+        "equippable": true,
+        "sprite": "/assets/sprites/armor/gr_hat.png"
+      },
+      {
+        "id": "64",
+        "name": "Scroll of Wisdom",
+        "type": "junk",
+        "statModifiers": {
+          "strength": 0,
+          "speed": 0,
+          "defense": 0
+        },
+        "dropChance": 33,
+        "equippable": false,
+        "sprite": "/assets/sprites/junk/blu_scroll.png"
+      },
+      {
+        "id": "65",
+        "name": "Arcane Focus",
+        "type": "trinket",
+        "statModifiers": {
+          "strength": 0,
+          "speed": 1,
+          "defense": 0
+        },
+        "dropChance": 20,
+        "equippable": true,
+        "sprite": "/assets/sprites/trinkets/arc_focus.png"
+      },
+      {
+        "id": "66",
+        "name": "Heavy Gambeson",
+        "type": "armor",
+        "statModifiers": {
+          "strength": 1,
+          "speed": -1,
+          "defense": 6
+        },
+        "dropChance": 10,
+        "equippable": true,
+        "sprite": "/assets/sprites/armor/blu_gambeson.png"
+      },
+      {
+        "id": "67",
+        "name": "Lightning Sword",
+        "type": "weapon",
+        "statModifiers": {
+          "strength": 8,
+          "speed": 2,
+          "defense": 0
+        },
+        "dropChance": 9,
+        "equippable": true,
+        "sprite": "/assets/sprites/weapons/yl_sword.png"
+      },
+      {
+        "id": "68",
+        "name": "Ruby Gold Necklace",
+        "type": "trinket",
+        "statModifiers": {
+          "strength": 2,
+          "speed": 1,
+          "defense": 2
+        },
+        "dropChance": 5,
+        "equippable": true,
+        "sprite": "/assets/sprites/trinkets/ruby_necklace.png"
+      },
+      {
+        "id": "69",
+        "name": "Red Banner",
+        "type": "junk",
+        "statModifiers": {
+          "strength": 0,
+          "speed": 0,
+          "defense": 0
+        },
+        "dropChance": 31,
+        "equippable": false,
+        "sprite": "/assets/sprites/junk/red_banner.png"
+      },
+      {
+        "id": "71",
+        "name": "Cinder Blade",
+        "type": "weapon",
+        "statModifiers": {
+          "strength": 9,
+          "speed": 1,
+          "defense": 0
+        },
+        "dropChance": 6,
+        "equippable": true,
+        "sprite": "/assets/sprites/weapons/red_sword.png"
+      },
+      {
+        "id": "72",
+        "name": "Mercenary's Helmet",
+        "type": "helm",
+        "statModifiers": {
+          "strength": 2,
+          "speed": 0,
+          "defense": 3
+        },
+        "dropChance": 10,
+        "equippable": true,
+        "sprite": "/assets/sprites/armor/steel_helm_red.png"
+      },
+      {
+        "id": "73",
+        "name": "Steel Gauntlet",
+        "type": "trinket",
+        "statModifiers": {
+          "strength": 2,
+          "speed": 0,
+          "defense": 2
+        },
+        "dropChance": 17,
+        "equippable": true,
+        "sprite": "/assets/sprites/trinkets/steel_gauntlet.png"
+      },
+      {
+        "id": "74",
+        "name": "Beartrap",
+        "type": "junk",
+        "statModifiers": {
+          "strength": 0,
+          "speed": 0,
+          "defense": 0
+        },
+        "dropChance": 37,
+        "equippable": false,
+        "sprite": "/assets/sprites/junk/beartrap.png"
+      },
+      {
+        "id": "75",
+        "name": "Scroll of Healing",
+        "type": "junk",
+        "statModifiers": {
+          "strength": 0,
+          "speed": 0,
+          "defense": 0
+        },
+        "dropChance": 40,
+        "equippable": false,
+        "sprite": "/assets/sprites/junk/red_scroll.png"
+      },
+      {
+        "id": "76",
+        "name": "Cured Leather Boots",
+        "type": "boots",
+        "statModifiers": {
+          "strength": 0,
+          "speed": 3,
+          "defense": 1
+        },
+        "dropChance": 26,
+        "equippable": true,
+        "sprite": "/assets/sprites/armor/leather_bts.png"
+      },
+      {
+        "id": "77",
+        "name": "Shimmering Cloak",
+        "type": "trinket",
+        "statModifiers": {
+          "strength": 0,
+          "speed": 2,
+          "defense": 3
+        },
+        "dropChance": 18,
+        "equippable": true,
+        "sprite": "/assets/sprites/trinkets/blu_cape.png"
+      },
+      {
+        "id": "78",
+        "name": "Mithril Claymore",
+        "type": "weapon",
+        "statModifiers": {
+          "strength": 10,
+          "speed": 0,
+          "defense": 0
+        },
+        "dropChance": 8,
+        "equippable": true,
+        "sprite": "/assets/sprites/weapons/white_sword.png"
+      },
+      {
+        "id": "79",
+        "name": "Yes, Another Duplicate ID",
+        "type": "junk",
+        "statModifiers": {
+          "strength": 0,
+          "speed": 0,
+          "defense": 0
+        },
+        "dropChance": 1,
+        "equippable": false,
+        "sprite": "/assets/sprites/junk/what.png"
+      },
+      {
+        "id": "81",
+        "name": "Inquisitor Helm",
+        "type": "helm",
+        "statModifiers": {
+          "strength": 2,
+          "speed": 0,
+          "defense": 4
+        },
+        "dropChance": 24,
+        "equippable": true,
+        "sprite": "/assets/sprites/armor/wing_helm.png"
+      },
+      {
+        "id": "82",
+        "name": "Archer's Treads",
+        "type": "boots",
+        "statModifiers": {
+          "strength": 0,
+          "speed": 4,
+          "defense": 0
+        },
+        "dropChance": 21,
+        "equippable": true,
+        "sprite": "/assets/sprites/armor/leather_bts.png"
+      },
+      {
+        "id": "83",
+        "name": "Hunter's Leather",
+        "type": "armor",
+        "statModifiers": {
+          "strength": 0,
+          "speed": 2,
+          "defense": 4
+        },
+        "dropChance": 15,
+        "equippable": true,
+        "sprite": "/assets/sprites/armor/leath_armor.png"
+      },
+      {
+        "id": "84",
+        "name": "Thunderclap Hammer",
+        "type": "weapon",
+        "statModifiers": {
+          "strength": 9,
+          "speed": -1,
+          "defense": 0
+        },
+        "dropChance": 12,
+        "equippable": true,
+        "sprite": "/assets/sprites/weapons/warhammer.png"
+      },
+      {
+        "id": "86",
+        "name": "Blessed Rune",
+        "type": "trinket",
+        "statModifiers": {
+          "strength": 1,
+          "speed": 1,
+          "defense": 1
+        },
+        "dropChance": 30,
+        "equippable": true,
+        "sprite": "/assets/sprites/trinkets/rune.png"
+      },
+      {
+        "id": "88",
+        "name": "Gilded Crown",
+        "type": "helm",
+        "statModifiers": {
+          "strength": 5,
+          "speed": -2,
+          "defense": 5
+        },
+        "dropChance": 3,
+        "equippable": true,
+        "sprite": "/assets/sprites/armor/gld_crown.png"
+      },
+      {
+        "id": "90",
+        "name": "Charred Bone",
+        "type": "junk",
+        "statModifiers": {
+          "strength": 0,
+          "speed": 0,
+          "defense": 0
+        },
+        "dropChance": 29,
+        "equippable": false,
+        "sprite": "/assets/sprites/junk/bone.png"
+      },
+      {
+        "id": "91",
+        "name": "Pristine Orb",
+        "type": "trinket",
+        "statModifiers": {
+          "strength": 1,
+          "speed": 1,
+          "defense": 1
+        },
+        "dropChance": 10,
+        "equippable": true,
+        "sprite": "/assets/sprites/trinkets/orb.png"
+      },
+      {
+        "id": "92",
+        "name": "Bow of Burning",
+        "type": "weapon",
+        "statModifiers": {
+          "strength": 2,
+          "speed": 5,
+          "defense": 0
+        },
+        "dropChance": 18,
+        "equippable": true,
+        "sprite": "/assets/sprites/weapons/red_bow.png"
+      },
+      {
+        "id": "93",
+        "name": "Timeless Helm",
+        "type": "helm",
+        "statModifiers": {
+          "strength": 3,
+          "speed": 0,
+          "defense": 5
+        },
+        "dropChance": 7,
+        "equippable": true,
+        "sprite": "/assets/sprites/armor/steel_helm_clsd.png"
+      },
+      {
+        "id": "94",
+        "name": "Windscar Boots",
+        "type": "boots",
+        "statModifiers": {
+          "strength": 0,
+          "speed": 5,
+          "defense": 1
+        },
+        "dropChance": 15,
+        "equippable": true,
+        "sprite": "/assets/sprites/armor/blu_bts.png"
+      },
+      {
+        "id": "95",
+        "name": "Trollhide Vest",
+        "type": "armor",
+        "statModifiers": {
+          "strength": 0,
+          "speed": 1,
+          "defense": 6
+        },
+        "dropChance": 23,
+        "equippable": true,
+        "sprite": "/assets/sprites/armor/vest.png"
+      },
+      {
+        "id": "96",
+        "name": "Citrine Band",
+        "type": "trinket",
+        "statModifiers": {
+          "strength": 1,
+          "speed": 2,
+          "defense": 1
+        },
+        "dropChance": 25,
+        "equippable": true,
+        "sprite": "/assets/sprites/trinkets/cit_band.png"
+      },
+      {
+        "id": "97",
+        "name": "Goblin Ears",
+        "type": "junk",
+        "statModifiers": {
+          "strength": 0,
+          "speed": 0,
+          "defense": 0
+        },
+        "dropChance": 44,
+        "equippable": false,
+        "sprite": "/assets/sprites/junk/green_ears.png"
+      },
+      {
+        "id": "99",
+        "name": "Ornate Spear",
+        "type": "weapon",
+        "statModifiers": {
+          "strength": 7,
+          "speed": 2,
+          "defense": 0
+        },
+        "dropChance": 10,
+        "equippable": true,
+        "sprite": "/assets/sprites/weapons/gr_spear.png"
+      },
+      {
+        "id": "102",
+        "name": "Ram Horn Helm",
+        "type": "helm",
+        "statModifiers": {
+          "strength": 3,
+          "speed": 0,
+          "defense": 4
+        },
+        "dropChance": 13,
+        "equippable": true,
+        "sprite": "/assets/sprites/armor/hrnd_hlm2.png"
+      },
+      {
+        "id": "103",
+        "name": "Soulflame Boots",
+        "type": "boots",
+        "statModifiers": {
+          "strength": 0,
+          "speed": 4,
+          "defense": 0
+        },
+        "dropChance": 27,
+        "equippable": true,
+        "sprite": "/assets/sprites/armor/red_bts.png"
+      },
+      {
+        "id": "104",
+        "name": "Dragon Scale Plate",
+        "type": "armor",
+        "statModifiers": {
+          "strength": 0,
+          "speed": -1,
+          "defense": 10
+        },
+        "dropChance": 2,
+        "equippable": true,
+        "sprite": "/assets/sprites/armor/blk_plate.png"
+      },
+      {
+        "id": "105",
+        "name": "Mossy Charm",
+        "type": "trinket",
+        "statModifiers": {
+          "strength": 0,
+          "speed": 0,
+          "defense": 4
+        },
+        "dropChance": 19,
+        "equippable": true,
+        "sprite": "/assets/sprites/trinkets/grn_necklace.png"
+      },
+      {
+        "id": "106",
+        "name": "Empty Flask",
+        "type": "junk",
+        "statModifiers": {
+          "strength": 0,
+          "speed": 0,
+          "defense": 0
+        },
+        "dropChance": 50,
+        "equippable": false,
+        "sprite": "/assets/sprites/junk/bottle.png"
+      },
+      {
+        "id": "108",
+        "name": "Elder Helm",
+        "type": "helm",
+        "statModifiers": {
+          "strength": 4,
+          "speed": 0,
+          "defense": 4
+        },
+        "dropChance": 12,
+        "equippable": true,
+        "sprite": "/assets/sprites/armor/red_plume_hlm.png"
+      },
+      {
+        "id": "109",
+        "name": "Bandit Sabre",
+        "type": "weapon",
+        "statModifiers": {
+          "strength": 5,
+          "speed": 3,
+          "defense": 0
+        },
+        "dropChance": 16,
+        "equippable": true,
+        "sprite": "/assets/sprites/weapons/saber.png"
+      },
+      {
+        "id": "110",
+        "name": "Enchanted Armor",
+        "type": "armor",
+        "statModifiers": {
+          "strength": 2,
+          "speed": 0,
+          "defense": 5
+        },
+        "dropChance": 9,
+        "equippable": true,
+        "sprite": "/assets/sprites/armor/stl_arm.png"
+      },
+      {
+        "id": "111",
+        "name": "Shaman's Stone",
+        "type": "trinket",
+        "statModifiers": {
+          "strength": 1,
+          "speed": 1,
+          "defense": 2
+        },
+        "dropChance": 28,
+        "equippable": true,
+        "sprite": "/assets/sprites/trinkets/rune2.png"
+      },
+      {
+        "id": "112",
+        "name": "Black Candle",
+        "type": "junk",
+        "statModifiers": {
+          "strength": 0,
+          "speed": 0,
+          "defense": 0
+        },
+        "dropChance": 10,
+        "equippable": false,
+        "sprite": "/assets/sprites/junk/blu_candle.png"
+      },
+      {
+        "id": "114",
+        "name": "Silver Tiara",
+        "type": "helm",
+        "statModifiers": {
+          "strength": 0,
+          "speed": 1,
+          "defense": 3
+        },
+        "dropChance": 25,
+        "equippable": true,
+        "sprite": "/assets/sprites/armor/tiara.png"
+      },
+      {
+        "id": "115",
+        "name": "Club",
+        "type": "weapon",
+        "statModifiers": {
+          "strength": 2,
+          "speed": 4,
+          "defense": 0
+        },
+        "dropChance": 14,
+        "equippable": true,
+        "sprite": "/assets/sprites/weapons/club.png"
+      },
+      {
+        "id": "116",
+        "name": "Brawler's Chestguard",
+        "type": "armor",
+        "statModifiers": {
+          "strength": 2,
+          "speed": 0,
+          "defense": 4
+        },
+        "dropChance": 22,
+        "equippable": true,
+        "sprite": "/assets/sprites/armor/blu_gambeson2.png"
+      },
+      {
+        "id": "117",
+        "name": "Arcane Focus",
+        "type": "trinket",
+        "statModifiers": {
+          "strength": 0,
+          "speed": 1,
+          "defense": 2
+        },
+        "dropChance": 15,
+        "equippable": true,
+        "sprite": "/assets/sprites/trinkets/arc_focus2.png"
+      },
+      {
+        "id": "118",
+        "name": "Sack of Coins",
+        "type": "junk",
+        "statModifiers": {
+          "strength": 0,
+          "speed": 0,
+          "defense": 0
+        },
+        "dropChance": 33,
+        "equippable": false,
+        "sprite": "/assets/sprites/junk/pouch.png"
+      },
+      {
+        "id": "120",
+        "name": "Heroic Defender",
+        "type": "trinket",
+        "statModifiers": {
+          "strength": 0,
+          "speed": 0,
+          "defense": 10
+        },
+        "dropChance": 4,
+        "equippable": true,
+        "sprite": "/assets/sprites/trinkets/gld_shield.png"
+      },
+      {
+        "id": "121",
+        "name": "Crimson Halberd",
+        "type": "weapon",
+        "statModifiers": {
+          "strength": 9,
+          "speed": 0,
+          "defense": 0
+        },
+        "dropChance": 13,
+        "equippable": true,
+        "sprite": "/assets/sprites/weapons/red_halberd.png"
+      },
+      {
+        "id": "122",
+        "name": "Frostcharm Pendant",
+        "type": "trinket",
+        "statModifiers": {
+          "strength": 1,
+          "speed": 1,
+          "defense": 2
+        },
+        "dropChance": 19,
+        "equippable": true,
+        "sprite": "/assets/sprites/trinkets/sapphire_necklace.png"
+      },
+      {
+        "id": "123",
+        "name": "White Tunic",
+        "type": "armor",
+        "statModifiers": {
+          "strength": 2,
+          "speed": -1,
+          "defense": 6
+        },
+        "dropChance": 15,
+        "equippable": true,
+        "sprite": "/assets/sprites/armor/white_tunic.png"
+      },
+      {
+        "id": "124",
+        "name": "Arcane Signet Ring",
+        "type": "trinket",
+        "statModifiers": {
+          "strength": 0,
+          "speed": 1,
+          "defense": 3
+        },
+        "dropChance": 22,
+        "equippable": true,
+        "sprite": "/assets/sprites/trinkets/gld_ring.png"
+      },
+      {
+        "id": "125",
+        "name": "Blacksmithe's Hammer",
+        "type": "weapon",
+        "statModifiers": {
+          "strength": 5,
+          "speed": 1,
+          "defense": 0
+        },
+        "dropChance": 27,
+        "equippable": true,
+        "sprite": "/assets/sprites/weapons/blacksmith_hammer.png"
+      },
+      {
+        "id": "128",
+        "name": "Azure Plate",
+        "type": "armor",
+        "statModifiers": {
+          "strength": 0,
+          "speed": 0,
+          "defense": 8
+        },
+        "dropChance": 9,
+        "equippable": true,
+        "sprite": "/assets/sprites/armor/random_armor.png"
       }
     ]
   }
