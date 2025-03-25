@@ -63,14 +63,6 @@ export function ActionBar({ action, callback }) {
               <img src="./public/assets/sprites/potions/hp_pot.png" alt="consumables" />
             </button>
           </div>
-          <div className="flex gap-4 h-12">
-            <button className="w-1/2 border-2 bg-neutral-100 text-xl">
-              Special Attack
-            </button>
-            <button className="w-1/2 border-2 bg-neutral-100 text-xl">
-              Run
-            </button>
-          </div>
         </>
       );
 
