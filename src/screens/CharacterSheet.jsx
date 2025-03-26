@@ -174,19 +174,10 @@ export default function CharacterSheet() {
                       alt={item.name}
                       className="max-w-full max-h-full object-contain"
                     />
-                    {/* Custom Tooltip */}
+                    {/* Tooltip */}
                     <div className="absolute left-0 bottom-0 hidden group-hover:flex flex-col bg-black text-white p-2 rounded text-xs z-10">
                       <div className="mb-1 h-15">{item.name}</div>
-                      {/* <div>STR: {item.statModifiers?.strength ?? 0}</div>
-                      <div>DEF: {item.statModifiers?.defense ?? 0}</div>
-                      <div>SPD: {item.statModifiers?.speed ?? 0}</div> */}
                     </div>
-                    {/* <button
-                      onClick={() => handleUnequip(slot)}
-                      className="absolute top-0 right-0 bg-red-500 text-white text-xs p-1 rounded"
-                    >
-                      X
-                    </button> */}
                   </div>
                 ) : (
                   <div className="w-full h-full flex items-center justify-center">
@@ -308,7 +299,7 @@ export default function CharacterSheet() {
                     {count}
                   </div>
 
-                  {/* Tooltip for Inventory Item */}
+                  {/* Tooltip */}
                   <div className="absolute left-0 bottom-0 h-24 w-24 hidden group-hover:flex flex-col bg-black text-white p-2 rounded text-xs z-10">
                     {item.type === "potion" ? (
                       <>
