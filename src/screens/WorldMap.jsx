@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useGameStore } from "../store/useGameStore";
-import styles from "./MapView.module.css"; // Keep using your custom styles for the map opening/closing
+import styles from "./MapView.module.css";
 
 const AnimatedBgImage = () => {
     const [currentFrame, setCurrentFrame] = useState(1);
