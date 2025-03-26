@@ -33,3 +33,9 @@
         transform: rotate(-12deg);
     }
 }
+
+@keyframes pulse {
+    50% {
+        opacity: 0.5;
+    }
+}

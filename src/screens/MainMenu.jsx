@@ -1,19 +1,20 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, use } from "react";
 import { useGameStore } from "../store/useGameStore";
 
 const AnimatedBgImage = () => {
-  const [currentFrame, setCurrentFrame] = useState(1);
-  const currentWorld = "MOUNTAIN";
-  const totalFrames = 12;
-  const frameRate = 190;
-  useEffect(() => {
-    const imageCache = [];
-    for (let i = 1; i <= totalFrames; i++) {
-      const img = new Image();
-      img.src = `/assets/bonfire_bg/${currentWorld}/${i}.webp`;
-      imageCache.push(img);
-    }
-  }, []);
+
+    const [currentFrame, setCurrentFrame] = useState(1);
+    const currentWorld = useGameStore((state) => state.currentWorld);
+    const totalFrames = 12;
+    const frameRate = 190;
+    useEffect(() => {
+        const imageCache = [];
+        for (let i = 1; i <= totalFrames; i++) {
+            const img = new Image();
+            img.src = `/assets/bonfire_bg/${currentWorld}/${i}.webp`;
+            imageCache.push(img);
+        }
+    }, []);
 
   useEffect(() => {
     const interval = setInterval(() => {
