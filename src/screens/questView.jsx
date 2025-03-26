@@ -5,10 +5,9 @@ import questViewStyles from "./QuestView.module.css"; // Font
 
 const AnimatedBgImage = () => {
   const [currentFrame, setCurrentFrame] = useState(1);
-  const currentWorld = "MOUNTAIN";
+  const currentWorld = useGameStore((state) => state.currentWorld);
   const totalFrames = 12;
   const frameRate = 190;
-
   useEffect(() => {
     const imageCache = [];
     for (let i = 1; i <= totalFrames; i++) {
@@ -22,6 +21,7 @@ const AnimatedBgImage = () => {
     const interval = setInterval(() => {
       setCurrentFrame((prevFrame) => (prevFrame % totalFrames) + 1);
     }, frameRate);
+
     return () => clearInterval(interval);
   }, []);
 
