@@ -257,8 +257,12 @@ export default function Shop() {
       addItem(item.id, 1);
       setCooldowns((prev) => ({ ...prev, [item.id]: Date.now() + 120 * 1000 }));
     }
-    setBuyMessage(`Kjøpte ${item.name}`);
-    setFloatingBuy(`${item.name} -${price} gull`);
+    
+    setFloatingBuy(`${item.name} -${price} gold`);
+    if (selectedItem && selectedItem.id === item.id) {
+      setSelectedItem(null);
+      setSelectedMode(null);
+    }
     setTimeout(() => {
       setFloatingBuy(null);
       setBuyMessage("");
@@ -502,13 +506,13 @@ export default function Shop() {
                   <p className="text-xs">Heal: {selectedItem.healAmount}</p>
                 )}
                 {/* Vis nedtelling hvis valgt vare er på cooldown */}
-                {cooldowns[selectedItem?.id] &&
+                {/* {cooldowns[selectedItem?.id] &&
                   cooldowns[selectedItem.id] > Date.now() && (
                     <p className="text-xs text-red-500">
                       Cooldown:{" "}
                       {Math.floor((cooldowns[selectedItem.id] - Date.now()) / 1000)} s
                     </p>
-                  )}
+                  )} */}
                 {selectedMode === "buy" ? (
                   <>
                     <p className="text-xs text-gray-300">
@@ -520,16 +524,16 @@ export default function Shop() {
                     >
                       Buy
                     </button>
-                    {buyMessage && (
+                    {/* {buyMessage && (
                       <div className="text-center text-green-500">
                         <p>{buyMessage}</p>
                       </div>
-                    )}
-                    {floatingBuy && (
+                    )} */}
+                    {/* {floatingBuy && (
                       <div className={`${styles["flash-up-buy"]} absolute left-1/2 transform -translate-x-1/2`}>
                         {floatingBuy}
                       </div>
-                    )}
+                    )} */}
                   </>
                 ) : (
                   <>
