@@ -1,15 +1,24 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Anemic Heroes</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+
     <style>
-      html, body {
+      html,
+      body {
         margin: 0;
         padding: 0;
         width: 100vw;
@@ -47,9 +56,9 @@
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
     <script>
-      const btn = document.getElementById('fullscreen-btn');
-      const root = document.getElementById('root');
-      btn.addEventListener('click', () => {
+      const btn = document.getElementById("fullscreen-btn");
+      const root = document.getElementById("root");
+      btn.addEventListener("click", () => {
         if (!document.fullscreenElement) {
           document.documentElement.requestFullscreen();
         } else {
@@ -57,15 +66,18 @@
         }
       });
       function updateScale() {
-        let scaleFactor = Math.min(window.innerWidth / 1280, window.innerHeight / 720);
+        let scaleFactor = Math.min(
+          window.innerWidth / 1280,
+          window.innerHeight / 720
+        );
         if (!document.fullscreenElement && scaleFactor > 1) {
           scaleFactor = 1;
         }
         root.style.transform = `translate(-50%, -50%) scale(${scaleFactor})`;
       }
 
-      document.addEventListener('fullscreenchange', updateScale);
-      window.addEventListener('resize', updateScale);
+      document.addEventListener("fullscreenchange", updateScale);
+      window.addEventListener("resize", updateScale);
       updateScale();
     </script>
   </body>
