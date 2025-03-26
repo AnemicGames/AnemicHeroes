@@ -28,7 +28,7 @@ const AnimatedBgImage = () => {
   return (
     <img
       src={`/assets/bonfire_bg/${currentWorld}/${currentFrame}.webp`}
-      alt="Animated bonfire"
+      alt={`Animated ${currentWorld} bonfire`}
       className="w-full"
     />
   );
