@@ -3,17 +3,81 @@
     {
       "id": "main_forest",
       "title": "Prove Your Strength",
-      "description": "Win 10 mob battles to journey into the mountains.",
+      "description": "Win 1 mob battle to journey into the mountains.",
       "status": "active",
-      "xpReward": 100,
+      "xpReward": 10,
       "type": "main",
       "objective": {
         "type": "win_mobs",
         "current": 0,
-        "target": 10
+        "target": 1
       },
       "unlocksWorld": "MOUNTAIN",
       "next": "main_mountain"
+    },
+    {
+      "id": "main_mountain",
+      "title": "Endure the Climb",
+      "description": "Defeat 1 boss in the mountains to reach the desert.",
+      "status": "locked",
+      "xpReward": 20,
+      "type": "main",
+      "objective": {
+        "type": "defeat_bosses",
+        "current": 0,
+        "target": 1
+      },
+      "unlocksWorld": "DESERT",
+      "previous": "main_forest",
+      "next": "main_desert"
+    },
+    {
+      "id": "main_desert",
+      "title": "Survive the Sands",
+      "description": "Collect 1 artifact from the desert.",
+      "status": "locked",
+      "xpReward": 30,
+      "type": "main",
+      "objective": {
+        "type": "collect_item",
+        "item": "desert_artifact",
+        "current": 0,
+        "target": 1
+      },
+      "unlocksWorld": "SWAMP",
+      "previous": "main_mountain",
+      "next": "main_swamp"
+    },
+    {
+      "id": "main_swamp",
+      "title": "Cleanse the Swamp",
+      "description": "Defeat the Swamp Witch to reach the Caves.",
+      "status": "locked",
+      "xpReward": 40,
+      "type": "main",
+      "objective": {
+        "type": "defeat_named_boss",
+        "targetId": "swamp_witch",
+        "current": 0,
+        "target": 1
+      },
+      "unlocksWorld": "CAVES",
+      "previous": "main_desert",
+      "next": "main_caves"
+    },
+    {
+      "id": "main_caves",
+      "title": "Echoes of Power",
+      "description": "Win 1 mob battle in the Caves to complete your journey.",
+      "status": "locked",
+      "xpReward": 50,
+      "type": "main",
+      "objective": {
+        "type": "win_mobs",
+        "current": 0,
+        "target": 1
+      },
+      "previous": "main_swamp"
     }
   ],
   "side_quests": [
@@ -27,7 +91,7 @@
       "world": ["FOREST", "MOUNTAIN", "DESERT", "SWAMP"],
       "objective": {
         "type": "win_mobs",
-        "current": 10,
+        "current": 0,
         "target": 10
       },
       "chain": "mob_chain",
@@ -44,7 +108,7 @@
       "world": ["FOREST", "MOUNTAIN", "DESERT", "SWAMP"],
       "objective": {
         "type": "win_mobs",
-        "current": 25,
+        "current": 0,
         "target": 25
       },
       "chain": "mob_chain",
@@ -62,7 +126,7 @@
       "world": ["FOREST", "MOUNTAIN", "DESERT", "SWAMP"],
       "objective": {
         "type": "win_mobs",
-        "current": 50,
+        "current": 0,
         "target": 50
       },
       "chain": "mob_chain",
@@ -79,7 +143,7 @@
       "world": ["FOREST", "MOUNTAIN", "DESERT", "SWAMP"],
       "objective": {
         "type": "defeat_bosses",
-        "current": 5,
+        "current": 0,
         "target": 5
       },
       "chain": "boss_chain",
@@ -96,7 +160,7 @@
       "world": ["FOREST", "MOUNTAIN", "DESERT", "SWAMP"],
       "objective": {
         "type": "defeat_bosses",
-        "current": 10,
+        "current": 0,
         "target": 10
       },
       "chain": "boss_chain",
@@ -114,7 +178,7 @@
       "world": ["FOREST", "MOUNTAIN", "DESERT", "SWAMP"],
       "objective": {
         "type": "defeat_bosses",
-        "current": 20,
+        "current": 0,
         "target": 20
       },
       "chain": "boss_chain",
