@@ -216,4 +216,26 @@ export const createQuestSlice = (set, get) => ({
       return { quests: questsCopy };
     });
   },
+
+  registerKill: ({ type, bossId = null }) => {
+    const state = get();
+
+    switch (type) {
+      case "mob":
+        state.updateMobChainState(1);
+        break;
+      case "boss":
+        state.updateBossChainState(1);
+        break;
+      case "named_boss":
+        if (!bossId) {
+          console.warn("Missing bossId for named_boss quest progress");
+          return;
+        }
+        state.updateNamedBossState(bossId);
+        break;
+      default:
+        console.warn(`Unknown kill type: ${type}`);
+    }
+  },
 });
