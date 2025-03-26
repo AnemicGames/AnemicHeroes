@@ -47,19 +47,8 @@ export default function BattleView() {
     const goldReward = Math.round(
       enemy.baseGold * enemy.lvlMultiplier + player.level * enemy.lvlMultiplier
     );
-    console.log("This is my GOLDREWARD", goldReward);
-    console.log(
-      Math.round(
-        enemy.baseGold * enemy.lvlMultiplier +
-          player.level * enemy.lvlMultiplier
-      )
-    );
     return goldReward;
   }
-
-  console.log("Enemy Base Gold:", enemy.baseGold);
-  console.log("Enemy Level Multiplier:", enemy.lvlMultiplier);
-  console.log("Player Level:", player.level);
 
   {
     /*Getting current battleState from localStorage and fetch mobs */
@@ -104,13 +93,11 @@ export default function BattleView() {
   }, []); // Add encounterType to dependency array
 
   useEffect(() => {
-    console.log("Enemy Current HP at Battle Start:", enemy.currentHP);
     if (enemy.currentHP <= 0 && battleOutcome === null) {
       setBattleOutcome("VICTORY");
       setIsBattleOver(true);
       setXP(enemy.xp);
       addGold(calculateGoldReward());
-      console.log("GOLD:", player.gold);
     }
 
     if (player.currentHp <= 0 && battleOutcome === null) {
@@ -143,7 +130,6 @@ export default function BattleView() {
           currentHp: player.currentHp,
         },
       };
-      console.log(battleState);
       localStorage.setItem("battleState", JSON.stringify(battleState));
     }
   }, [enemy, player.currentHp, isBattleOver, player]);
@@ -168,16 +154,41 @@ export default function BattleView() {
       </div>
 
       {/* Enemy Health Bar */}
-      <div className="w-[40%] top-6 absolute right-12">
-        <p className="text-xl text-white">{enemy.name}</p>
-        <p className="text-xl text-white">{`${enemy.currentHP}/${enemy.baseHP}`}</p>
+      <div className="w-[40%] top-7 absolute right-12">
+        <p
+          className={`text-xl text-white ${
+            encounterType === "BOSS" ? "text-3xl font-bold text-red-400" : ""
+          }`}
+        >
+          {enemy.name}
+          {encounterType === "BOSS" && "☠️"} {/* Add skull after the name */}
+        </p>
+        <img src="" />
+        <p
+          className={`text-xl text-white ${
+            encounterType === "BOSS" ? "text-2xl text-red-300" : ""
+          }`}
+        >
+          {`${enemy.currentHP}/${enemy.baseHP}`}
+        </p>
         <div className="w-full bg-gray-300 rounded-full h-4">
           <div
-            className="h-full rounded-full bg-red-500"
+            className={`h-full rounded-full ${
+              encounterType === "BOSS"
+                ? "bg-gradient-to-r from-red-500 to-green-600"
+                : "bg-red-500"
+            }`}
             style={{ width: `${enemyHealthPercent}%` }}
           ></div>
         </div>
       </div>
+      {encounterType === "BOSS" && (
+          <img
+            src="/assets/sprites/cracked-skull.png" // Replace with the correct path to your skull sprite
+            alt="Skull"
+            className="absolute top-3 left-3/4 transform -translate-x-1/2 w-20 h-20"
+          />
+        )}
 
       {/* Player sprite */}
       <img
