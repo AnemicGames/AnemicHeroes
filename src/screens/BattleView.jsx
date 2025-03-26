@@ -17,7 +17,7 @@ export default function BattleView() {
   const setXP = useGameStore((state) => state.setXP);
   const addGold = useGameStore((state) => state.addGold);
   const setCurrentView = useGameStore((state) => state.setCurrentView);
-  const resetPosition = useGameStore((state) => state.resetPosition)
+  const resetPosition = useGameStore((state) => state.resetPosition);
   const player = useGameStore((state) => state.player);
   const enemy = useGameStore((state) => state.enemy);
 
@@ -26,9 +26,12 @@ export default function BattleView() {
 
   function fetchRandomEnemy(mobs) {
     const randomMob = mobs[Math.floor(Math.random() * mobs.length)];
+    const calculatedXP = Math.floor(50 * randomMob.lvlMultiplier);
 
     return {
       currentHP: randomMob.baseHP,
+      xp: calculatedXP,
+      gold: randomMob.baseGold,
       ...randomMob,
     };
   }
@@ -53,20 +56,25 @@ export default function BattleView() {
     if (enemy.currentHP <= 0 && battleOutcome === null) {
       setBattleOutcome("VICTORY");
       setIsBattleOver(true);
-      setXP(enemy.xpReward);
-      addGold(enemy.goldReward);
+      setXP(enemy.xp);
+      addGold(enemy.baseGold);
+
+      console.log("XP:", player.xp);
+      console.log("Gold:", player.gold);
     }
 
     if (player.currentHp <= 0 && battleOutcome === null) {
       console.log("Player defeated!");
       setBattleOutcome("DEFEAT");
       setIsBattleOver(true);
-      resetPosition()
+      resetPosition();
     }
   }, [
     enemy.currentHP,
-    enemy.xpReward,
-    enemy.goldReward,
+    enemy.xp,
+    enemy.baseGold,
+    player.gold,
+    player.xp,
     battleOutcome,
     player.currentHp,
     setXP,
@@ -75,18 +83,11 @@ export default function BattleView() {
     resetPosition,
   ]);
 
-  const goToSplash = () => setCurrentView("SPLASH");
-  const goToMainMenu = () => setCurrentView("MAIN_MENU");
-  const goToMap = () => setCurrentView("MAP");
-  const goToBattle = () => setCurrentView("BATTLE");
-  const goToCharacterSheet = () => setCurrentView("CHARACTER_SHEET");
-  const goToShop = () => setCurrentView("SHOP");
-
   return (
     <div className="relative w-full h-full">
+      {/* Background image */}
       <BackgroundImage />
       <div className="w-7xl flex flex-col gap-4 absolute h-[600px]">
-        {/* Background image */}
         <div className="relative w-full h-full">
           {/* Player sprite */}
           <img
@@ -141,7 +142,7 @@ export default function BattleView() {
               <>
                 <h2 className="text-4xl text-green-400">🎉 Victory! 🎉</h2>
                 <p className="text-white">
-                  You gained {enemy.xpReward} XP and {enemy.goldReward} gold!
+                  You gained {player.xp} XP and {player.gold} gold!
                 </p>
                 <button
                   className="mt-4 px-4 py-2 bg-gray-700 text-white rounded"
@@ -155,7 +156,7 @@ export default function BattleView() {
                 <h2 className="text-4xl text-red-400">☠️ Defeat! ☠️</h2>
                 <p className="text-white">You were defeated in battle...</p>
                 <button
-                  className="mt-4 px-4 py-2 bg-gray-700 text-white rounded"
+                  className="mt-4 px-4 py-2 bg-gray-500/80 text-white rounded"
                   onClick={() => setCurrentView("MAIN_MENU")}
                 >
                   Respawn
