@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
 import { useGameStore } from "../store/useGameStore";
-import styles from "./MapView.module.css";
+import styles from "./MapView.module.css"; // Keep using your custom styles for the map opening/closing
 
 const AnimatedBgImage = () => {
     const [currentFrame, setCurrentFrame] = useState(1);
     const currentWorld = useGameStore((state) => state.currentWorld);
     const totalFrames = 12;
     const frameRate = 190;
+
     useEffect(() => {
         const imageCache = [];
         for (let i = 1; i <= totalFrames; i++) {
@@ -14,7 +15,7 @@ const AnimatedBgImage = () => {
             img.src = `/assets/bonfire_bg/${currentWorld}/${i}.webp`;
             imageCache.push(img);
         }
-    }, []);
+    }, [currentWorld]);
 
     useEffect(() => {
         const interval = setInterval(() => {
@@ -37,10 +38,12 @@ export default function WorldMap() {
     const setCurrentView = useGameStore((state) => state.setCurrentView);
     const setEmbark = useGameStore((state) => state.setEmbark);
     const setCurrentWorld = useGameStore((state) => state.setCurrentWorld);
-    const { map, initializeMap, worlds, unlockWorld } = useGameStore();
+    const { map, initializeMap, worlds } = useGameStore();
 
     const [isVisible, setIsVisible] = useState(false);
     const [isClosing, setIsClosing] = useState(false);
+    const [fade, setFade] = useState(false);
+    const [fadeText, setFadeText] = useState("");
 
     useEffect(() => {
         setIsVisible(true);
@@ -52,6 +55,20 @@ export default function WorldMap() {
             setEmbark(false);
             setCurrentView(view);
         }, 1000);
+    };
+
+    const closeMap = (id) => {
+        setIsClosing(true);
+        // TODO: Add fade effect that F**KING WORKS pls..
+        setTimeout(() => {
+            setFade(true);
+            setFadeText(`Going to ${id}...`);
+            setTimeout(() => {
+                setCurrentWorld(id);
+                goToMainMenu();
+                setFade(false);
+            }, 2500);
+        }, 500);
     };
 
     const [worldCells] = useState([
@@ -70,7 +87,7 @@ export default function WorldMap() {
             }
         };
         fetchMap();
-    }, [initializeMap]); // eslint-disable-line react-hooks/exhaustive-deps
+    }, [initializeMap]);
 
     const goToMainMenu = () => navigateWithAnimation("MAIN_MENU");
 
@@ -93,22 +110,20 @@ export default function WorldMap() {
         return "FOREST";
     };
 
-    const handleCellClick = (id) => {
-        setCurrentWorld(id);
-        if (worlds[id] === "LOCKED") {
-            unlockWorld(id);
-        }
-    };
-
     const getBackgroundImage = () => {
         const lastUnlockedWorld = getLastUnlockedWorld();
         return `/assets/map/${lastUnlockedWorld.toLowerCase()}-map.png`;
     };
 
+    const handleCellClick = (id) => {
+        if (worlds[id] === "UNLOCKED") {
+            closeMap(id);
+        }
+    };
+
     return (
         <div className="relative h-full w-full">
             <AnimatedBgImage />
-
             <div
                 className={`absolute w-full h-max ${
                     isClosing
@@ -165,6 +180,17 @@ export default function WorldMap() {
                     className="w-10 h-11"
                 />
             </button>
+            {fade && (
+                <div
+                    className={`absolute inset-0 bg-black transition-opacity duration-1000 ${
+                        fade ? "opacity-100" : "opacity-0"
+                    }`}
+                >
+                    <div className="flex items-center justify-center h-full">
+                        <span className="text-white text-xl">{fadeText}</span>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }
