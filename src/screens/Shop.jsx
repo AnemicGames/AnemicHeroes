@@ -83,8 +83,20 @@ export default function Shop() {
   // Genrerer to limited items når lastet
   useEffect(() => {
     if (items && items.length > 0) {
-      const offers = getRandomItems(items, 2);
-      setLimitedOffers(offers);
+      // Filter items into two groups based on dropChance
+      const highDropChanceItems = items.filter(item => item.dropChance > 20);
+      const lowDropChanceItems = items.filter(item => item.dropChance <= 20);
+  
+      // Randomly select one item from each group (if available)
+      const highOffer = highDropChanceItems.length > 0 
+        ? highDropChanceItems[Math.floor(Math.random() * highDropChanceItems.length)]
+        : null;
+      const lowOffer = lowDropChanceItems.length > 0 
+        ? lowDropChanceItems[Math.floor(Math.random() * lowDropChanceItems.length)]
+        : null;
+  
+      // Set the limited offers in a fixed order (left box: high, right box: low)
+      setLimitedOffers([highOffer, lowOffer]);
       setCountdown(60);
       setPurchasedLimitedOfferIds([]);
     }
@@ -209,7 +221,10 @@ export default function Shop() {
   };
 
   // Beregn kjøpspris for en vare.
-  const getBuyPrice = (item) => Math.floor(200 / (item.dropChance / 100));
+  const getBuyPrice = (item) => {
+    if (!item || !item.dropChance) return 0;
+    return Math.floor(200 / (item.dropChance / 100));
+  };
   // Beregn salgspris for en vare.
   const getSellPrice = (item) => Math.floor(getBuyPrice(item) / 2);
 
@@ -302,13 +317,13 @@ export default function Shop() {
   if (!items) return <p>Loading items...</p>;
 
   const visibleBuyList = finalBuyList.filter((item) => {
-    if (item.id === "POT_HEALTH") {
-      // For Health Potion, vis den hvis færre enn 5 er kjøpt, ellers sjekk cooldown.
-      if (healthPotionBought < 5) return true;
+      if (item.id === "POT_HEALTH") {
+        // For Health Potion, vis den hvis færre enn 5 er kjøpt, ellers sjekk cooldown.
+        if (healthPotionBought < 5) return true;
+        return !(cooldowns[item.id] && cooldowns[item.id] > Date.now());
+      }
       return !(cooldowns[item.id] && cooldowns[item.id] > Date.now());
-    }
-    return !(cooldowns[item.id] && cooldowns[item.id] > Date.now());
-  });
+    });
 
   // Bygg inventory-listen fra inventory-objektet.
   const inventoryArray = Object.entries(inventory.items)
@@ -319,10 +334,8 @@ export default function Shop() {
     })
     .filter(Boolean);
 
-  const leftLimitedOffer =
-    limitedOffers.find((offer) => offer && offer.dropChance > 20) || null;
-  const rightLimitedOffer =
-    limitedOffers.find((offer) => offer && offer.dropChance <= 20) || null;
+    const leftLimitedOffer = limitedOffers[0];
+    const rightLimitedOffer = limitedOffers[1];
 
   // Beregn gjenværende cooldown (i sekunder) for en valgt vare, hvis den er på cooldown.
   const remainingCooldown =
@@ -374,31 +387,33 @@ export default function Shop() {
         <div className="hidden relative w-full h-64"></div>
         {/* Begrensede tilbud-seksjonen */}
         <div className="relative w-full h-64">
+          {/* Venstre boks: varer med dropChance > 20, vanlig flashy border */}
           <div
-            className={`${leftLimitedOffer ? styles["flicker-border"] : ""}
-             flex flex-col justify-center absolute top-4 left-4 w-55 h-55 overflow-hidden bg-gray-800/80 p-2 rounded`}
+            className={`${
+              leftLimitedOffer ? styles["flicker-border"] : ""
+            } absolute top-4 left-4 w-55 h-55 overflow-hidden bg-gray-800/80 p-2 rounded`}
           >
             <h2 className="font-semibold text-center">Limited Offer</h2>
-            {limitedOffers[0] ? (
+            {leftLimitedOffer ? (
               <div className="mt-2 flex flex-col items-center">
-                {limitedOffers[0].sprite && (
+                {leftLimitedOffer.sprite && (
                   <img
-                    src={limitedOffers[0].sprite}
-                    alt={limitedOffers[0].name}
+                    src={leftLimitedOffer.sprite}
+                    alt={leftLimitedOffer.name}
                     className="w-16 h-16 object-contain mb-1"
                   />
                 )}
-                <p className="text-sm">{limitedOffers[0].name}</p>
-                <span className="line-through mr-1">
-                  {getBuyPrice(rightLimitedOffer)}
-                </span>
+                <p className="text-sm">{leftLimitedOffer.name}</p>
                 <p className="text-xs text-gray-300">
+                  <span className="line-through mr-1">
+                    {getBuyPrice(leftLimitedOffer)}
+                  </span>
                   <span className="text-green-500 font-bold mr-1">50% OFF</span>
-                  <span>{getLimitedOfferPrice(rightLimitedOffer)}</span>
+                  <span>{getLimitedOfferPrice(leftLimitedOffer)}</span>
                 </p>
                 <button
-                  onClick={() => handleBuy(limitedOffers[0])}
-                  className={`${styles["buyButton"]} px-12 mt-1 py-1 text-sm font-bold rounded cursor-pointer`}
+                  onClick={() => handleBuy(leftLimitedOffer)}
+                  className="bg-yellow-600 px-6 py-1 mt-1 text-xs rounded cursor-pointer"
                 >
                   Buy
                 </button>
@@ -411,30 +426,31 @@ export default function Shop() {
             )}
           </div>
           <div
-            className={`${rightLimitedOffer ? styles["mega-flash-border"] : ""}
-            } flex flex-col justify-center absolute top-4 right-4 w-55 h-55 overflow-hidden bg-gray-800/80 p-2 rounded`}
+            className={`${
+              rightLimitedOffer ? styles["mega-flash-border"] : ""
+            } absolute top-4 right-4 w-55 h-55 overflow-hidden bg-gray-800/80 p-2 rounded`}
           >
             <h2 className="font-semibold text-center">Limited Offer</h2>
-            {limitedOffers[1] ? (
+            {rightLimitedOffer ? (
               <div className="mt-2 flex flex-col items-center">
-                {limitedOffers[1].sprite && (
+                {rightLimitedOffer.sprite && (
                   <img
-                    src={limitedOffers[1].sprite}
-                    alt={limitedOffers[1].name}
+                    src={rightLimitedOffer.sprite}
+                    alt={rightLimitedOffer.name}
                     className="w-16 h-16 object-contain mb-1"
                   />
                 )}
-                <p className="text-sm">{limitedOffers[1].name}</p>
-                <span className="line-through mr-1 text-red-500">
-                  {getBuyPrice(rightLimitedOffer)}
-                </span>
-                <p className="text-xs text-white">
+                <p className="text-sm">{rightLimitedOffer.name}</p>
+                <p className="text-xs text-gray-300">
+                  <span className="line-through mr-1">
+                    {getBuyPrice(rightLimitedOffer)}
+                  </span>
                   <span className="text-green-500 font-bold mr-1">50% OFF</span>
                   <span>{getLimitedOfferPrice(rightLimitedOffer)}</span>
                 </p>
                 <button
-                  onClick={() => handleBuy(limitedOffers[1])}
-                  className={`${styles["buyButton"]} px-12 mt-1 py-1 text-sm font-bold rounded cursor-pointer`}
+                  onClick={() => handleBuy(rightLimitedOffer)}
+                  className={`${styles["buyButton"]} px-6 py-1 mt-1 text-xs rounded cursor-pointer`}
                 >
                   Buy
                 </button>
