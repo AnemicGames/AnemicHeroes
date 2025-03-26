@@ -68,7 +68,6 @@ export default function Shop() {
   const [selectedItem, setSelectedItem] = useState(null);
   const [selectedMode, setSelectedMode] = useState(null);
   const [activeTab, setActiveTab] = useState("buy");
-  const [buyMessage, setBuyMessage] = useState("");
   const [sellMessage, setSellMessage] = useState("");
   const [floatingSell, setFloatingSell] = useState(null);
   const [floatingBuy, setFloatingBuy] = useState(null);
@@ -232,11 +231,7 @@ export default function Shop() {
         if (healthPotionBought + 1 === 5) {
           setCooldowns((prev) => ({ ...prev, [item.id]: Date.now() + 120 * 1000 }));
         }
-      } else {
-        setBuyMessage("Health Potion er på cooldown!");
-        setTimeout(() => setBuyMessage(""), 2000);
-        return;
-      }
+      } 
     } else if (limitedOffers.some((offer) => offer && offer.id === item.id)) {
       // For begrensede tilbud, fjern varen fra tilbudene og spor kjøpet.
       setLimitedOffers((prevOffers) =>
@@ -265,7 +260,6 @@ export default function Shop() {
     }
     setTimeout(() => {
       setFloatingBuy(null);
-      setBuyMessage("");
     }, 2000);
   };
 
