@@ -565,24 +565,24 @@ export default function Shop() {
                 )}
                 {selectedMode === "buy" ? (
                   <>
-                    <p className="text-xs text-gray-300">
-                      Kjøpspris: {getBuyPrice(selectedItem)}
+                    <p className="text-sm text-green-300">
+                      Price: {getBuyPrice(selectedItem)}
                     </p>
                     <button
                       onClick={() => handleBuy(selectedItem)}
-                      className="bg-yellow-600 px-3 py-1 text-xs rounded w-full cursor-pointer"
+                      className={`${styles["buyButton"]} px-3 py-1 mt-1 text-sm w-full rounded cursor-pointer`}
                     >
                       Buy
                     </button>
                   </>
                 ) : (
                   <>
-                    <p className="text-xs text-gray-300">
-                      Salgspris: {getSellPrice(selectedItem)}
+                    <p className="text-sm text-green-300">
+                      Price: {getSellPrice(selectedItem)}
                     </p>
                     <button
                       onClick={() => handleSell(selectedItem)}
-                      className="bg-yellow-600 px-3 py-1 text-xs rounded w-20 cursor-pointer"
+                      className={`${styles["buyButton"]} px-3 py-1 mt-1 text-sm w-full rounded cursor-pointer`}
                     >
                       Sell
                     </button>
