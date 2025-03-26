@@ -68,7 +68,6 @@ export default function Shop() {
   const [selectedItem, setSelectedItem] = useState(null);
   const [selectedMode, setSelectedMode] = useState(null);
   const [activeTab, setActiveTab] = useState("buy");
-  const [sellMessage, setSellMessage] = useState("");
   const [floatingSell, setFloatingSell] = useState(null);
   const [floatingBuy, setFloatingBuy] = useState(null);
   // Nedtelling for begrensede tilbud (60 sekunder = 1 minutt).
@@ -270,20 +269,15 @@ export default function Shop() {
       const price = getSellPrice(item);
       removeItem(item.id, 1);
       addGold(price);
-      setSellMessage(`Solgte ${item.name}`);
-      setFloatingSell(`${item.name} +${price} gull`);
+      setFloatingSell(`${item.name} +${price} gold`);
       setTimeout(() => {
         setFloatingSell(null);
-        setSellMessage("");
       }, 2000);
       if (count - 1 <= 0) {
         setSelectedItem(null);
         setSelectedMode(null);
       }
-    } else {
-      setSellMessage(`Ingen ${item.name} igjen å selge.`);
-      setTimeout(() => setSellMessage(""), 2000);
-    }
+    } 
   };
 
   if (!items) return <p>Loading items...</p>;
@@ -546,7 +540,6 @@ export default function Shop() {
             )}
             {floatingSell && (
               <div className={`${styles["flash-up"]} absolute left-1/2 transform -translate-x-1/2`}>
-                {floatingSell}
               </div>
             )}
           </div>
