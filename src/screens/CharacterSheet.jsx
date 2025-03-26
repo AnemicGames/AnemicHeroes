@@ -3,10 +3,15 @@ import { useGameStore } from "../store/useGameStore";
 
 export default function CharacterSheet() {
   const [itemsData, setItemsData] = useState(null);
+  const [notification, setNotification] = useState(null);
 
   const [currentFrame, setCurrentFrame] = useState(1);
   const totalFrames = 12;
   const frameRate = 583;
+
+  // Pagination
+  const [currentInventoryPage, setCurrentInventoryPage] = useState(1);
+  const itemsPerPage = 16;
 
   useEffect(() => {
     const imageCache = [];
@@ -115,15 +120,17 @@ export default function CharacterSheet() {
   };
 
   const handleEquip = (item) => {
+    if (item.equippable === false) {
+      setNotification(`${item.name} cannot be equipped.`);
+      setTimeout(() => setNotification(null), 3000);
+      return;
+    }
+
     const slot = getSlotFromItemType(item.type);
     if (equipped[slot]) {
       unequipItem(slot);
     }
     equipItem(slot, item.id);
-  };
-
-  const handleUnequip = (slot) => {
-    unequipItem(slot);
   };
 
   const handleDrink = (item, event) => {
@@ -142,6 +149,18 @@ export default function CharacterSheet() {
     }
   };
 
+  const inventoryEntries = Object.entries(inventory.items);
+  const totalInventoryPages = Math.ceil(inventoryEntries.length / itemsPerPage);
+
+  if (currentInventoryPage > totalInventoryPages && totalInventoryPages > 0) {
+    setCurrentInventoryPage(totalInventoryPages);
+  }
+  const startIndex = (currentInventoryPage - 1) * itemsPerPage;
+  const currentItems = inventoryEntries.slice(
+    startIndex,
+    startIndex + itemsPerPage
+  );
+
   return (
     <div className="p-4 h-full text-white grid grid-cols-30 grid-rows-5 gap-2 relative">
       <img
@@ -149,6 +168,13 @@ export default function CharacterSheet() {
         alt="Background Animation"
         className="absolute top-0 left-0 w-full h-full object-cover -z-10"
       />
+
+      {/* Notification */}
+      {notification && (
+        <div className="absolute top-4 left-1/2 transform -translate-x-1/2 bg-red-600 text-white px-4 py-2 rounded shadow-lg">
+          {notification}
+        </div>
+      )}
 
       <h2 className="text-5xl font-bold mt-4 col-start-1 col-end-3 row-start-1">
         {player.name}
@@ -171,10 +197,10 @@ export default function CharacterSheet() {
             return (
               <div
                 key={slot}
-                className="equipment-slot rounded p-2 w-20 h-20 flex flex-col items-center justify-center relative bg-gray-500/80 group"
+                className="equipment-slot rounded p-2 w-20 h-20 flex flex-col items-center justify-center relative bg-gray-500/80"
               >
                 {item ? (
-                  <div onClick={() => handleUnequip(slot)}>
+                  <div className="group" onClick={() => unequipItem(slot)}>
                     <img
                       src={item.sprite}
                       alt={item.name}
@@ -183,16 +209,7 @@ export default function CharacterSheet() {
                     {/* Tooltip */}
                     <div className="absolute left-0 bottom-0 hidden group-hover:flex flex-col bg-black text-white p-2 rounded text-xs z-10">
                       <div className="mb-1 h-15">{item.name}</div>
-                      {/* <div>STR: {item.statModifiers?.strength ?? 0}</div>
-                      <div>DEF: {item.statModifiers?.defense ?? 0}</div>
-                      <div>SPD: {item.statModifiers?.speed ?? 0}</div> */}
                     </div>
-                    {/* <button
-                      onClick={() => handleUnequip(slot)}
-                      className="absolute top-0 right-0 bg-red-500 text-white text-xs p-1 rounded"
-                    >
-                      X
-                    </button> */}
                   </div>
                 ) : (
                   <div className="w-full h-full flex items-center justify-center">
@@ -231,31 +248,37 @@ export default function CharacterSheet() {
         <div>
           <div>
             Strength:{" "}
-            <span className="font-bold"> {effectiveStats.strength}</span> (
-            {player.strength}{" "}
-            {bonusStrength > 0 && (
-              <span className="text-green-500">+{bonusStrength}</span>
-            )}
+            <span className="font-bold">{effectiveStats.strength}</span> (
+            {player.strength}
+            {bonusStrength > 0 ? (
+              <span className="text-green-500"> +{bonusStrength}</span>
+            ) : bonusStrength < 0 ? (
+              <span className="text-red-500"> {bonusStrength}</span>
+            ) : null}
             )
           </div>
           <div>
-            Defense:{" "}
-            <span className="font-bold"> {effectiveStats.defense}</span> (
-            {player.defense}{" "}
-            {bonusDefense > 0 && (
-              <span className="text-green-500">+{bonusDefense}</span>
-            )}
+            Defense: <span className="font-bold">{effectiveStats.defense}</span>{" "}
+            ({player.defense}
+            {bonusDefense > 0 ? (
+              <span className="text-green-500"> +{bonusDefense}</span>
+            ) : bonusDefense < 0 ? (
+              <span className="text-red-500"> {bonusDefense}</span>
+            ) : null}
             )
           </div>
           <div>
-            Speed: <span className="font-bold"> {effectiveStats.speed}</span> (
-            {player.speed}{" "}
-            {bonusSpeed > 0 && (
-              <span className="text-green-500">+{bonusSpeed}</span>
-            )}
+            Speed: <span className="font-bold">{effectiveStats.speed}</span> (
+            {player.speed}
+            {bonusSpeed > 0 ? (
+              <span className="text-green-500"> +{bonusSpeed}</span>
+            ) : bonusSpeed < 0 ? (
+              <span className="text-red-500"> {bonusSpeed}</span>
+            ) : null}
             )
           </div>
         </div>
+
         <div className="mb-2 flex flex-col items-center gap-2">
           <div className="w-full bg-gray-300 rounded-full h-4 mt-1">
             <div
@@ -269,8 +292,9 @@ export default function CharacterSheet() {
             <div>XP</div>
             {player.xp} / {player.xpToNextLvl}
           </div>
+
           {/* Exit */}
-          <button className="space-x-2 flex absolute bottom-0 left-0 cursor-pointer  hover:bg-red-800 rounded">
+          <button className="space-x-2 flex absolute bottom-2 right-2 cursor-pointer hover:bg-red-800 rounded">
             <img
               src="/assets/sprites/exit-nav-icon.png"
               alt="Exit"
@@ -282,61 +306,92 @@ export default function CharacterSheet() {
       </div>
 
       {/* Inventory */}
-      <div className="inventory rounded p-4 col-start-23 col-end-31 row-start-1 row-end-6 bg-gray-500/80">
+      <div className="inventory rounded p-4 col-start-23 col-end-31 row-start-1 row-end-6 bg-gray-500/80 relative">
         <div className="flex justify-between items-center mb-4">
           <h3 className="font-semibold mb-2">Inventory</h3>
           <div className="gold-count text-lg font-semibold">
             Gold: {inventory.gold || 0}
           </div>
         </div>
-        {inventory && Object.keys(inventory.items).length > 0 ? (
-          <div className="grid grid-cols-3 gap-1">
-            {Object.entries(inventory.items).map(([itemId, count]) => {
-              const item = getItemDetails(itemId);
-              if (!item) return null;
-              return (
-                <div
-                  key={itemId}
-                  className="inventory-item rounded p-2 w-24 h-24 relative group flex flex-col items-center justify-center bg-gray-800 cursor-pointer"
-                  onContextMenu={(e) => {
-                    if (item.type === "potion") handleDrink(item, e);
-                  }}
-                  title={
-                    item.type === "potion" ? "Right-click to drink" : undefined
-                  }
-                >
-                  <img
-                    src={item.sprite}
-                    alt={item.name}
-                    className="w-full h-16 object-contain mb-1"
-                  />
-                  <div className="absolute top-0 right-0 bg-gray-800 text-white text-2xl px-1">
-                    {count}
-                  </div>
+        {inventoryEntries.length > 0 ? (
+          <>
+            <div className="grid grid-cols-3 gap-1">
+              {currentItems.map(([itemId, count]) => {
+                const item = getItemDetails(itemId);
+                if (!item) return null;
+                return (
+                  <div
+                    key={itemId}
+                    className="inventory-item rounded p-2 w-24 h-24 relative group flex flex-col items-center justify-center bg-gray-800 cursor-pointer"
+                    onContextMenu={(e) => {
+                      if (item.type === "potion") handleDrink(item, e);
+                    }}
+                    title={
+                      item.type === "potion"
+                        ? "Right-click to drink"
+                        : undefined
+                    }
+                  >
+                    <img
+                      src={item.sprite}
+                      alt={item.name}
+                      className="w-full h-16 object-contain mb-1"
+                    />
+                    <div className="absolute top-0 right-0 bg-gray-800 text-white text-2xl px-1">
+                      {count}
+                    </div>
 
-                  {/* Tooltip */}
-                  <div className="absolute left-0 bottom-0 h-24 w-24 hidden group-hover:flex flex-col bg-black text-white p-2 rounded text-xs z-10">
-                    {item.type === "potion" ? (
-                      <>
-                        <div className="mb-1">{item.name}</div>
-                        <div>Heal {item.healAmount} HP</div>
-                      </>
-                    ) : (
-                      <div
-                        onClick={() => handleEquip(item)}
-                        title={"Click to equip"}
-                      >
-                        <div className="mb-1">{item.name}</div>
-                        <div>STR: {item.statModifiers?.strength ?? 0}</div>
-                        <div>DEF: {item.statModifiers?.defense ?? 0}</div>
-                        <div>SPD: {item.statModifiers?.speed ?? 0}</div>
-                      </div>
-                    )}
+                    {/* Tooltip */}
+                    <div className="absolute left-0 bottom-0 h-24 w-24 hidden group-hover:flex flex-col bg-black text-white p-2 rounded text-xs z-10">
+                      {item.type === "potion" ? (
+                        <>
+                          <div className="mb-1">{item.name}</div>
+                          <div>Heal {item.healAmount} HP</div>
+                        </>
+                      ) : (
+                        <div
+                          onClick={() => handleEquip(item)}
+                          title="Click to equip"
+                        >
+                          <div className="mb-1">{item.name}</div>
+                          <div>STR: {item.statModifiers?.strength ?? 0}</div>
+                          <div>DEF: {item.statModifiers?.defense ?? 0}</div>
+                          <div>SPD: {item.statModifiers?.speed ?? 0}</div>
+                        </div>
+                      )}
+                    </div>
                   </div>
-                </div>
-              );
-            })}
-          </div>
+                );
+              })}
+            </div>
+
+            {/* Pagination */}
+            <div className="pagination-controls flex justify-between items-center px-4 absolute bottom-2 right-1 w-full">
+              <button
+                onClick={() =>
+                  setCurrentInventoryPage((prev) => Math.max(prev - 1, 1))
+                }
+                disabled={currentInventoryPage === 1}
+                className="bg-gray-700 px-2 py-1 rounded"
+              >
+                Previous
+              </button>
+              <span>
+                Page {currentInventoryPage} of {totalInventoryPages}
+              </span>
+              <button
+                onClick={() =>
+                  setCurrentInventoryPage((prev) =>
+                    Math.min(prev + 1, totalInventoryPages)
+                  )
+                }
+                disabled={currentInventoryPage === totalInventoryPages}
+                className="bg-gray-700 px-2 py-1 rounded"
+              >
+                Next
+              </button>
+            </div>
+          </>
         ) : (
           <p>No items in inventory.</p>
         )}
