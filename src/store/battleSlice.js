@@ -18,8 +18,51 @@ export const createBattleSlice = (set, get) => ({
   nextToAttack: null,
   isFighting: true,
   skipTurn: false,
-  xpReward: 50,
-  goldReward: 50,
+  xp: 50,
+  baseGold: 200,
+
+  inventory: {
+    gold: 0,
+  },
+
+  setXP: (xp) => {
+    set((state) => {
+      let newXP = state.player.xp + xp;
+      let newLevel = state.player.level;
+      let newXpToNextLvl = state.player.xpToNextLvl;
+      let newMaxHp = state.player.maxHp;
+      let currentHp = state.player.currentHp;
+
+      while (newXP >= newXpToNextLvl) {
+        newXP -= newXpToNextLvl;
+        newLevel += 1;
+        newXpToNextLvl = Math.floor(newXpToNextLvl * 1.2); //XP scaling
+
+        newMaxHp = Math.floor(newMaxHp * 1.1); //HP scaling
+        currentHp = newMaxHp;
+      }
+
+      return {
+        player: {
+          ...state.player,
+          xp: newXP,
+          level: newLevel,
+          xpToNextLvl: newXpToNextLvl,
+          maxHp: newMaxHp,
+          currentHp: currentHp,
+        },
+      };
+    });
+  },
+
+  addGold: (amount) => {
+    set((state) => ({
+      inventory: {
+        ...state.inventory,
+        gold: state.inventory.gold + amount,
+      },
+    }));
+  },
 
   setSkipTurn: (skip) =>
     set(() => ({

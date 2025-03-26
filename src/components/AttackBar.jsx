@@ -72,7 +72,9 @@ export const AttackBar = ({ callback }) => {
           </>
         )
       ) : (
-        <p className="text-white text-lg">{enemy.currentHP === 0 ? "You defeated the enemy!" : "Game Over"}</p>
+        <p className="text-white text-lg">
+          {enemy.currentHP === 0 ? "You defeated the enemy!" : "Game Over"}
+        </p>
       )}
     </div>
   );
