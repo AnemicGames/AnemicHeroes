@@ -300,7 +300,7 @@ export default function CharacterSheet() {
             {player.xp} / {player.xpToNextLvl}
           </div>
 
-          <button className="space-x-2 flex absolute bottom-2 right-2 cursor-pointer hover:bg-red-800 rounded">
+          <button className="space-x-2 flex absolute bottom-0 left-0 cursor-pointer hover:bg-red-800 rounded">
             <img
               src="/assets/sprites/exit-nav-icon.png"
               alt="Exit"
