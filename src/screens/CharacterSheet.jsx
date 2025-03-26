@@ -39,7 +39,7 @@ export default function CharacterSheet() {
   const [notification, setNotification] = useState(null);
 
   const [currentInventoryPage, setCurrentInventoryPage] = useState(1);
-  const itemsPerPage = 16;
+  const itemsPerPage = 18;
 
   useEffect(() => {
     fetch("/assets/items.json")
@@ -317,7 +317,7 @@ export default function CharacterSheet() {
 
         {/* Inventory */}
         <div className="inventory rounded p-4 col-start-23 col-end-31 row-start-1 row-end-6 bg-gray-500/80 relative">
-          <div className="flex justify-between items-center mb-4">
+          <div className="flex justify-between items-center">
             <h3 className="font-semibold mb-2">Inventory</h3>
             <div className="gold-count text-lg font-semibold">
               Gold: {inventory.gold || 0}
@@ -373,7 +373,7 @@ export default function CharacterSheet() {
                 })}
               </div>
 
-              <div className="pagination-controls flex justify-between items-center px-4 absolute bottom-2 right-1 w-full">
+              <div className="pagination-controls flex justify-between items-center px-4 absolute bottom-2 right-0 w-full">
                 <button
                   onClick={() =>
                     setCurrentInventoryPage((prev) => Math.max(prev - 1, 1))
