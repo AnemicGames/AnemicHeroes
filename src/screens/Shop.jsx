@@ -80,7 +80,7 @@ export default function Shop() {
       .catch((error) => console.error("Feil ved lasting av varer:", error));
   }, []);
 
-  // Genrerer to limited items når lastet 
+  // Genrerer to limited items når lastet
   useEffect(() => {
     if (items && items.length > 0) {
       const offers = getRandomItems(items, 2);
@@ -186,7 +186,7 @@ export default function Shop() {
       });
     }
   }, [tick, cooldowns["POT_HEALTH"]]);
-  
+
   // Tilfeldig velg 'count' varer fra en liste.
   function getRandomItems(arr, count) {
     const shuffled = [...arr].sort(() => 0.5 - Math.random());
@@ -202,7 +202,7 @@ export default function Shop() {
       .toString()
       .padStart(2, "0")}:${secs.toString().padStart(2, "0")}`;
   }
-// Bregn kjøpspris for limited offers 50% avslag
+  // Bregn kjøpspris for limited offers 50% avslag
   const getLimitedOfferPrice = (item) => {
     const normalPrice = getBuyPrice(item);
     return Math.floor(normalPrice * 0.5);
@@ -319,6 +319,11 @@ export default function Shop() {
     })
     .filter(Boolean);
 
+  const leftLimitedOffer =
+    limitedOffers.find((offer) => offer && offer.dropChance > 20) || null;
+  const rightLimitedOffer =
+    limitedOffers.find((offer) => offer && offer.dropChance <= 20) || null;
+
   // Beregn gjenværende cooldown (i sekunder) for en valgt vare, hvis den er på cooldown.
   const remainingCooldown =
     selectedItem && cooldowns[selectedItem.id]
@@ -370,9 +375,8 @@ export default function Shop() {
         {/* Begrensede tilbud-seksjonen */}
         <div className="relative w-full h-64">
           <div
-            className={`${
-              limitedOffers[0]  ? (limitedOffers[0].dropChance <= 20 ? styles["mega-flash-border"] : styles["flicker-border"]) : ""
-            } flex flex-col justify-center absolute top-4 left-4 w-50 h-50 overflow-hidden bg-gray-800/80 p-2 rounded`}
+            className={`${leftLimitedOffer ? styles["flicker-border"] : ""}
+             flex flex-col justify-center absolute top-4 left-4 w-55 h-55 overflow-hidden bg-gray-800/80 p-2 rounded`}
           >
             <h2 className="font-semibold text-center">Limited Offer</h2>
             {limitedOffers[0] ? (
@@ -385,8 +389,12 @@ export default function Shop() {
                   />
                 )}
                 <p className="text-sm">{limitedOffers[0].name}</p>
+                <span className="line-through mr-1">
+                  {getBuyPrice(rightLimitedOffer)}
+                </span>
                 <p className="text-xs text-gray-300">
-                  Price: {getLimitedOfferPrice(limitedOffers[0])}
+                  <span className="text-green-500 font-bold mr-1">50% OFF</span>
+                  <span>{getLimitedOfferPrice(rightLimitedOffer)}</span>
                 </p>
                 <button
                   onClick={() => handleBuy(limitedOffers[0])}
@@ -403,9 +411,8 @@ export default function Shop() {
             )}
           </div>
           <div
-            className={`${
-              limitedOffers[1]  ? (limitedOffers[0].dropChance <= 20 ? styles["mega-flash-border"] : styles["flicker-border"]) : ""
-            } flex flex-col justify-center absolute top-4 right-4 w-50 h-50 overflow-hidden bg-gray-800/80 p-2 rounded`}
+            className={`${rightLimitedOffer ? styles["mega-flash-border"] : ""}
+            } flex flex-col justify-center absolute top-4 right-4 w-55 h-55 overflow-hidden bg-gray-800/80 p-2 rounded`}
           >
             <h2 className="font-semibold text-center">Limited Offer</h2>
             {limitedOffers[1] ? (
@@ -418,8 +425,12 @@ export default function Shop() {
                   />
                 )}
                 <p className="text-sm">{limitedOffers[1].name}</p>
-                <p className="text-xs text-gray-300">
-                  Price: {getLimitedOfferPrice(limitedOffers[1])}
+                <span className="line-through mr-1 text-red-500">
+                  {getBuyPrice(rightLimitedOffer)}
+                </span>
+                <p className="text-xs text-white">
+                  <span className="text-green-500 font-bold mr-1">50% OFF</span>
+                  <span>{getLimitedOfferPrice(rightLimitedOffer)}</span>
                 </p>
                 <button
                   onClick={() => handleBuy(limitedOffers[1])}
