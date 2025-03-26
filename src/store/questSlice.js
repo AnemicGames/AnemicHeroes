@@ -7,12 +7,17 @@ export const createQuestSlice = (set, get) => ({
       const response = await fetch("/assets/quests.json");
       const data = await response.json();
 
-      const questsWithDefaults = (data.quests || []).map((quest) => ({
+      const allQuests = [
+        ...(data.main_quests || []),
+        ...(data.side_quests || []),
+      ];
+
+      const questsWithDefaults = allQuests.map((quest) => ({
         ...quest,
         objective: { current: 0, ...quest.objective },
-
         status: quest.previous ? quest.status || "locked" : "active",
       }));
+
       set({ quests: questsWithDefaults });
     } catch (error) {
       console.error("Error loading quests:", error);
@@ -28,6 +33,12 @@ export const createQuestSlice = (set, get) => ({
             return quest;
           }
           totalXpAward += quest.xpReward || 0;
+
+          if (quest.unlocksWorld) {
+            const unlockWorld = get().unlockWorld;
+            unlockWorld(quest.unlocksWorld);
+          }
+
           return { ...quest, status: "completed" };
         }
         return quest;
