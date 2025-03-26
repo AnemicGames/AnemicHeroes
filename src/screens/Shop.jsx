@@ -371,7 +371,7 @@ export default function Shop() {
         <div className="relative w-full h-64">
           <div
             className={`${
-              limitedOffers[0]  ? (limitedOffers[0].dropChance <= 25 ? styles["mega-flash-border"] : styles["flicker-border"]) : ""
+              limitedOffers[0]  ? (limitedOffers[0].dropChance <= 20 ? styles["mega-flash-border"] : styles["flicker-border"]) : ""
             } flex flex-col justify-center absolute top-4 left-4 w-50 h-50 overflow-hidden bg-gray-800/80 p-2 rounded`}
           >
             <h2 className="font-semibold text-center">Limited Offer</h2>
@@ -390,7 +390,7 @@ export default function Shop() {
                 </p>
                 <button
                   onClick={() => handleBuy(limitedOffers[0])}
-                  className="bg-yellow-600 px-6 py-1 mt-1 text-xs rounded cursor-pointer"
+                  className={`${styles["buyButton"]} px-12 mt-1 py-1 text-sm font-bold rounded cursor-pointer`}
                 >
                   Buy
                 </button>
@@ -404,7 +404,7 @@ export default function Shop() {
           </div>
           <div
             className={`${
-              limitedOffers[1]  ? (limitedOffers[0].dropChance <= 25 ? styles["mega-flash-border"] : styles["flicker-border"]) : ""
+              limitedOffers[1]  ? (limitedOffers[0].dropChance <= 20 ? styles["mega-flash-border"] : styles["flicker-border"]) : ""
             } flex flex-col justify-center absolute top-4 right-4 w-50 h-50 overflow-hidden bg-gray-800/80 p-2 rounded`}
           >
             <h2 className="font-semibold text-center">Limited Offer</h2>
