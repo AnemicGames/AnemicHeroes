@@ -169,4 +169,51 @@ export const createQuestSlice = (set, get) => ({
       return { quests: questsCopy };
     });
   },
+
+  updateNamedBossState: (bossId) => {
+    set((state) => {
+      let totalXpAward = 0;
+      let questsCopy = state.quests.map((quest) => {
+        if (
+          quest.objective?.type === "defeat_named_boss" &&
+          quest.status === "active" &&
+          quest.objective.targetId === bossId
+        ) {
+          const newCurrent = quest.objective.current + 1;
+          let newStatus = quest.status;
+
+          if (newCurrent >= quest.objective.target) {
+            newStatus = "completed";
+            totalXpAward += quest.xpReward || 0;
+          }
+
+          return {
+            ...quest,
+            objective: { ...quest.objective, current: newCurrent },
+            status: newStatus,
+          };
+        }
+        return quest;
+      });
+
+      // Unlock next in chain (if any)
+      questsCopy = questsCopy.map((quest) => {
+        if (
+          quest.status === "locked" &&
+          quest.previous &&
+          questsCopy.find((q) => q.id === quest.previous)?.status ===
+            "completed"
+        ) {
+          return { ...quest, status: "active" };
+        }
+        return quest;
+      });
+
+      if (totalXpAward > 0) {
+        get().setXP(totalXpAward);
+      }
+
+      return { quests: questsCopy };
+    });
+  },
 });
