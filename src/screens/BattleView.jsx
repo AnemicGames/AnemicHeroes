@@ -15,7 +15,6 @@ export default function BattleView() {
   const setCurrentView = useGameStore((state) => state.setCurrentView);
   const player = useGameStore((state) => state.player);
   const enemy = useGameStore((state) => state.enemy);
-  const currentWorld = useGameStore((state) => state.currentWorld);
 
   const playerHealthPercent = (player.currentHp / player.maxHp) * 100;
   const enemyHealthPercent = (enemy.currentHP / enemy.baseHP) * 100;
