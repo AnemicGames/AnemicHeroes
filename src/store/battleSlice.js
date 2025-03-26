@@ -18,6 +18,8 @@ export const createBattleSlice = (set, get) => ({
   nextToAttack: null,
   isFighting: true,
   skipTurn: false,
+  xpReward: 50,
+  goldReward: 50,
 
   setSkipTurn: (skip) =>
     set(() => ({

@@ -1,7 +1,7 @@
 import React from "react";
 import { useGameStore } from "../store/useGameStore";
 import { useEffect, useState } from "react";
-import { ActionBar } from "../components/ActionBar.jsx";
+import { ActionBar } from "../components/Actionbar.jsx";
 import { BackgroundImage } from "../components/BattleBackground.jsx";
 // import { ActionBar } from "/src/components/ActionBar.jsx"; bruk denne når du pusher
 
@@ -12,7 +12,12 @@ export default function BattleView() {
   const heal = useGameStore((state) => state.heal);
   const resetBattle = useGameStore((state) => state.resetBattle);
   const [mobs, setMobs] = useState([]);
+  const [battleOutcome, setBattleOutcome] = useState(null);
+  const [isBattleOver, setIsBattleOver] = useState(false);
+  const setXP = useGameStore((state) => state.setXP);
+  const addGold = useGameStore((state) => state.addGold);
   const setCurrentView = useGameStore((state) => state.setCurrentView);
+  const resetPosition = useGameStore((state) => state.resetPosition)
   const player = useGameStore((state) => state.player);
   const enemy = useGameStore((state) => state.enemy);
 
@@ -34,6 +39,8 @@ export default function BattleView() {
       .then((data) => {
         setMobs(data);
         resetBattle();
+        setBattleOutcome(null);
+        setIsBattleOver(false);
         heal(player.maxHp);
         setEnemy(fetchRandomEnemy(data));
         rollInitiative();
@@ -41,6 +48,32 @@ export default function BattleView() {
       })
       .catch((error) => console.error("Error loading mobs:", error));
   }, []);
+
+  useEffect(() => {
+    if (enemy.currentHP <= 0 && battleOutcome === null) {
+      setBattleOutcome("VICTORY");
+      setIsBattleOver(true);
+      setXP(enemy.xpReward);
+      addGold(enemy.goldReward);
+    }
+
+    if (player.currentHp <= 0 && battleOutcome === null) {
+      console.log("Player defeated!");
+      setBattleOutcome("DEFEAT");
+      setIsBattleOver(true);
+      resetPosition()
+    }
+  }, [
+    enemy.currentHP,
+    enemy.xpReward,
+    enemy.goldReward,
+    battleOutcome,
+    player.currentHp,
+    setXP,
+    addGold,
+    setCurrentView,
+    resetPosition,
+  ]);
 
   const goToSplash = () => setCurrentView("SPLASH");
   const goToMainMenu = () => setCurrentView("MAIN_MENU");
@@ -50,51 +83,11 @@ export default function BattleView() {
   const goToShop = () => setCurrentView("SHOP");
 
   return (
-    <>
-      <div className="space-x-2 mt-4">
-        <h1>Battle</h1>
-        <button
-          className="px-2 py-1 border rounded bg-gray-700"
-          onClick={goToSplash}
-        >
-          Splash
-        </button>
-        <button
-          className="px-2 py-1 border rounded bg-gray-700"
-          onClick={goToMainMenu}
-        >
-          Main Menu
-        </button>
-        <button
-          className="px-2 py-1 border rounded bg-gray-700"
-          onClick={goToMap}
-        >
-          Map
-        </button>
-        <button
-          className="px-2 py-1 border rounded bg-gray-700"
-          onClick={goToBattle}
-        >
-          Battle
-        </button>
-        <button
-          className="px-2 py-1 border rounded bg-gray-700"
-          onClick={goToCharacterSheet}
-        >
-          Character
-        </button>
-        <button
-          className="px-2 py-1 border rounded bg-gray-700"
-          onClick={goToShop}
-        >
-          Shop
-        </button>
-      </div>
+    <div className="relative w-full h-full">
+      <BackgroundImage />
       <div className="w-7xl flex flex-col gap-4 absolute h-[600px]">
         {/* Background image */}
         <div className="relative w-full h-full">
-          <BackgroundImage/>
-
           {/* Player sprite */}
           <img
             src={"./public/assets/sprites/heroes/mage.png"}
@@ -141,6 +134,37 @@ export default function BattleView() {
           </div>
         </div>
 
+        {/* Victory/Defeat Message */}
+        {battleOutcome && isBattleOver && (
+          <div className="absolute top-1/3 left-1/2 transform -translate-x-1/2 text-center p-6 bg-black bg-opacity-80 rounded-xl">
+            {battleOutcome === "VICTORY" ? (
+              <>
+                <h2 className="text-4xl text-green-400">🎉 Victory! 🎉</h2>
+                <p className="text-white">
+                  You gained {enemy.xpReward} XP and {enemy.goldReward} gold!
+                </p>
+                <button
+                  className="mt-4 px-4 py-2 bg-gray-700 text-white rounded"
+                  onClick={() => setCurrentView("MAP")}
+                >
+                  Continue
+                </button>
+              </>
+            ) : (
+              <>
+                <h2 className="text-4xl text-red-400">☠️ Defeat! ☠️</h2>
+                <p className="text-white">You were defeated in battle...</p>
+                <button
+                  className="mt-4 px-4 py-2 bg-gray-700 text-white rounded"
+                  onClick={() => setCurrentView("MAIN_MENU")}
+                >
+                  Respawn
+                </button>
+              </>
+            )}
+          </div>
+        )}
+
         {/* Action Bar */}
         <div className="flex gap-4 flex-col relative">
           <ActionBar
@@ -150,6 +174,6 @@ export default function BattleView() {
           />
         </div>
       </div>
-    </>
+    </div>
   );
 }
