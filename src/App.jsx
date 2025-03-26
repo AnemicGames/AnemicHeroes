@@ -13,18 +13,18 @@ import QuestScreen from "./screens/questView";
 import WorldMap from "./screens/WorldMap.jsx";
 
 export default function App() {
-  const [isLoaded, setIsLoaded] = useState(false);
-  const currentView = useGameStore((state) => state.currentView);
+    const [isLoaded, setIsLoaded] = useState(false);
+    const currentView = useGameStore((state) => state.currentView);
 
-  if (!isLoaded) {
-    return (
-      <LoadScreen
-        onDone={() => {
-          setIsLoaded(true);
-        }}
-      />
-    );
-  }
+    if (!isLoaded) {
+        return (
+            <LoadScreen
+                onDone={() => {
+                    setIsLoaded(true);
+                }}
+            />
+        );
+    }
 
   switch (currentView) {
     case "SPLASH":
