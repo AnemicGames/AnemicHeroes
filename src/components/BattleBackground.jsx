@@ -3,7 +3,7 @@ import { useGameStore } from "../store/useGameStore";
 
 export const BackgroundImage = () => {
   const currentWorld = useGameStore((state) => state.currentWorld);
-  const [background, setBackground] = useState("");
+  const [background, setBackground] = useState();
 
   useEffect(() => {
     let imgSrc = "";
@@ -36,7 +36,7 @@ export const BackgroundImage = () => {
     <img
       src={background}
       alt="Background"
-      className="w-full absolute"
+      className="w-full absolute top-0"
     />
   );
 };
