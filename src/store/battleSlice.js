@@ -1,8 +1,8 @@
 export const createBattleSlice = (set, get) => ({
   enemy: {
-    id: "id",
-    name: "placeholder",
-    baseHP: 1,
+    id: "1",
+    name: "Forest Knight",
+    baseHP: 150,
     baseStrength: 1,
     baseSpeed: 1,
     baseDefence: 1,
