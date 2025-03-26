@@ -10,6 +10,7 @@ import CharacterSheet from "./screens/CharacterSheet";
 import Shop from "./screens/Shop";
 import CreateCharacter from "./screens/CreateCharacter";
 import QuestScreen from "./screens/questView";
+import WorldMap from "./screens/WorldMap.jsx";
 
 export default function App() {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -30,6 +31,8 @@ export default function App() {
       return <SplashScreen />;
     case "MAIN_MENU":
       return <MainMenu />;
+    case "WORLDMAP":
+      return <WorldMap />;
     case "MAP":
       return <MapView />;
     case "BATTLE":
