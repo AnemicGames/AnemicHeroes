@@ -423,7 +423,7 @@ export default function Shop() {
                 </p>
                 <button
                   onClick={() => handleBuy(limitedOffers[1])}
-                  className="bg-yellow-600 px-6 py-1 mt-1 text-xs rounded cursor-pointer"
+                  className={`${styles["buyButton"]} px-12 mt-1 py-1 text-sm font-bold rounded cursor-pointer`}
                 >
                   Buy
                 </button>
