@@ -19,11 +19,7 @@ export const createBattleSlice = (set, get) => ({
   isFighting: true,
   skipTurn: false,
   xp: 50,
-  baseGold: 200,
-
-  inventory: {
-    gold: 0,
-  },
+  baseGold: 50,
 
   setXP: (xp) => {
     set((state) => {

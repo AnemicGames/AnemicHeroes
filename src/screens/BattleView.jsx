@@ -20,9 +20,11 @@ export default function BattleView() {
   const resetPosition = useGameStore((state) => state.resetPosition);
   const player = useGameStore((state) => state.player);
   const enemy = useGameStore((state) => state.enemy);
+  const gold = useGameStore((state) => state.inventory.gold);
+  const [backgroundImage, setBackgroundImage] = useState("");
 
-  const playerHealthPercent = (player.currentHp / player.maxHp) * 100;
-  const enemyHealthPercent = (enemy.currentHP / enemy.baseHP) * 100;
+  const playerHealthPercent = player.maxHp > 0 ? (player.currentHp / player.maxHp) * 100 : 0;
+  const enemyHealthPercent = enemy.baseHP > 0 ? (enemy.currentHP / enemy.baseHP) * 100 : 0;
 
   function fetchRandomEnemy(mobs) {
     const randomMob = mobs[Math.floor(Math.random() * mobs.length)];
@@ -37,6 +39,19 @@ export default function BattleView() {
   }
 
   useEffect(() => {
+    const savedBattleState = JSON.parse(localStorage.getItem("battleState"));
+    const savedBackground = localStorage.getItem("backgroundImage");
+  
+    if (savedBattleState) {
+      const playerState = savedBattleState.player;
+      playerState.currentHp = playerState.currentHp !== null ? playerState.currentHp : playerState.maxHp;
+      
+      setBackgroundImage(savedBackground || "/assets/images/default-background.jpg");
+      setEnemy(savedBattleState.enemy);
+      rollInitiative();
+      return;
+    }
+
     fetch("/assets/mobs.json")
       .then((response) => response.json())
       .then((data) => {
@@ -47,7 +62,6 @@ export default function BattleView() {
         heal(player.maxHp);
         setEnemy(fetchRandomEnemy(data));
         rollInitiative();
-        // Alle her skal ut til map.
       })
       .catch((error) => console.error("Error loading mobs:", error));
   }, []);
@@ -60,7 +74,7 @@ export default function BattleView() {
       addGold(enemy.baseGold);
 
       console.log("XP:", player.xp);
-      console.log("Gold:", player.gold);
+      console.log("Gold:", gold);
     }
 
     if (player.currentHp <= 0 && battleOutcome === null) {
@@ -79,9 +93,29 @@ export default function BattleView() {
     player.currentHp,
     setXP,
     addGold,
+    gold,
     setCurrentView,
     resetPosition,
   ]);
+
+  useEffect(() => {
+    if (isBattleOver) {
+      localStorage.removeItem("battleState");
+      localStorage.removeItem("backgroundImage");
+    } else {
+      const battleState = {
+        enemy,
+        player: {
+          ...player,
+          maxHp: player.maxHp,
+          currentHp: player.currentHp,
+        },
+      };
+      console.log(battleState)
+      localStorage.setItem("battleState", JSON.stringify(battleState));
+      localStorage.setItem("backgroundImage", backgroundImage);
+    }
+  }, [enemy, player.currentHp, isBattleOver, player, backgroundImage]);
 
   return (
     <div className="relative w-full h-full">
@@ -142,7 +176,7 @@ export default function BattleView() {
               <>
                 <h2 className="text-4xl text-green-400">🎉 Victory! 🎉</h2>
                 <p className="text-white">
-                  You gained {player.xp} XP and {player.gold} gold!
+                  You gained {player.xp} XP and {gold} gold!
                 </p>
                 <button
                   className="mt-4 px-4 py-2 bg-gray-700 text-white rounded"
