@@ -99,7 +99,9 @@ export default function Shop() {
       const storedOffers = localStorage.getItem("limitedOffers");
       const storedTimestamp = localStorage.getItem("limitedOffersTimestamp");
       if (storedOffers && storedTimestamp) {
-        const timeElapsed = Math.floor((Date.now() - Number(storedTimestamp)) / 1000);
+        const timeElapsed = Math.floor(
+          (Date.now() - Number(storedTimestamp)) / 1000
+        );
         const remainingTime = 60 - timeElapsed;
         if (remainingTime > 0) {
           setLimitedOffers(JSON.parse(storedOffers));
@@ -127,7 +129,10 @@ export default function Shop() {
 
   // Effekt: Lagre kjøpte begrensede tilbud til localStorage hver gang de endres.
   useEffect(() => {
-    localStorage.setItem("purchasedLimitedOfferIds", JSON.stringify(purchasedLimitedOfferIds));
+    localStorage.setItem(
+      "purchasedLimitedOfferIds",
+      JSON.stringify(purchasedLimitedOfferIds)
+    );
   }, [purchasedLimitedOfferIds]);
 
   // Effekt: Oppdater nedtelling for begrensede tilbud hvert sekund.
@@ -140,7 +145,10 @@ export default function Shop() {
             setLimitedOffers(newOffers);
             setPurchasedLimitedOfferIds([]);
             localStorage.setItem("limitedOffers", JSON.stringify(newOffers));
-            localStorage.setItem("limitedOffersTimestamp", Date.now().toString());
+            localStorage.setItem(
+              "limitedOffersTimestamp",
+              Date.now().toString()
+            );
           }
           return 60;
         }
@@ -193,7 +201,9 @@ export default function Shop() {
     const hrs = Math.floor(seconds / 3600);
     const mins = Math.floor((seconds % 3600) / 60);
     const secs = seconds % 60;
-    return `${hrs.toString().padStart(2, "0")}:${mins.toString().padStart(2, "0")}:${secs.toString().padStart(2, "0")}`;
+    return `${hrs.toString().padStart(2, "0")}:${mins
+      .toString()
+      .padStart(2, "0")}:${secs.toString().padStart(2, "0")}`;
   }
 
   // Beregn kjøpspris for en vare.
@@ -228,19 +238,26 @@ export default function Shop() {
         setHealthPotionBought((prev) => prev + 1);
         // Hvis dette kjøpet gir 5 potions, sett en cooldown.
         if (healthPotionBought + 1 === 5) {
-          setCooldowns((prev) => ({ ...prev, [item.id]: Date.now() + 120 * 1000 }));
+          setCooldowns((prev) => ({
+            ...prev,
+            [item.id]: Date.now() + 120 * 1000,
+          }));
         }
-      } 
+      }
     } else if (limitedOffers.some((offer) => offer && offer.id === item.id)) {
       // For begrensede tilbud, fjern varen fra tilbudene og spor kjøpet.
       setLimitedOffers((prevOffers) =>
-        prevOffers.map((offer) => (offer && offer.id === item.id ? null : offer))
+        prevOffers.map((offer) =>
+          offer && offer.id === item.id ? null : offer
+        )
       );
       setPurchasedLimitedOfferIds((prev) => [...prev, item.id]);
       localStorage.setItem(
         "limitedOffers",
         JSON.stringify(
-          limitedOffers.map((offer) => (offer && offer.id === item.id ? null : offer))
+          limitedOffers.map((offer) =>
+            offer && offer.id === item.id ? null : offer
+          )
         )
       );
       removeGold(price);
@@ -251,7 +268,7 @@ export default function Shop() {
       addItem(item.id, 1);
       setCooldowns((prev) => ({ ...prev, [item.id]: Date.now() + 120 * 1000 }));
     }
-    
+
     setFloatingBuy(`${item.name} -${price} gold`);
     if (selectedItem && selectedItem.id === item.id) {
       setSelectedItem(null);
@@ -277,7 +294,7 @@ export default function Shop() {
         setSelectedItem(null);
         setSelectedMode(null);
       }
-    } 
+    }
   };
 
   if (!items) return <p>Loading items...</p>;
@@ -305,7 +322,10 @@ export default function Shop() {
   // Beregn gjenværende cooldown (i sekunder) for en valgt vare, hvis den er på cooldown.
   const remainingCooldown =
     selectedItem && cooldowns[selectedItem.id]
-      ? Math.max(0, Math.floor((cooldowns[selectedItem.id] - Date.now()) / 1000))
+      ? Math.max(
+          0,
+          Math.floor((cooldowns[selectedItem.id] - Date.now()) / 1000)
+        )
       : 0;
 
   return (
@@ -314,12 +334,16 @@ export default function Shop() {
       <AnimatedImage />
       {/* Flytende meldinger */}
       {floatingSell && (
-        <div className={`${styles["flash-up"]} absolute top-20 left-1/2 transform -translate-x-1/2`}>
+        <div
+          className={`${styles["flash-up"]} absolute top-20 left-1/2 transform -translate-x-1/2`}
+        >
           {floatingSell}
         </div>
       )}
       {floatingBuy && (
-        <div className={`${styles["flash-up-buy"]} absolute top-28 left-1/2 transform -translate-x-1/2`}>
+        <div
+          className={`${styles["flash-up-buy"]} absolute top-28 left-1/2 transform -translate-x-1/2`}
+        >
           {floatingBuy}
         </div>
       )}
@@ -334,7 +358,11 @@ export default function Shop() {
           />
           <h1 className="text-2xl font-bold">The Tavern of Goods</h1>
           <div className="flex items-center text-lg">
-            <img src="/assets/sprites/shop-nav-icon.png" alt="" className="w-12 h-10" />
+            <img
+              src="/assets/sprites/shop-nav-icon.png"
+              alt=""
+              className="w-12 h-10"
+            />
             {inventory.gold}
           </div>
         </div>
@@ -342,7 +370,11 @@ export default function Shop() {
         <div className="hidden relative w-full h-64"></div>
         {/* Begrensede tilbud-seksjonen */}
         <div className="relative w-full h-64">
-          <div className={`${limitedOffers[0] ? styles["flicker-border"] : ""} absolute top-4 left-4 w-40 bg-gray-800/80 p-2 rounded`}>
+          <div
+            className={`${
+              limitedOffers[0] ? styles["flicker-border"] : ""
+            } absolute top-4 left-4 w-40 bg-gray-800/80 p-2 rounded`}
+          >
             <h2 className="font-semibold text-center">Limited Offer</h2>
             {limitedOffers[0] ? (
               <div className="mt-2 flex flex-col items-center">
@@ -354,7 +386,9 @@ export default function Shop() {
                   />
                 )}
                 <p className="text-sm">{limitedOffers[0].name}</p>
-                <p className="text-xs text-gray-300">Price: {getBuyPrice(limitedOffers[0])}</p>
+                <p className="text-xs text-gray-300">
+                  Price: {getBuyPrice(limitedOffers[0])}
+                </p>
                 <button
                   onClick={() => handleBuy(limitedOffers[0])}
                   className="bg-yellow-600 px-6 py-1 mt-1 text-xs rounded cursor-pointer"
@@ -369,7 +403,11 @@ export default function Shop() {
               </div>
             )}
           </div>
-          <div className={`${limitedOffers[1] ? styles["flicker-border"] : ""} absolute top-4 right-4 w-40 bg-gray-800/80 p-2 rounded`}>
+          <div
+            className={`${
+              limitedOffers[1] ? styles["flicker-border"] : ""
+            } absolute top-4 right-4 w-40 bg-gray-800/80 p-2 rounded`}
+          >
             <h2 className="font-semibold text-center">Limited Offer</h2>
             {limitedOffers[1] ? (
               <div className="mt-2 flex flex-col items-center">
@@ -381,7 +419,9 @@ export default function Shop() {
                   />
                 )}
                 <p className="text-sm">{limitedOffers[1].name}</p>
-                <p className="text-xs text-gray-300">Price: {getBuyPrice(limitedOffers[1])}</p>
+                <p className="text-xs text-gray-300">
+                  Price: {getBuyPrice(limitedOffers[1])}
+                </p>
                 <button
                   onClick={() => handleBuy(limitedOffers[1])}
                   className="bg-yellow-600 px-6 py-1 mt-1 text-xs rounded cursor-pointer"
@@ -401,13 +441,17 @@ export default function Shop() {
         <div className="flex justify-start space-x-4 p-4 bg-gray-800/ bg-opacity-90">
           <button
             onClick={() => setActiveTab("buy")}
-            className={`px-4 py-2 rounded cursor-pointer ${activeTab === "buy" ? "bg-yellow-600" : "bg-gray-700"}`}
+            className={`px-4 py-2 rounded cursor-pointer ${
+              activeTab === "buy" ? "bg-yellow-600" : "bg-gray-700"
+            }`}
           >
             Buy
           </button>
           <button
             onClick={() => setActiveTab("sell")}
-            className={`px-4 py-2 rounded cursor-pointer ${activeTab === "sell" ? "bg-yellow-600" : "bg-gray-700"}`}
+            className={`px-4 py-2 rounded cursor-pointer ${
+              activeTab === "sell" ? "bg-yellow-600" : "bg-gray-700"
+            }`}
           >
             Sell
           </button>
@@ -485,7 +529,9 @@ export default function Shop() {
                 )}
                 {selectedItem.statModifiers && (
                   <ul className="text-xs">
-                    <li>Strength: {selectedItem.statModifiers.strength || 0}</li>
+                    <li>
+                      Strength: {selectedItem.statModifiers.strength || 0}
+                    </li>
                     <li>Speed: {selectedItem.statModifiers.speed || 0}</li>
                     <li>Defense: {selectedItem.statModifiers.defense || 0}</li>
                   </ul>
@@ -493,14 +539,6 @@ export default function Shop() {
                 {selectedItem.healAmount && (
                   <p className="text-xs">Heal: {selectedItem.healAmount}</p>
                 )}
-                {/* Vis nedtelling hvis valgt vare er på cooldown */}
-                {/* {cooldowns[selectedItem?.id] &&
-                  cooldowns[selectedItem.id] > Date.now() && (
-                    <p className="text-xs text-red-500">
-                      Cooldown:{" "}
-                      {Math.floor((cooldowns[selectedItem.id] - Date.now()) / 1000)} s
-                    </p>
-                  )} */}
                 {selectedMode === "buy" ? (
                   <>
                     <p className="text-xs text-gray-300">
@@ -512,16 +550,6 @@ export default function Shop() {
                     >
                       Buy
                     </button>
-                    {/* {buyMessage && (
-                      <div className="text-center text-green-500">
-                        <p>{buyMessage}</p>
-                      </div>
-                    )} */}
-                    {/* {floatingBuy && (
-                      <div className={`${styles["flash-up-buy"]} absolute left-1/2 transform -translate-x-1/2`}>
-                        {floatingBuy}
-                      </div>
-                    )} */}
                   </>
                 ) : (
                   <>
@@ -539,8 +567,9 @@ export default function Shop() {
               </div>
             )}
             {floatingSell && (
-              <div className={`${styles["flash-up"]} absolute left-1/2 transform -translate-x-1/2`}>
-              </div>
+              <div
+                className={`${styles["flash-up"]} absolute left-1/2 transform -translate-x-1/2`}
+              ></div>
             )}
           </div>
         </div>
