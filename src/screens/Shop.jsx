@@ -86,16 +86,14 @@ export default function Shop() {
       // Filter items into two groups based on dropChance
       const highDropChanceItems = items.filter(item => item.dropChance > 20);
       const lowDropChanceItems = items.filter(item => item.dropChance <= 20);
-  
-      // Randomly select one item from each group (if available)
+
       const highOffer = highDropChanceItems.length > 0 
         ? highDropChanceItems[Math.floor(Math.random() * highDropChanceItems.length)]
         : null;
       const lowOffer = lowDropChanceItems.length > 0 
         ? lowDropChanceItems[Math.floor(Math.random() * lowDropChanceItems.length)]
         : null;
-  
-      // Set the limited offers in a fixed order (left box: high, right box: low)
+
       setLimitedOffers([highOffer, lowOffer]);
       setCountdown(60);
       setPurchasedLimitedOfferIds([]);
@@ -405,15 +403,15 @@ export default function Shop() {
                 )}
                 <p className="text-sm">{leftLimitedOffer.name}</p>
                 <p className="text-xs text-gray-300">
-                  <span className="line-through mr-1">
+                  <span className="line-through mr-1 text-red-500">
                     {getBuyPrice(leftLimitedOffer)}
                   </span>
                   <span className="text-green-500 font-bold mr-1">50% OFF</span>
-                  <span>{getLimitedOfferPrice(leftLimitedOffer)}</span>
+                  <span className="text-white underline">{getLimitedOfferPrice(leftLimitedOffer)}</span>
                 </p>
                 <button
                   onClick={() => handleBuy(leftLimitedOffer)}
-                  className="bg-yellow-600 px-6 py-1 mt-1 text-xs rounded cursor-pointer"
+                  className={`${styles["buyButton"]} px-12 py-1 mt-6 text-sm rounded cursor-pointer`}
                 >
                   Buy
                 </button>
@@ -442,15 +440,15 @@ export default function Shop() {
                 )}
                 <p className="text-sm">{rightLimitedOffer.name}</p>
                 <p className="text-xs text-gray-300">
-                  <span className="line-through mr-1">
+                  <span className="line-through mr-1 text-red-500">
                     {getBuyPrice(rightLimitedOffer)}
                   </span>
                   <span className="text-green-500 font-bold mr-1">50% OFF</span>
-                  <span>{getLimitedOfferPrice(rightLimitedOffer)}</span>
+                  <span className="text-white underline">{getLimitedOfferPrice(rightLimitedOffer)}</span>
                 </p>
                 <button
                   onClick={() => handleBuy(rightLimitedOffer)}
-                  className={`${styles["buyButton"]} px-6 py-1 mt-1 text-xs rounded cursor-pointer`}
+                  className={`${styles["buyButton"]} px-12 py-1 mt-6 text-sm rounded cursor-pointer`}
                 >
                   Buy
                 </button>
