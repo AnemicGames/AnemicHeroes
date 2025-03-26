@@ -9,6 +9,7 @@ export default function BattleView() {
   const [action, setAction] = useState("FIGHT");
   const setEnemy = useGameStore((state) => state.setEnemy);
   const rollInitiative = useGameStore((state) => state.rollInitiative);
+  const clearBattle = useGameStore((state) => state.clearBattle);
   const heal = useGameStore((state) => state.heal);
   const resetBattle = useGameStore((state) => state.resetBattle);
   const [mobs, setMobs] = useState([]);
@@ -20,16 +21,17 @@ export default function BattleView() {
   const resetPosition = useGameStore((state) => state.resetPosition);
   const player = useGameStore((state) => state.player);
   const enemy = useGameStore((state) => state.enemy);
-  const gold = useGameStore((state) => state.inventory.gold);
   const [backgroundImage, setBackgroundImage] = useState("");
 
   const playerHealthPercent = player.maxHp > 0 ? (player.currentHp / player.maxHp) * 100 : 0;
   const enemyHealthPercent = enemy.baseHP > 0 ? (enemy.currentHP / enemy.baseHP) * 100 : 0;
 
+
+  {/*function for fetching random mobs */}
   function fetchRandomEnemy(mobs) {
     const randomMob = mobs[Math.floor(Math.random() * mobs.length)];
     const calculatedXP = Math.floor(50 * randomMob.lvlMultiplier);
-
+    
     return {
       currentHP: randomMob.baseHP,
       xp: calculatedXP,
@@ -38,6 +40,18 @@ export default function BattleView() {
     };
   }
 
+  function calculateGoldReward(){
+   const goldReward = Math.round((enemy.baseGold*enemy.lvlMultiplier)+(player.level*enemy.lvlMultiplier));
+   console.log("This is my GOLDREWARD",goldReward)
+   console.log( Math.round((enemy.baseGold*enemy.lvlMultiplier) +(player.level*enemy.lvlMultiplier)));
+   return goldReward;
+  }
+
+  console.log("Enemy Base Gold:", enemy.baseGold);
+console.log("Enemy Level Multiplier:", enemy.lvlMultiplier);
+console.log("Player Level:", player.level);
+
+  {/*Getting current battleState from localStorage and fetch mobs */}
   useEffect(() => {
     const savedBattleState = JSON.parse(localStorage.getItem("battleState"));
     const savedBackground = localStorage.getItem("backgroundImage");
@@ -46,7 +60,7 @@ export default function BattleView() {
       const playerState = savedBattleState.player;
       playerState.currentHp = playerState.currentHp !== null ? playerState.currentHp : playerState.maxHp;
       
-      setBackgroundImage(savedBackground || "/assets/images/default-background.jpg");
+      setBackgroundImage(savedBackground);
       setEnemy(savedBattleState.enemy);
       rollInitiative();
       return;
@@ -55,30 +69,34 @@ export default function BattleView() {
     fetch("/assets/mobs.json")
       .then((response) => response.json())
       .then((data) => {
+        clearBattle()
         setMobs(data);
         resetBattle();
         setBattleOutcome(null);
         setIsBattleOver(false);
         heal(player.maxHp);
-        setEnemy(fetchRandomEnemy(data));
+        const newEnemy = fetchRandomEnemy(data)
+        setEnemy(newEnemy);
         rollInitiative();
       })
       .catch((error) => console.error("Error loading mobs:", error));
   }, []);
+  
 
   useEffect(() => {
+    console.log("Enemy Current HP at Battle Start:", enemy.currentHP);
     if (enemy.currentHP <= 0 && battleOutcome === null) {
+      clearBattle();
       setBattleOutcome("VICTORY");
       setIsBattleOver(true);
       setXP(enemy.xp);
-      addGold(enemy.baseGold);
+      addGold(calculateGoldReward());
 
-      console.log("XP:", player.xp);
-      console.log("Gold:", gold);
+      console.log("GOLD:", player.gold);
     }
 
     if (player.currentHp <= 0 && battleOutcome === null) {
-      console.log("Player defeated!");
+      clearBattle();
       setBattleOutcome("DEFEAT");
       setIsBattleOver(true);
       resetPosition();
@@ -87,16 +105,14 @@ export default function BattleView() {
     enemy.currentHP,
     enemy.xp,
     enemy.baseGold,
-    player.gold,
     player.xp,
     battleOutcome,
     player.currentHp,
     setXP,
     addGold,
-    gold,
     setCurrentView,
     resetPosition,
-  ]);
+  ]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     if (isBattleOver) {
@@ -176,7 +192,7 @@ export default function BattleView() {
               <>
                 <h2 className="text-4xl text-green-400">🎉 Victory! 🎉</h2>
                 <p className="text-white">
-                  You gained {player.xp} XP and {gold} gold!
+                  You gained {player.xp} XP and {calculateGoldReward()} gold!
                 </p>
                 <button
                   className="mt-4 px-4 py-2 bg-gray-700 text-white rounded"
