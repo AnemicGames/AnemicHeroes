@@ -4,8 +4,6 @@ import styles from "./Shop.module.css";
 
 /*
   AnimatedImage-komponenten:
-  - Forhåndsinnlaster og viser en serie med bakgrunnsbilder for butikken.
-  - IKKE ENDRE denne komponenten.
 */
 const AnimatedImage = () => {
   const [currentFrame, setCurrentFrame] = useState(1);
@@ -37,14 +35,13 @@ const AnimatedImage = () => {
 /*
   Shop-komponenten:
   - Laster varer fra JSON.
-  - Håndterer begrensede tilbud med localStorage-persistens.
+  - Håndterer begrensede tilbud med localStorage.
   - Regner ut en tilfeldig finalBuyList (med POT_HEALTH alltid inkludert).
   - Implementerer cooldown for vanlige varer og spesiell håndtering for helsepotion.
   - Viser et fast antall varer i Buy-seksjonen (21 varer totalt).
-  - Fjerner kjøpte varer (de er skjult til cooldownen er over, og restocks automatisk).
+  - Fjerner kjøpte varer (de er skjult til cooldownen er over, og restocker automatisk).
 */
 export default function Shop() {
-  // Global state fra din store og tilhørende handlinger.
   const inventory = useGameStore((state) => state.inventory);
   const addItem = useGameStore((state) => state.addItem);
   const removeItem = useGameStore((state) => state.removeItem);
@@ -75,7 +72,7 @@ export default function Shop() {
   // Tick for å tvinge re-render hvert sekund (brukes for cooldown-sjekk).
   const [tick, setTick] = useState(0);
 
-  // Effekt: Hent varer fra JSON ved oppstart.
+  // henter JSON
   useEffect(() => {
     fetch("/assets/items.json")
       .then((response) => response.json())
@@ -83,7 +80,7 @@ export default function Shop() {
       .catch((error) => console.error("Feil ved lasting av varer:", error));
   }, []);
 
-  // Effekt: Når varer er lastet, generer to random begrensede tilbud, sett nedtelling og nullstill kjøpte IDer.
+  // Genrerer to limited items når lastet 
   useEffect(() => {
     if (items && items.length > 0) {
       const offers = getRandomItems(items, 2);
@@ -93,7 +90,7 @@ export default function Shop() {
     }
   }, [items]);
 
-  // Effekt: Last begrensede tilbud og kjøpte IDer fra localStorage for å beholde dem ved oppdatering.
+  // Laster begrensede tilbud og kjøpte IDer fra localStorage for å beholde dem ved oppdatering.
   useEffect(() => {
     if (items && items.length > 0) {
       const storedOffers = localStorage.getItem("limitedOffers");
@@ -127,7 +124,7 @@ export default function Shop() {
     }
   }, [items]);
 
-  // Effekt: Lagre kjøpte begrensede tilbud til localStorage hver gang de endres.
+  // Lagre kjøpte begrensede tilbud til localStorage hver gang de endres.
   useEffect(() => {
     localStorage.setItem(
       "purchasedLimitedOfferIds",
@@ -135,7 +132,7 @@ export default function Shop() {
     );
   }, [purchasedLimitedOfferIds]);
 
-  // Effekt: Oppdater nedtelling for begrensede tilbud hvert sekund.
+  // Oppdater nedtelling for begrensede tilbud hvert sekund.
   useEffect(() => {
     const interval = setInterval(() => {
       setCountdown((prev) => {
@@ -158,7 +155,7 @@ export default function Shop() {
     return () => clearInterval(interval);
   }, [items]);
 
-  // Effekt: Beregn den endelige, randomiserte listen over varer (finalBuyList) én gang når varer er lastet.
+  //  Beregn den endelige, randomazied listen over varer (finalBuyList) én gang når varer er lastet.
   useEffect(() => {
     if (items && items.length > 0) {
       // Finn statisk vare: Health Potion
@@ -173,13 +170,13 @@ export default function Shop() {
     }
   }, [items]);
 
-  // Effekt: Oppdater tick hvert sekund (for cooldown-sjekk).
+  // Oppdater tick hvert sekund (for cooldown-sjekk).
   useEffect(() => {
     const interval = setInterval(() => setTick((prev) => prev + 1), 1000);
     return () => clearInterval(interval);
   }, []);
 
-  // Effekt: Sjekk om Health Potion-cooldownen har utløpt; hvis ja, nullstill telleren og fjern cooldown.
+  // Sjekk om Health Potion-cooldownen har utløpt; hvis ja, nullstill telleren og fjern cooldown.
   useEffect(() => {
     if (cooldowns["POT_HEALTH"] && cooldowns["POT_HEALTH"] <= Date.now()) {
       setHealthPotionBought(0);
@@ -190,13 +187,13 @@ export default function Shop() {
     }
   }, [tick, cooldowns["POT_HEALTH"]]);
 
-  // HELPER: Tilfeldig velg 'count' varer fra en liste.
+  // Tilfeldig velg 'count' varer fra en liste.
   function getRandomItems(arr, count) {
     const shuffled = [...arr].sort(() => 0.5 - Math.random());
     return shuffled.slice(0, count);
   }
 
-  // HELPER: Formater sekunder til HH:MM:SS.
+  //  Formater sekunder til HH:MM:SS.
   function formatTime(seconds) {
     const hrs = Math.floor(seconds / 3600);
     const mins = Math.floor((seconds % 3600) / 60);
@@ -211,18 +208,18 @@ export default function Shop() {
   // Beregn salgspris for en vare.
   const getSellPrice = (item) => Math.floor(getBuyPrice(item) / 2);
 
-  // HANDLER: Naviger tilbake.
+  // Naviger tilbake.
   const handleReturn = () => {
     setCurrentView(embark ? "MAP" : "MAIN_MENU");
   };
 
-  // HANDLER: Sett valgt vare og modus for visning av varedetaljer.
+  //Sett valgt vare og modus for visning av varedetaljer.
   const handleItemClick = (item, mode) => {
     setSelectedItem(item);
     setSelectedMode(mode);
   };
 
-  // HANDLER: Kjøp en vare.
+  //  Kjøp en vare.og fjern vare fra item details når kjøpt
   const handleBuy = (item) => {
     const price = getBuyPrice(item);
     if (inventory.gold < price) {
@@ -263,7 +260,7 @@ export default function Shop() {
       removeGold(price);
       addItem(item.id, 1);
     } else {
-      // For normale varer, sett en 2-minutters cooldown og fjern varen fra butikken.
+      // For normale varer, 2-minutters cooldown og fjern varen fra butikken.
       removeGold(price);
       addItem(item.id, 1);
       setCooldowns((prev) => ({ ...prev, [item.id]: Date.now() + 120 * 1000 }));
@@ -279,7 +276,7 @@ export default function Shop() {
     }, 2000);
   };
 
-  // HANDLER: Selg en vare.
+  // Selg en vare.
   const handleSell = (item) => {
     const count = inventory.items[item.id] || 0;
     if (count > 0) {
@@ -299,8 +296,6 @@ export default function Shop() {
 
   if (!items) return <p>Loading items...</p>;
 
-  // Bygg den endelige, randomiserte butikken (finalBuyList) er allerede beregnet i en useEffect.
-  // Bygg visibleBuyList ved å filtrere ut varer som er på cooldown.
   const visibleBuyList = finalBuyList.filter((item) => {
     if (item.id === "POT_HEALTH") {
       // For Health Potion, vis den hvis færre enn 5 er kjøpt, ellers sjekk cooldown.
@@ -330,7 +325,6 @@ export default function Shop() {
 
   return (
     <div className="w-full h-full text-white relative">
-      {/* AnimatedImage forblir uberørt */}
       <AnimatedImage />
       {/* Flytende meldinger */}
       {floatingSell && (
