@@ -1,11 +1,12 @@
-import { useState, useEffect } from "react";
 import { useGameStore } from "../store/useGameStore";
+
+const POTION_ID = "POT_HEALTH";
+const POTION_HEAL_AMOUNT = 50; 
 
 export function ActionBar() {
   const {
     setTurnCount,
     damageEnemy,
-    turnCount,
     enemy,
     nextToAttack,
     gameOver,
@@ -14,27 +15,11 @@ export function ActionBar() {
     player,
     startFighting,
     stopFighting,
+    heal,
+    inventory,
+    removeItem,
   } = useGameStore();
 
-  // State and effect for potions
-  const [potions, setPotions] = useState([]);
-  useEffect(() => {
-    fetch("/assets/items.json")
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.itemTable && Array.isArray(data.itemTable)) {
-          const potionItems = data.itemTable.filter(
-            (item) => item.type === "potion"
-          );
-          setPotions(potionItems);
-        } else {
-          console.error("Invalid data format:", data);
-        }
-      })
-      .catch((error) => console.error("Error loading items:", error));
-  }, []);
-
-  // Attack handler combining previous logic
   const handleAttack = () => {
     if (nextToAttack === "PLAYER" && !gameOver) {
       startFighting();
@@ -51,17 +36,22 @@ export function ActionBar() {
           } else {
             setTurnCount();
           }
-          stopFighting();
         }, 1000);
       }
     }
   };
 
-  // Potion handler function
-  const handleDrink = (potion, e) => {
+  const handleDrink = (e) => {
     e.stopPropagation();
-    // Insert your healing logic here, e.g., update player's HP with potion.healAmount
-    console.log(`Used ${potion.name} to heal ${potion.healAmount} HP`);
+
+    if (!inventory.items[POTION_ID] || inventory.items[POTION_ID] <= 0) {
+      console.warn(`No Health Potion left in inventory.`);
+      return;
+    }
+
+    removeItem(POTION_ID);
+    heal(POTION_HEAL_AMOUNT);
+    console.log(`Healed player for ${POTION_HEAL_AMOUNT} HP using Health Potion.`);
   };
 
   return (
@@ -74,16 +64,15 @@ export function ActionBar() {
         <img src="assets/sprites/sword-shiny.png" alt="Attack" />
         Attack!
       </button>
-      
-      {/* Render a potion button if there is at least one potion */}
-      {potions[0] && (
+
+      {inventory.items[POTION_ID] > 0 && (
         <button
           className="text-white bg-red-700 hover:bg-red-600 rounded-full absolute right-12 bottom-6 font-bold text-xl p-3 border-2 border-yellow-300 w-fit-content z-50"
-          onClick={(e) => handleDrink(potions[0], e)}
+          onClick={handleDrink}
         >
           <img
-            src={potions[0].sprite}
-            alt={potions[0].name}
+            src="/assets/sprites/potions/hp_pot.png"
+            alt="Health Potion"
             className="h-[64px] w-[64px]"
           />
         </button>
@@ -91,4 +80,5 @@ export function ActionBar() {
     </div>
   );
 }
+
  
