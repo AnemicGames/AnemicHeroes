@@ -69,6 +69,9 @@ export default function QuestScreen() {
   const setCurrentView = useGameStore((state) => state.setCurrentView);
   const currentWorld = useGameStore((state) => state.currentWorld);
 
+  const [sidePage, setSidePage] = useState(1);
+  const questsPerPage = 6;
+
   useEffect(() => {
     loadQuests();
   }, [loadQuests]);
@@ -95,6 +98,12 @@ export default function QuestScreen() {
   }, {});
 
   const displayedSideQuests = [];
+
+  const totalPages = Math.ceil(sideQuests.length / questsPerPage);
+  const paginatedSideQuests = sideQuests.slice(
+    (sidePage - 1) * questsPerPage,
+    sidePage * questsPerPage
+  );
 
   Object.values(sideQuestsByChain).forEach((chainQuests) => {
     const allComplete = chainQuests.every((q) => q.status === "completed");
@@ -189,15 +198,41 @@ export default function QuestScreen() {
         >
           <h2 className="text-4xl font-bold mb-4">Side quests</h2>
           {sideQuests.length > 0 ? (
-            <ul className="absolute left-[50px] space-y-4">
-              {sideQuests.map((quest) => (
-                <QuestItem
-                  quest={quest}
-                  onComplete={completeQuest}
-                  key={quest.id}
-                />
-              ))}
-            </ul>
+            <div className="absolute left-[50px] space-y-4 max-w-80 w-full">
+              <ul className="space-y-4">
+                {paginatedSideQuests.map((quest) => (
+                  <QuestItem
+                    quest={quest}
+                    onComplete={completeQuest}
+                    key={quest.id}
+                  />
+                ))}
+              </ul>
+
+              {totalPages > 1 && (
+                <div className="flex justify-center mt-2 space-x-4">
+                  <button
+                    onClick={() => setSidePage((p) => Math.max(p - 1, 1))}
+                    disabled={sidePage === 1}
+                    className=" px-3 py-1 rounded disabled:opacity-40"
+                  >
+                    Previous
+                  </button>
+                  <span className="text-xl">
+                    {sidePage} / {totalPages}
+                  </span>
+                  <button
+                    onClick={() =>
+                      setSidePage((p) => Math.min(p + 1, totalPages))
+                    }
+                    disabled={sidePage === totalPages}
+                    className=" px-3 py-1 rounded disabled:opacity-40"
+                  >
+                    Next
+                  </button>
+                </div>
+              )}
+            </div>
           ) : (
             <p>No side quests available for this world.</p>
           )}
