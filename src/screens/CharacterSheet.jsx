@@ -1,26 +1,20 @@
 import { useEffect, useState } from "react";
 import { useGameStore } from "../store/useGameStore";
 
-export default function CharacterSheet() {
-  const [itemsData, setItemsData] = useState(null);
-  const [notification, setNotification] = useState(null);
-
+const AnimatedBgImage = () => {
   const [currentFrame, setCurrentFrame] = useState(1);
+  const currentWorld = useGameStore((state) => state.currentWorld);
   const totalFrames = 12;
-  const frameRate = 583;
-
-  // Pagination
-  const [currentInventoryPage, setCurrentInventoryPage] = useState(1);
-  const itemsPerPage = 16;
+  const frameRate = 190;
 
   useEffect(() => {
     const imageCache = [];
     for (let i = 1; i <= totalFrames; i++) {
       const img = new Image();
-      img.src = `/assets/char_sheet_bg/${i}.webp`;
+      img.src = `/assets/char_sheet_bg/${currentWorld}/${i}.webp`;
       imageCache.push(img);
     }
-  }, []);
+  }, [currentWorld]);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -28,6 +22,22 @@ export default function CharacterSheet() {
     }, frameRate);
     return () => clearInterval(interval);
   }, []);
+
+  return (
+    <img
+      src={`/assets/char_sheet_bg/${currentWorld}/${currentFrame}.webp`}
+      alt="Animated Background"
+      className="fixed top-0 left-0 w-screen h-screen object-cover z-[-1] pointer-events-none"
+    />
+  );
+};
+
+export default function CharacterSheet() {
+  const [itemsData, setItemsData] = useState(null);
+  const [notification, setNotification] = useState(null);
+
+  const [currentInventoryPage, setCurrentInventoryPage] = useState(1);
+  const itemsPerPage = 16;
 
   useEffect(() => {
     fetch("/assets/items.json")
@@ -83,6 +93,7 @@ export default function CharacterSheet() {
     defense: player.defense,
     speed: player.speed,
   };
+
   Object.entries(player.equipped || {}).forEach(([slot, itemId]) => {
     if (itemId) {
       const item = getItemDetails(itemId);
@@ -93,6 +104,7 @@ export default function CharacterSheet() {
       }
     }
   });
+
   const bonusStrength = effectiveStats.strength - player.strength;
   const bonusDefense = effectiveStats.defense - player.defense;
   const bonusSpeed = effectiveStats.speed - player.speed;
@@ -155,6 +167,7 @@ export default function CharacterSheet() {
   if (currentInventoryPage > totalInventoryPages && totalInventoryPages > 0) {
     setCurrentInventoryPage(totalInventoryPages);
   }
+
   const startIndex = (currentInventoryPage - 1) * itemsPerPage;
   const currentItems = inventoryEntries.slice(
     startIndex,
@@ -162,13 +175,8 @@ export default function CharacterSheet() {
   );
 
   return (
-    <div className="p-4 h-full text-white grid grid-cols-30 grid-rows-5 gap-2 relative">
-      <img
-        src={`/assets/char_sheet_bg/${currentFrame}.webp`}
-        alt="Background Animation"
-        className="absolute top-0 left-0 w-full h-full object-cover -z-10"
-      />
-
+    <div className="p-4 h-full w-full text-white relative z-10 grid grid-cols-30 grid-rows-5 gap-2">
+      <AnimatedBgImage />
       {/* Notification */}
       {notification && (
         <div className="absolute top-4 left-1/2 transform -translate-x-1/2 bg-red-600 text-white px-4 py-2 rounded shadow-lg">
@@ -206,7 +214,6 @@ export default function CharacterSheet() {
                       alt={item.name}
                       className="max-w-full max-h-full object-contain"
                     />
-                    {/* Tooltip */}
                     <div className="absolute left-0 bottom-0 hidden group-hover:flex flex-col bg-black text-white p-2 rounded text-xs z-10">
                       <div className="mb-1 h-15">{item.name}</div>
                     </div>
@@ -293,7 +300,6 @@ export default function CharacterSheet() {
             {player.xp} / {player.xpToNextLvl}
           </div>
 
-          {/* Exit */}
           <button className="space-x-2 flex absolute bottom-2 right-2 cursor-pointer hover:bg-red-800 rounded">
             <img
               src="/assets/sprites/exit-nav-icon.png"
@@ -340,8 +346,6 @@ export default function CharacterSheet() {
                     <div className="absolute top-0 right-0 bg-gray-800 text-white text-2xl px-1">
                       {count}
                     </div>
-
-                    {/* Tooltip */}
                     <div className="absolute left-0 bottom-0 h-24 w-24 hidden group-hover:flex flex-col bg-black text-white p-2 rounded text-xs z-10">
                       {item.type === "potion" ? (
                         <>
@@ -365,7 +369,6 @@ export default function CharacterSheet() {
               })}
             </div>
 
-            {/* Pagination */}
             <div className="pagination-controls flex justify-between items-center px-4 absolute bottom-2 right-1 w-full">
               <button
                 onClick={() =>
