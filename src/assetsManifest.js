@@ -43,27 +43,10 @@ export const assetsManifest = {
         '/assets/sprites/armor/leather_bts.png',
         '/assets/sprites/armor/leather_hood.png',
 
-        // Bosses
-        '/assets/sprites/bosses/dark_lord.png',
-        '/assets/sprites/bosses/frost_wyrm.png',
-        '/assets/sprites/bosses/giant.png',
-        '/assets/sprites/bosses/vampire.png',
-
         // Heroes
         '/assets/sprites/heroes/mage.png',
         '/assets/sprites/heroes/rogue.png',
         '/assets/sprites/heroes/warrior.png',
-
-        // Mobs
-        '/assets/sprites/mobs/fallen_knight.png',
-        '/assets/sprites/mobs/forest_elemental.png',
-        '/assets/sprites/mobs/ghost.png',
-        '/assets/sprites/mobs/necromancer.png',
-        '/assets/sprites/mobs/shade.png',
-        '/assets/sprites/mobs/shadowy_figure.png',
-        '/assets/sprites/mobs/sorcerer.png',
-        '/assets/sprites/mobs/stone_golem.png',
-        '/assets/sprites/mobs/succubus.png',
 
         // Potions
         '/assets/sprites/potions/hp_pot.png',
