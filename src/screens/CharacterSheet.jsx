@@ -192,7 +192,7 @@ export default function CharacterSheet() {
         </h2>
 
         {/* Hero image */}
-        <div className="hero-image flex items-center justify-center absolute bottom-[100px] left-[420px]">
+        <div className="hero-image flex items-center justify-center absolute bottom-[60px] left-[460px]">
           <img
             src={heroImage}
             alt={player.class || "Hero"}
@@ -201,7 +201,7 @@ export default function CharacterSheet() {
         </div>
 
         {/* Equipment */}
-        <div className="flex items-start absolute bottom-4 left-[400px]">
+        <div className="flex items-start absolute bottom-4 left-[420px]">
           <div className="equipment flex gap-2 cursor-pointer">
             {Object.entries(equipped).map(([slot, itemId]) => {
               const item = itemId ? getItemDetails(itemId) : null;
