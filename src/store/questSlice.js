@@ -248,7 +248,6 @@ export const createQuestSlice = (set, get) => ({
       if (type === "mob") updateChain("mob_chain");
       if (type === "boss") updateChain("boss_chain");
 
-      // Named boss
       if (type === "named_boss" && bossId) {
         questsCopy = questsCopy.map((quest) => {
           if (
@@ -326,6 +325,18 @@ export const createQuestSlice = (set, get) => ({
           return { ...quest, status: "active" };
         }
         return quest;
+      });
+
+      const questsToComplete = questsCopy.filter(
+        (quest) =>
+          quest.status === "active" &&
+          quest.objective?.current >= quest.objective?.target
+      );
+
+      set({ quests: questsCopy });
+
+      questsToComplete.forEach((quest) => {
+        get().completeQuest(quest.id);
       });
 
       if (totalXpAward > 0) {
