@@ -218,24 +218,46 @@ export const createQuestSlice = (set, get) => ({
   },
 
   registerKill: ({ type, bossId = null }) => {
-    const state = get();
-
-    switch (type) {
-      case "mob":
-        state.updateMobChainState(1);
-        break;
-      case "boss":
-        state.updateBossChainState(1);
-        break;
-      case "named_boss":
-        if (!bossId) {
-          console.warn("Missing bossId for named_boss quest progress");
-          return;
-        }
-        state.updateNamedBossState(bossId);
-        break;
-      default:
-        console.warn(`Unknown kill type: ${type}`);
+    if (type === "mob") {
+      get().updateMobChainState(1);
+    } else if (type === "boss") {
+      get().updateBossChainState(1);
+    } else if (type === "named_boss" && bossId) {
+      get().updateNamedBossState(bossId);
     }
+
+    const updatedQuests = get().quests;
+
+    updatedQuests.forEach((quest) => {
+      if (quest.status !== "active") return;
+
+      const { objective } = quest;
+
+      if (objective?.type === "win_mobs" && type === "mob") {
+        get().updateQuestProgress(quest.id, 1);
+      }
+
+      if (objective?.type === "defeat_bosses" && type === "boss") {
+        get().updateQuestProgress(quest.id, 1);
+      }
+
+      if (
+        objective?.type === "defeat_named_boss" &&
+        objective?.targetId === bossId &&
+        type === "named_boss"
+      ) {
+        get().updateNamedBossState(bossId);
+      }
+
+      const latestQuest = get().quests.find((q) => q.id === quest.id);
+      if (
+        latestQuest &&
+        latestQuest.objective.current >= latestQuest.objective.target &&
+        latestQuest.status !== "completed"
+      ) {
+        get().completeQuest(latestQuest.id);
+      }
+      console.log("Quest progress updated:", quest.id, quest.objective.current);
+    });
   },
 });
