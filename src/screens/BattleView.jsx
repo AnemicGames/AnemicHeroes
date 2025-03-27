@@ -3,7 +3,7 @@ import { useGameStore } from "../store/useGameStore";
 import { useEffect, useState } from "react";
 import { ActionBar } from "/src/components/ActionBar.jsx";
 import { BackgroundImage } from "../components/BattleBackground.jsx";
-
+import { QuestHandler } from "/src/components/QuestHandler.jsx";
 
 export default function BattleView() {
   const [action, setAction] = useState("FIGHT");
@@ -22,13 +22,12 @@ export default function BattleView() {
   const player = useGameStore((state) => state.player);
   const enemy = useGameStore((state) => state.enemy);
   const encounterType = useGameStore((state) => state.encounterType);
-  const clearMap = useGameStore((state) => state.clearMap)
+  const clearMap = useGameStore((state) => state.clearMap);
 
   const playerHealthPercent =
     player.maxHp > 0 ? (player.currentHp / player.maxHp) * 100 : 0;
   const enemyHealthPercent =
     enemy.baseHP > 0 ? (enemy.currentHP / enemy.baseHP) * 100 : 0;
-
 
   {
     /*function for fetching random mobs */
@@ -135,6 +134,7 @@ export default function BattleView() {
 
   return (
     <div className="relative w-full h-full">
+      <QuestHandler battleOutcome={battleOutcome} />
       {/* Background image */}
       <BackgroundImage />
 
@@ -181,12 +181,12 @@ export default function BattleView() {
         </div>
       </div>
       {encounterType === "BOSS" && (
-          <img
-            src="/assets/sprites/cracked-skull.png" // Replace with the correct path to your skull sprite
-            alt="Skull"
-            className="absolute top-3 left-3/4 transform -translate-x-1/2 w-20 h-20"
-          />
-        )}
+        <img
+          src="/assets/sprites/cracked-skull.png" // Replace with the correct path to your skull sprite
+          alt="Skull"
+          className="absolute top-3 left-3/4 transform -translate-x-1/2 w-20 h-20"
+        />
+      )}
 
       {/* Player sprite */}
       <img
