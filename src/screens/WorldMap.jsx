@@ -255,7 +255,7 @@ export default function WorldMap() {
                         <div
                             className={`w-14 h-14 p-3 rounded-full ${
                                 worlds[id] === "UNLOCKED"
-                                    ? "transition transition-300 hover:bg-green-500/50 cursor-pointer"
+                                    ? "transition duration-300 hover:bg-green-500/50 cursor-pointer"
                                     : "transparent"
                             }`}
                             onClick={() => handleCellClick(id)}
