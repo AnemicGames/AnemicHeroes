@@ -1,4 +1,5 @@
 import { useGameStore } from "../store/useGameStore";
+import { useState } from "react";
 
 const POTION_ID = "POT_HEALTH";
 const POTION_HEAL_AMOUNT = 50; 
@@ -14,14 +15,16 @@ export function ActionBar() {
     endBattle,
     player,
     startFighting,
-    stopFighting,
     heal,
     inventory,
     removeItem,
   } = useGameStore();
 
+  const [isAttacking, setIsAttacking] = useState(false);
+
   const handleAttack = () => {
     if (nextToAttack === "PLAYER" && !gameOver) {
+      setIsAttacking(true)
       startFighting();
       const damage = Math.floor(Math.random() * (25 - 5 + 1)) + 5;
       damageEnemy(damage);
@@ -36,6 +39,7 @@ export function ActionBar() {
           } else {
             setTurnCount();
           }
+          setIsAttacking(false)
         }, 1000);
       }
     }
@@ -59,7 +63,7 @@ export function ActionBar() {
       <button
         className="flex items-center justify-center gap-3 text-white bg-red-700 hover:bg-red-600 rounded-full relative p-3 font-bold text-2xl bottom-6 border-2 border-yellow-300 w-[200px] z-50"
         onClick={handleAttack}
-        disabled={gameOver}
+        disabled={gameOver || isAttacking}
       >
         <img src="assets/sprites/sword-shiny.png" alt="Attack" />
         Attack!
