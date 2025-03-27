@@ -1,9 +1,8 @@
 import React from "react";
 import { useGameStore } from "../store/useGameStore";
 import { useEffect, useState } from "react";
-import { ActionBar } from "../components/Actionbar.jsx";
+import { ActionBar } from "/src/components/ActionBar.jsx";
 import { BackgroundImage } from "../components/BattleBackground.jsx";
-// import { ActionBar } from "/src/components/ActionBar.jsx"; bruk denne når du pusher
 
 export default function BattleView() {
   const [action, setAction] = useState("FIGHT");
@@ -178,7 +177,7 @@ export default function BattleView() {
           }`}
         >
           {enemy.name}
-          {encounterType === "BOSS" && "☠️"} {/* Add skull after the name */}
+          {encounterType === "BOSS" && "☠️"}
         </p>
         <img src="" />
         <p
@@ -201,7 +200,7 @@ export default function BattleView() {
       </div>
       {encounterType === "BOSS" && (
         <img
-          src="/assets/sprites/cracked-skull.png" // Replace with the correct path to your skull sprite
+          src="/assets/sprites/cracked-skull.png"
           alt="Skull"
           className="absolute top-3 left-3/4 transform -translate-x-1/2 w-20 h-20"
         />
@@ -209,8 +208,8 @@ export default function BattleView() {
 
       {/* Player sprite */}
       <img
-        src={"./assets/sprites/heroes/mage.png"}
-        alt="Player Sprite"
+        src={`/assets/sprites/heroes/${player.class.toLowerCase()}.png`}
+        alt={`${player.class} Sprite`}
         className={`absolute bottom-[120px] left-1/6 transform w-[300px] transition-transform duration-300 
     ${player.currentHp <= 0 ? "rotate-[-90deg] opacity-50 top-[300px]" : ""}`}
       />

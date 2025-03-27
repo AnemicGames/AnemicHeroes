@@ -16,9 +16,12 @@ export const createBattleSlice = (set, get) => ({
   gameOver: false,
   turnCount: 0,
   nextToAttack: null,
-  isFighting: true,
   skipTurn: false,
   xp: 1,
+
+  isEnemyTurn: () => get().nextToAttack === "ENEMY",
+
+  setNextToAttack: (attacker) => set({ nextToAttack: attacker }),
 
   setXP: (xp) => {
     set((state) => {
@@ -65,16 +68,6 @@ export const createBattleSlice = (set, get) => ({
         skipTurn: skip,
       },
     })),
-
-  startFighting: () =>
-    set({
-      isFighting: true,
-    }),
-
-  stopFighting: () =>
-    set({
-      isFighting: false,
-    }),
 
   resetBattle: () =>
     set({
@@ -132,13 +125,13 @@ export const createBattleSlice = (set, get) => ({
       return { turnCount: newTurnCount };
     }),
 
-  rollInitiative: () => {
+    rollInitiative: () => {
     const playerSpeed = 5;
     const enemySpeed = 5;
     const playerInitiative = Math.floor(Math.random() * 20) + 1 + playerSpeed;
     const enemyInitiative = Math.floor(Math.random() * 20) + 1 + enemySpeed;
     const firstAttacker =
       playerInitiative >= enemyInitiative ? "PLAYER" : "ENEMY";
-    set({ nextToAttack: "PLAYER" });
+    set({ nextToAttack: firstAttacker });
   },
 });

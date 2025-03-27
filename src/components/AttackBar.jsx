@@ -12,7 +12,6 @@ export const AttackBar = ({ callback }) => {
     takeDamage,
     endBattle,
     player,
-    startFighting,
     stopFighting,
     isFighting,
     enemyAttack,
@@ -21,7 +20,6 @@ export const AttackBar = ({ callback }) => {
 
   const handleAttack = () => {
     if (nextToAttack === "PLAYER" && !gameOver) {
-      startFighting();
       const damage = Math.floor(Math.random() * (25 - 5 + 1)) + 5;
       damageEnemy(damage);
       setTurnCount();

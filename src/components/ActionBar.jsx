@@ -22,7 +22,6 @@ export function ActionBar() {
 
   const handleAttack = () => {
     if (nextToAttack === "PLAYER" && !gameOver) {
-      startFighting();
       const damage = Math.floor(Math.random() * (25 - 5 + 1)) + 5;
       damageEnemy(damage);
       setTurnCount();
@@ -52,6 +51,19 @@ export function ActionBar() {
     removeItem(POTION_ID);
     heal(POTION_HEAL_AMOUNT);
     console.log(`Healed player for ${POTION_HEAL_AMOUNT} HP using Health Potion.`);
+
+    setTimeout(() => {
+      if (enemy.currentHP > 0) {
+        const damageAmount = Math.floor(Math.random() * (25 - 5 + 1)) + 5;
+        takeDamage(damageAmount);
+        console.log(`Enemy dealt ${damageAmount} damage.`);
+        if (player.currentHp - damageAmount <= 0) {
+          endBattle();
+        } else {
+          setTurnCount();
+        }
+      }
+    }, 1000);
   };
 
   return (
