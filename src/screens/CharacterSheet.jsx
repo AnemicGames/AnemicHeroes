@@ -177,7 +177,7 @@ export default function CharacterSheet() {
   );
 
   return (
-    <div className="relative min-h-screen h-full w-full text-white overflow-x-hidden">
+    <div className="relative h-full w-full text-white overflow-x-hidden">
       <AnimatedBgImage />
       <div className="p-4 h-full w-full grid grid-cols-30 grid-rows-5 gap-2 relative z-10">
         {/* Notification */}
