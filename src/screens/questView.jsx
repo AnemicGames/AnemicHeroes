@@ -73,8 +73,10 @@ export default function QuestScreen() {
   const questsPerPage = 6;
 
   useEffect(() => {
-    loadQuests();
-  }, [loadQuests]);
+    if (quests.length === 0) {
+      loadQuests();
+    }
+  }, [quests.length, loadQuests]);
 
   const goToMainMenu = () => setCurrentView("MAIN_MENU");
 
