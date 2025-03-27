@@ -47,16 +47,31 @@ export function ActionBar() {
 
   const handleDrink = (e) => {
     e.stopPropagation();
-
+  
     if (!inventory.items[POTION_ID] || inventory.items[POTION_ID] <= 0) {
       console.warn(`No Health Potion left in inventory.`);
       return;
     }
-
+  
     removeItem(POTION_ID);
     heal(POTION_HEAL_AMOUNT);
     console.log(`Healed player for ${POTION_HEAL_AMOUNT} HP using Health Potion.`);
+    setTurnCount();
+  
+    setTimeout(() => {
+      if (player.currentHp > 0) {
+        const damageAmount = Math.floor(Math.random() * (25 - 5 + 1)) + 5;
+        takeDamage(damageAmount);
+  
+        if (player.currentHp - damageAmount <= 0) {
+          endBattle();
+        } else {
+          setTurnCount();
+        }
+      }
+    }, 1000);
   };
+  
 
   return (
     <div className="flex flex-col w-full items-center gap-4 absolute bottom-1 left-0">
