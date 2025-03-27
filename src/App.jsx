@@ -37,7 +37,7 @@ export default function App() {
       {currentView === 'CHARACTER_SHEET' && <CharacterSheet />}
       {currentView === 'SHOP' && <Shop />}
       {currentView === 'CREATE_CHARACTER' && <CreateCharacter />}
-      {currentView === 'QUEST' && <CreateCharacter />}
+      {currentView === 'QUEST' && <QuestScreen />}
     </>
   );
 }
