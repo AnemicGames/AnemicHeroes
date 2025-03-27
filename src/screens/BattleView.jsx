@@ -12,7 +12,6 @@ export default function BattleView() {
   const clearBattle = useGameStore((state) => state.clearBattle);
   const heal = useGameStore((state) => state.heal);
   const resetBattle = useGameStore((state) => state.resetBattle);
-  const [mobs, setMobs] = useState([]);
   const [battleOutcome, setBattleOutcome] = useState(null);
   const [isBattleOver, setIsBattleOver] = useState(false);
   const setXP = useGameStore((state) => state.setXP);
@@ -54,9 +53,9 @@ export default function BattleView() {
   {
     /*Getting current battleState from localStorage and fetch mobs */
   }
-  useEffect(() => {
-    const savedBattleState = JSON.parse(localStorage.getItem("battleState"));
 
+  useEffect(() => {
+    const savedBattleState = useGameStore.getState().battleState;
     if (savedBattleState) {
       const playerState = savedBattleState.player;
       playerState.currentHp =
@@ -75,7 +74,6 @@ export default function BattleView() {
       .then((response) => response.json())
       .then((data) => {
         clearBattle();
-        setMobs(data);
         resetBattle();
         setBattleOutcome(null);
         setIsBattleOver(false);

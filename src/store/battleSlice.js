@@ -20,8 +20,9 @@ export const createBattleSlice = (set, get) => ({
   skipTurn: false,
   xp: 1,
 
+
   isEnemyTurn: () => get().nextToAttack === "ENEMY",
- 
+
   setNextToAttack: (attacker) => set({ nextToAttack: attacker }),
 
   setXP: (xp) => {
@@ -110,19 +111,18 @@ export const createBattleSlice = (set, get) => ({
       skipTurn: false,
       xp: 1,
     })),
-    
 
   damageEnemy: (amount) =>
     set((state) => {
-        const newHealth = Math.max(0, state.enemy.currentHP - amount);
-        const enemyDefeated = newHealth === 0;
-        if (enemyDefeated) {
-            console.log(`${state.enemy.name} has been defeated!`);
-        }
-        return {
-            enemy: { ...state.enemy, currentHP: newHealth },
-            gameOver: enemyDefeated,
-        };
+      const newHealth = Math.max(0, state.enemy.currentHP - amount);
+      const enemyDefeated = newHealth === 0;
+      if (enemyDefeated) {
+        console.log(`${state.enemy.name} has been defeated!`);
+      }
+      return {
+        enemy: { ...state.enemy, currentHP: newHealth },
+        gameOver: enemyDefeated,
+      };
     }),
 
   endBattle: () =>
