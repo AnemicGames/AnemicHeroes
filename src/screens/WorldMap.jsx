@@ -34,6 +34,38 @@ const AnimatedBgImage = () => {
     );
 };
 
+const AnimatedMapSprite = ({ isUnlocked, isSameWorld }) => {
+    const [currentImage, setCurrentImage] = useState(
+        "./assets/sprites/map/fc43.png"
+    );
+
+    useEffect(() => {
+        let interval;
+
+        if (isUnlocked) {
+            const imageSet = isSameWorld
+                ? [
+                      "./assets/sprites/map/fc41.png",
+                      "./assets/sprites/map/fc42.png",
+                  ]
+                : [
+                      "./assets/sprites/map/fc43.png",
+                      "./assets/sprites/map/fc44.png",
+                  ];
+            interval = setInterval(() => {
+                setCurrentImage((prevImage) =>
+                    prevImage === imageSet[0] ? imageSet[1] : imageSet[0]
+                );
+            }, 200);
+            return () => clearInterval(interval);
+        } else {
+            setCurrentImage("./assets/sprites/map/fc43.png");
+        }
+    }, [isUnlocked, isSameWorld]);
+
+    return <img src={currentImage} alt="Animated Image" />;
+};
+
 const ScreenTransition = ({ isVisible, text }) => {
     return (
         <div
@@ -51,7 +83,7 @@ export default function WorldMap() {
     const setCurrentView = useGameStore((state) => state.setCurrentView);
     const setEmbark = useGameStore((state) => state.setEmbark);
     const setCurrentWorld = useGameStore((state) => state.setCurrentWorld);
-    const { map, initializeMap, worlds } = useGameStore();
+    const { map, initializeMap, worlds, currentWorld } = useGameStore();
 
     const [isVisible, setIsVisible] = useState(false);
     const [isClosing, setIsClosing] = useState(false);
@@ -97,12 +129,13 @@ export default function WorldMap() {
     };
 
     const [worldCells] = useState([
-        { id: "FOREST", row: 6.8, col: 9 },
-        { id: "MOUNTAIN", row: 5.7, col: 13.6 },
-        { id: "DESERT", row: 6.1, col: 20 },
-        { id: "SWAMP", row: 12, col: 21.6 },
-        { id: "CAVES", row: 9.2, col: 23.3 },
-        { id: "CASTLE", row: 7.5, col: 24 },
+        { id: "FOREST", row: 6.5, col: 9 },
+        { id: "MOUNTAIN", row: 5.2, col: 13.85 },
+        { id: "DESERT", row: 5.65, col: 20.12 },
+        { id: "SWAMP", row: 11.5, col: 21.9 },
+        { id: "CAVES", row: 8.8, col: 23.9 },
+        { id: "CASTLE", row: 6.7, col: 23.8 },
+        { id: "HELL", row: 12, col: 13.4 },
     ]);
 
     useEffect(() => {
@@ -200,35 +233,43 @@ export default function WorldMap() {
                         }}
                     >
                         <div
-                            className={`w-11 h-11 rounded-full ${
+                            className={`w-14 h-14 p-3 rounded-full ${
                                 worlds[id] === "UNLOCKED"
-                                    ? "bg-green-600 cursor-pointer"
-                                    : "bg-red-600 cursor-pointer"
+                                    ? "transition transition-300 hover:bg-green-500/50 cursor-pointer"
+                                    : "transparent"
                             }`}
                             onClick={() => handleCellClick(id)}
                         >
                             {worlds[id] === "UNLOCKED" ? (
-                                <span className="text-3xl">👍</span>
+                                <AnimatedMapSprite
+                                    isUnlocked={true}
+                                    isSameWorld={currentWorld === id}
+                                />
                             ) : (
-                                <span className="text-3xl">🔒</span>
+                                <span></span>
+                            )}
+                            {worlds[id] === "UNLOCKED" && (
+                                <span className="flex justify-center">
+                                    <p className="bg-black/70 text-white text-sm p-1 mt-1">
+                                        {id}
+                                    </p>
+                                </span>
                             )}
                         </div>
                     </div>
                 ))}
             </div>
-            {
-                <button
-                    className="absolute bottom-0 left-0 m-4 p-2 hover:bg-red-800 rounded z-50"
-                    title="Exit"
-                    onClick={() => goToMainMenu("MAIN_MENU")}
-                >
-                    <img
-                        src="/assets/sprites/exit-nav-icon.png"
-                        alt="Exit"
-                        className="w-10 h-11"
-                    />
-                </button>
-            }
+            <button
+                className="absolute bottom-0 left-0 m-4 p-2 hover:bg-red-800 rounded z-50"
+                title="Exit"
+                onClick={() => goToMainMenu("MAIN_MENU")}
+            >
+                <img
+                    src="/assets/sprites/exit-nav-icon.png"
+                    alt="Exit"
+                    className="w-10 h-11"
+                />
+            </button>
             <ScreenTransition isVisible={transitionActive} text={loadingText} />
         </div>
     );
