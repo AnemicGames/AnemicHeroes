@@ -90,6 +90,7 @@ export default function WorldMap() {
     const [loadingText, setLoadingText] = useState("Loading...");
     const [transitionActive, setTransitionActive] = useState(false);
     const [mapLoaded, setMapLoaded] = useState(false);
+    const [messageVisible, setMessageVisible] = useState(false);
 
     useEffect(() => {
         setIsVisible(true);
@@ -172,6 +173,14 @@ export default function WorldMap() {
     };
 
     const handleCellClick = (id) => {
+        if (id === currentWorld) {
+            setMessageVisible(true);
+            setTimeout(() => {
+                setMessageVisible(false);
+            }, 2000);
+            return;
+        }
+
         if (worlds[id] === "UNLOCKED") {
             closeMap(id);
         }
@@ -204,6 +213,16 @@ export default function WorldMap() {
     return (
         <div className="relative h-full w-full">
             <AnimatedBgImage />
+
+            {messageVisible && (
+                <div className="absolute inset-0 flex items-center justify-center">
+                    <div className="text-white text-xl font-bold h-0 w-60 text-center shadow-[0_0_70px_50px_rgba(0,0,0,1)] z-80">
+                        <span className="relative top-[-16px]">
+                            You are already here!
+                        </span>
+                    </div>
+                </div>
+            )}
             <div
                 className={`absolute w-full h-max ${
                     isClosing
@@ -223,6 +242,7 @@ export default function WorldMap() {
                     alt="current world map"
                     className={`absolute top-[104px] left-[220px] h-[460px]`}
                 />
+
                 {worldCells.map(({ id, row, col }) => (
                     <div
                         key={id}
