@@ -162,7 +162,6 @@ export default function BattleView() {
           {enemy.name}
           {encounterType === "BOSS" && "☠️"} {/* Add skull after the name */}
         </p>
-        <img src="" />
         <p
           className={`text-xl text-white ${
             encounterType === "BOSS" ? "text-2xl text-red-300" : ""
