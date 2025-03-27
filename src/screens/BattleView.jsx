@@ -88,7 +88,6 @@ export default function BattleView() {
   }, []);
 
   useEffect(() => {
-    // Check for victory
     if (enemy.currentHP <= 0 && battleOutcome === null) {
       setBattleOutcome("VICTORY");
       setIsBattleOver(true);
@@ -168,7 +167,7 @@ export default function BattleView() {
           }`}
         >
           {enemy.name}
-          {encounterType === "BOSS" && "☠️"} {/* Add skull after the name */}
+          {encounterType === "BOSS" && "☠️"}
         </p>
         <p
           className={`text-xl text-white ${
@@ -190,7 +189,7 @@ export default function BattleView() {
       </div>
       {encounterType === "BOSS" && (
         <img
-          src="/assets/sprites/cracked-skull.png" // Replace with the correct path to your skull sprite
+          src="/assets/sprites/cracked-skull.png"
           alt="Skull"
           className="absolute top-3 left-3/4 transform -translate-x-1/2 w-20 h-20"
         />
