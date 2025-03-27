@@ -15,23 +15,23 @@ function MusicPlayer() {
       return '/assets/audio/bgm/splash-bgm.mp3';
     }
 
-    if (currentWorld === 'FOREST' && currentView === 'MAIN_MENU' || currentWorld === 'FOREST' && currentView === 'MAP' || currentWorld === 'FOREST' && currentView === 'CHARACTER_SHEET') {
+    if (currentWorld === 'FOREST' && currentView === 'MAIN_MENU' || currentWorld === 'FOREST' && currentView === 'MAP' || currentWorld === 'FOREST' && currentView === 'CHARACTER_SHEET' || currentWorld === 'FOREST' && currentView === 'QUEST' || currentWorld === 'FOREST' && currentView === 'WORLDMAP') {
       return '/assets/audio/bgm/forest-bgm.mp3';
     }
 
-    if (currentWorld === 'MOUNTAIN' && currentView === 'MAIN_MENU' || currentWorld === 'MOUNTAIN' && currentView === 'MAP' || currentWorld === 'MOUNTAIN' && currentView === 'CHARACTER_SHEET') {
+    if (currentWorld === 'MOUNTAIN' && currentView === 'MAIN_MENU' || currentWorld === 'MOUNTAIN' && currentView === 'MAP' || currentWorld === 'MOUNTAIN' && currentView === 'CHARACTER_SHEET' || currentWorld === 'MOUNTAIN' && currentView === 'QUEST' || currentWorld === 'MOUNTAIN' && currentView === 'WORLDMAP') {
       return '/assets/audio/bgm/mountain-bgm.mp3';
     }
-    if (currentWorld === 'DESERT' && currentView === 'MAIN_MENU' || currentWorld === 'DESERT' && currentView === 'MAP' || currentWorld === 'DESERT' && currentView === 'CHARACTER_SHEET') {
+    if (currentWorld === 'DESERT' && currentView === 'MAIN_MENU' || currentWorld === 'DESERT' && currentView === 'MAP' || currentWorld === 'DESERT' && currentView === 'CHARACTER_SHEET' || currentWorld === 'DESERT' && currentView === 'QUEST' || currentWorld === 'DESERT' && currentView === 'WORLDMAP') {
       return '/assets/audio/bgm/desert-bgm.mp3';
     }
-    if (currentWorld === 'SWAMP' && currentView === 'MAIN_MENU' || currentWorld === 'SWAMP' && currentView === 'MAP' || currentWorld === 'SWAMP' && currentView === 'CHARACTER_SHEET') {
+    if (currentWorld === 'SWAMP' && currentView === 'MAIN_MENU' || currentWorld === 'SWAMP' && currentView === 'MAP' || currentWorld === 'SWAMP' && currentView === 'CHARACTER_SHEET' || currentWorld === 'SWAMP' && currentView === 'QUEST' || currentWorld === 'SWAMP' && currentView === 'WORLDMAP') {
       return '/assets/audio/bgm/swamp-bgm.mp3';
     }
-    if (currentWorld === 'CAVES' && currentView === 'MAIN_MENU' || currentWorld === 'CAVES' && currentView === 'MAP' || currentWorld === 'CAVES' && currentView === 'CHARACTER_SHEET') {
+    if (currentWorld === 'CAVES' && currentView === 'MAIN_MENU' || currentWorld === 'CAVES' && currentView === 'MAP' || currentWorld === 'CAVES' && currentView === 'CHARACTER_SHEET' || currentWorld === 'CAVES' && currentView === 'QUEST' || currentWorld === 'CAVES' && currentView === 'WORLDMAP') {
       return '/assets/audio/bgm/caves-bgm.mp3';
     }
-    if (currentWorld === 'CASTLE' && currentView === 'MAIN_MENU' || currentWorld === 'CASTLE' && currentView === 'MAP' || currentWorld === 'CASTLE' && currentView === 'CHARACTER_SHEET') {
+    if (currentWorld === 'CASTLE' && currentView === 'MAIN_MENU' || currentWorld === 'CASTLE' && currentView === 'MAP' || currentWorld === 'CASTLE' && currentView === 'CHARACTER_SHEET' || currentWorld === 'CASTLE' && currentView === 'QUEST' || currentWorld === 'CASTLE' && currentView === 'WORLDMAP') {
       return '/assets/audio/bgm/desert-bgm.mp3';
     }
     if (currentView === 'SHOP') {
@@ -59,7 +59,7 @@ function MusicPlayer() {
     });
   };
 
-  const fadeInTrack = async (src, duration = 500) => {
+  const fadeInTrack = async (src, duration = 1200) => {
     const newHowl = new Howl({
         src: [src],
         loop: true,     
