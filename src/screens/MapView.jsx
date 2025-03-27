@@ -65,6 +65,13 @@ export default function MapView() {
         }, 1000);
     };
 
+    const navigateToOther = (view) => {
+        setIsClosing(true);
+        setTimeout(() => {
+            setCurrentView(view);
+        }, 1000);
+    };
+
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
@@ -107,8 +114,8 @@ export default function MapView() {
     const startPosition = map.flat().find((cell) => cell.type === "START");
 
     const goToMainMenu = () => navigateWithAnimation("MAIN_MENU");
-    const goToBattle = () => navigateWithAnimation("BATTLE");
-    const goToShop = () => navigateWithAnimation("SHOP");
+    const goToBattle = () => navigateToOther("BATTLE");
+    const goToShop = () => navigateToOther("SHOP");
 
     return (
         <div className="relative h-full w-full">
