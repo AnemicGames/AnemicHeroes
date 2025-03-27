@@ -73,8 +73,10 @@ export default function QuestScreen() {
   const questsPerPage = 6;
 
   useEffect(() => {
-    loadQuests();
-  }, [loadQuests]);
+    if (quests.length === 0) {
+      loadQuests();
+    }
+  }, [quests.length, loadQuests]);
 
   const goToMainMenu = () => setCurrentView("MAIN_MENU");
 
@@ -198,8 +200,8 @@ export default function QuestScreen() {
         >
           <h2 className="text-4xl font-bold mb-4">Side quests</h2>
           {sideQuests.length > 0 ? (
-            <div className="absolute left-[50px] space-y-4 max-w-80 w-full">
-              <ul className="space-y-4">
+            <div className="absolute left-[50px] space-y-4 max-w-80 w-full h-full">
+              <ul className="space-y-4 h-[490px]">
                 {paginatedSideQuests.map((quest) => (
                   <QuestItem
                     quest={quest}
@@ -237,20 +239,19 @@ export default function QuestScreen() {
             <p>No side quests available for this world.</p>
           )}
         </div>
-
-        {/* Exit button */}
-        <button
-          className="absolute bottom-4 left-0 m-4 p-2 hover:bg-red-800 rounded z-50"
-          title="Exit"
-          onClick={closeJournal}
-        >
-          <img
-            src="/assets/sprites/exit-nav-icon.png"
-            alt="Exit"
-            className="w-10 h-11"
-          />
-        </button>
       </div>
+      {/* Exit button */}
+      <button
+        className="absolute bottom-0 left-0 m-4 p-2 hover:bg-red-800 rounded z-50"
+        title="Exit"
+        onClick={closeJournal}
+      >
+        <img
+          src="/assets/sprites/exit-nav-icon.png"
+          alt="Exit"
+          className="w-10 h-11"
+        />
+      </button>
     </div>
   );
 }
