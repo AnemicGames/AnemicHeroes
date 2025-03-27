@@ -27,6 +27,23 @@ export default function BattleView() {
     player.maxHp > 0 ? (player.currentHp / player.maxHp) * 100 : 0;
   const enemyHealthPercent =
     enemy.baseHP > 0 ? (enemy.currentHP / enemy.baseHP) * 100 : 0;
+    
+    
+    // function rewardItems(num){
+    //   const items = getRandomItemIds(num);
+    //   console.log(items);
+    //   addItem(items);
+    // }
+    // rewardItems(3);
+   
+
+  //   if (encounterType === "boss") {
+  //     const roll = random(1, 3);
+  //     rewardItems(roll);
+  //   } else{
+
+  //   rewardItems(1);
+  // }
 
   {
     /*function for fetching random mobs */
@@ -116,7 +133,7 @@ export default function BattleView() {
     addGold,
     setCurrentView,
     resetPosition,
-  ]); // eslint-disable-line react-hooks/exhaustive-deps
+  ]);
 
   useEffect(() => {
     if (isBattleOver) {
@@ -183,12 +200,12 @@ export default function BattleView() {
         </div>
       </div>
       {encounterType === "BOSS" && (
-          <img
-            src="/assets/sprites/cracked-skull.png" // Replace with the correct path to your skull sprite
-            alt="Skull"
-            className="absolute top-3 left-3/4 transform -translate-x-1/2 w-20 h-20"
-          />
-        )}
+        <img
+          src="/assets/sprites/cracked-skull.png" // Replace with the correct path to your skull sprite
+          alt="Skull"
+          className="absolute top-3 left-3/4 transform -translate-x-1/2 w-20 h-20"
+        />
+      )}
 
       {/* Player sprite */}
       <img
