@@ -13,8 +13,6 @@ export function ActionBar() {
     takeDamage,
     endBattle,
     player,
-    startFighting,
-    stopFighting,
     heal,
     inventory,
     removeItem,
@@ -22,6 +20,8 @@ export function ActionBar() {
 
   const handleAttack = () => {
     if (nextToAttack === "PLAYER" && !gameOver) {
+
+
       const damage = Math.floor(Math.random() * (25 - 5 + 1)) + 5;
       damageEnemy(damage);
       setTurnCount();

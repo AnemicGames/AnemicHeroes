@@ -13,9 +13,6 @@ export const AttackBar = ({ callback }) => {
     endBattle,
     player,
     stopFighting,
-    isFighting,
-    enemyAttack,
-    setSkipTurn,
   } = useGameStore();
 
   const handleAttack = () => {
