@@ -32,7 +32,7 @@ function MusicPlayer() {
       return '/assets/audio/bgm/caves-bgm.mp3';
     }
     if (currentWorld === 'CASTLE' && currentView === 'MAIN_MENU' || currentWorld === 'CASTLE' && currentView === 'MAP' || currentWorld === 'CASTLE' && currentView === 'CHARACTER_SHEET' || currentWorld === 'CASTLE' && currentView === 'QUEST' || currentWorld === 'CASTLE' && currentView === 'WORLDMAP') {
-      return '/assets/audio/bgm/desert-bgm.mp3';
+      return '/assets/audio/bgm/castle-bgm.mp3';
     }
     if (currentView === 'SHOP') {
       return '/assets/audio/bgm/tavern-bgm.wav';
