@@ -28,6 +28,7 @@ export default function BattleView() {
   const enemyHealthPercent =
     enemy.baseHP > 0 ? (enemy.currentHP / enemy.baseHP) * 100 : 0;
 
+
   {
     /*function for fetching random mobs */
   }
@@ -192,8 +193,8 @@ export default function BattleView() {
 
       {/* Player sprite */}
       <img
-        src={"./assets/sprites/heroes/mage.png"}
-        alt="Player Sprite"
+        src={`/assets/sprites/heroes/${player.class.toLowerCase()}.png`}
+        alt={`${player.class} Sprite`}
         className={`absolute bottom-[120px] left-1/6 transform w-[300px] transition-transform duration-300 
     ${player.currentHp <= 0 ? "rotate-[-90deg] opacity-50 top-[300px]" : ""}`}
       />

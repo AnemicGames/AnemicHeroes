@@ -20,6 +20,10 @@ export const createBattleSlice = (set, get) => ({
   skipTurn: false,
   xp: 1,
 
+  isEnemyTurn: () => get().nextToAttack === "ENEMY",
+ 
+  setNextToAttack: (attacker) => set({ nextToAttack: attacker }),
+
   setXP: (xp) => {
     set((state) => {
       let newXP = state.player.xp + xp;
