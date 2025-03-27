@@ -34,6 +34,19 @@ const AnimatedBgImage = () => {
     );
 };
 
+const ScreenTransition = ({ isVisible, text }) => {
+    return (
+        <div
+            className={`fixed inset-0 flex items-center justify-center bg-black text-white text-2xl font-bold z-50 transition-opacity duration-1000 ease-out ${
+                isVisible ? "opacity-100" : "opacity-0"
+            }`}
+            style={{ pointerEvents: isVisible ? "auto" : "none" }}
+        >
+            {text}
+        </div>
+    );
+};
+
 export default function WorldMap() {
     const setCurrentView = useGameStore((state) => state.setCurrentView);
     const setEmbark = useGameStore((state) => state.setEmbark);
@@ -42,8 +55,8 @@ export default function WorldMap() {
 
     const [isVisible, setIsVisible] = useState(false);
     const [isClosing, setIsClosing] = useState(false);
-    const [fade, setFade] = useState(false);
-    const [fadeText, setFadeText] = useState("");
+    const [loadingText, setLoadingText] = useState("Loading...");
+    const [transitionActive, setTransitionActive] = useState(false);
 
     useEffect(() => {
         setIsVisible(true);
@@ -57,17 +70,26 @@ export default function WorldMap() {
         }, 1000);
     };
 
+    const handleTransition = (id) => {
+        const travelsfx = new Audio("/src/audio/sfx/travel-sfx.mp3");
+        travelsfx.play();
+        setTransitionActive(true);
+        setLoadingText(`Going to ${id}`);
+        setTimeout(() => {
+            setCurrentWorld(id);
+        }, 1000);
+        setTimeout(() => {
+            setTransitionActive(false);
+        }, 2000);
+        setTimeout(() => {
+            navigateWithAnimation("MAIN_MENU");
+        }, 2000);
+    };
+
     const closeMap = (id) => {
         setIsClosing(true);
-        // TODO: Add fade effect that F**KING WORKS pls..
         setTimeout(() => {
-            setFade(true);
-            setFadeText(`Going to ${id}...`);
-            setTimeout(() => {
-                setCurrentWorld(id);
-                goToMainMenu();
-                setFade(false);
-            }, 2500);
+            handleTransition(id);
         }, 500);
     };
 
@@ -87,7 +109,7 @@ export default function WorldMap() {
             }
         };
         fetchMap();
-    }, [initializeMap]);
+    }, [initializeMap]); // eslint-disable-line react-hooks/exhaustive-deps
 
     const goToMainMenu = () => navigateWithAnimation("MAIN_MENU");
 
@@ -169,28 +191,7 @@ export default function WorldMap() {
                     </div>
                 ))}
             </div>
-            <button
-                className="absolute bottom-0 left-0 m-4 p-2 hover:bg-red-800 rounded z-50"
-                title="Exit"
-                onClick={() => goToMainMenu("MAIN_MENU")}
-            >
-                <img
-                    src="/assets/sprites/exit-nav-icon.png"
-                    alt="Exit"
-                    className="w-10 h-11"
-                />
-            </button>
-            {fade && (
-                <div
-                    className={`absolute inset-0 bg-black transition-opacity duration-1000 ${
-                        fade ? "opacity-100" : "opacity-0"
-                    }`}
-                >
-                    <div className="flex items-center justify-center h-full">
-                        <span className="text-white text-xl">{fadeText}</span>
-                    </div>
-                </div>
-            )}
+            <ScreenTransition isVisible={transitionActive} text={loadingText} />
         </div>
     );
 }
