@@ -237,20 +237,19 @@ export default function QuestScreen() {
             <p>No side quests available for this world.</p>
           )}
         </div>
-
-        {/* Exit button */}
-        <button
-          className="absolute bottom-4 left-0 m-4 p-2 hover:bg-red-800 rounded z-50"
-          title="Exit"
-          onClick={closeJournal}
-        >
-          <img
-            src="/assets/sprites/exit-nav-icon.png"
-            alt="Exit"
-            className="w-10 h-11"
-          />
-        </button>
       </div>
+      {/* Exit button */}
+      <button
+        className="absolute bottom-0 left-0 m-4 p-2 hover:bg-red-800 rounded z-50"
+        title="Exit"
+        onClick={closeJournal}
+      >
+        <img
+          src="/assets/sprites/exit-nav-icon.png"
+          alt="Exit"
+          className="w-10 h-11"
+        />
+      </button>
     </div>
   );
 }
