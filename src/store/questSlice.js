@@ -196,7 +196,6 @@ export const createQuestSlice = (set, get) => ({
         return quest;
       });
 
-      // Unlock next in chain (if any)
       questsCopy = questsCopy.map((quest) => {
         if (
           quest.status === "locked" &&
@@ -218,46 +217,122 @@ export const createQuestSlice = (set, get) => ({
   },
 
   registerKill: ({ type, bossId = null }) => {
-    if (type === "mob") {
-      get().updateMobChainState(1);
-    } else if (type === "boss") {
-      get().updateBossChainState(1);
-    } else if (type === "named_boss" && bossId) {
-      get().updateNamedBossState(bossId);
-    }
+    set((state) => {
+      let questsCopy = [...state.quests];
+      let totalXpAward = 0;
 
-    const updatedQuests = get().quests;
+      const updatedTypes = new Set();
 
-    updatedQuests.forEach((quest) => {
-      if (quest.status !== "active") return;
+      const updateChain = (chainType) => {
+        questsCopy = questsCopy.map((quest) => {
+          if (quest.chain === chainType && quest.status === "active") {
+            const newCurrent = quest.objective.current + 1;
+            let newStatus = quest.status;
+            if (newCurrent >= quest.objective.target) {
+              newStatus = "completed";
+              totalXpAward += quest.xpReward || 0;
+            }
+            return {
+              ...quest,
+              objective: { ...quest.objective, current: newCurrent },
+              status: newStatus,
+            };
+          }
+          return quest;
+        });
+        updatedTypes.add(
+          chainType === "mob_chain" ? "win_mobs" : "defeat_bosses"
+        );
+      };
 
-      const { objective } = quest;
+      if (type === "mob") updateChain("mob_chain");
+      if (type === "boss") updateChain("boss_chain");
 
-      if (objective?.type === "win_mobs" && type === "mob") {
-        get().updateQuestProgress(quest.id, 1);
+      // Named boss
+      if (type === "named_boss" && bossId) {
+        questsCopy = questsCopy.map((quest) => {
+          if (
+            quest.status === "active" &&
+            quest.objective?.type === "defeat_named_boss" &&
+            quest.objective?.targetId === bossId
+          ) {
+            const newCurrent = quest.objective.current + 1;
+            let newStatus = quest.status;
+            if (newCurrent >= quest.objective.target) {
+              newStatus = "completed";
+              totalXpAward += quest.xpReward || 0;
+            }
+            return {
+              ...quest,
+              objective: { ...quest.objective, current: newCurrent },
+              status: newStatus,
+            };
+          }
+          return quest;
+        });
+        updatedTypes.add("defeat_named_boss");
       }
 
-      if (objective?.type === "defeat_bosses" && type === "boss") {
-        get().updateQuestProgress(quest.id, 1);
+      questsCopy = questsCopy.map((quest) => {
+        if (quest.status !== "active") return quest;
+
+        const { objective } = quest;
+        if (
+          objective?.type === "win_mobs" &&
+          type === "mob" &&
+          !updatedTypes.has("win_mobs")
+        ) {
+          const newCurrent = objective.current + 1;
+          let newStatus = quest.status;
+          if (newCurrent >= objective.target) {
+            newStatus = "completed";
+            totalXpAward += quest.xpReward || 0;
+          }
+          return {
+            ...quest,
+            objective: { ...objective, current: newCurrent },
+            status: newStatus,
+          };
+        }
+
+        if (
+          objective?.type === "defeat_bosses" &&
+          type === "boss" &&
+          !updatedTypes.has("defeat_bosses")
+        ) {
+          const newCurrent = objective.current + 1;
+          let newStatus = quest.status;
+          if (newCurrent >= objective.target) {
+            newStatus = "completed";
+            totalXpAward += quest.xpReward || 0;
+          }
+          return {
+            ...quest,
+            objective: { ...objective, current: newCurrent },
+            status: newStatus,
+          };
+        }
+
+        return quest;
+      });
+
+      questsCopy = questsCopy.map((quest) => {
+        if (
+          quest.status === "locked" &&
+          quest.previous &&
+          questsCopy.find((q) => q.id === quest.previous)?.status ===
+            "completed"
+        ) {
+          return { ...quest, status: "active" };
+        }
+        return quest;
+      });
+
+      if (totalXpAward > 0) {
+        get().setXP(totalXpAward);
       }
 
-      if (
-        objective?.type === "defeat_named_boss" &&
-        objective?.targetId === bossId &&
-        type === "named_boss"
-      ) {
-        get().updateNamedBossState(bossId);
-      }
-
-      const latestQuest = get().quests.find((q) => q.id === quest.id);
-      if (
-        latestQuest &&
-        latestQuest.objective.current >= latestQuest.objective.target &&
-        latestQuest.status !== "completed"
-      ) {
-        get().completeQuest(latestQuest.id);
-      }
-      console.log("Quest progress updated:", quest.id, quest.objective.current);
+      return { quests: questsCopy };
     });
   },
 });
