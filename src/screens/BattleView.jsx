@@ -88,13 +88,23 @@ export default function BattleView() {
   }, []);
 
   useEffect(() => {
+    // Check for victory
     if (enemy.currentHP <= 0 && battleOutcome === null) {
       setBattleOutcome("VICTORY");
       setIsBattleOver(true);
       setXP(enemy.xp);
       addGold(calculateGoldReward());
+  
+      if (enemy.encounterType === "BOSS") {
+        setBattleOutcome("VICTORY");
+        setIsBattleOver(true);
+        setXP(enemy.xp);
+        addGold(calculateGoldReward());
+        clearMap();
+        setCurrentView("MAIN_MENU");
+      }
     }
-
+    
     if (player.currentHp <= 0 && battleOutcome === null) {
       setBattleOutcome("DEFEAT");
       setIsBattleOver(true);
