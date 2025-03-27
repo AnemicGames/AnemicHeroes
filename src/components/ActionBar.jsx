@@ -1,80 +1,84 @@
 import { useGameStore } from "../store/useGameStore";
-import { AttackBar } from "./AttackBar";
-import { CombatInventory } from "./CombatInventory";
 
-export function ActionBar({ action, callback }) {
-  const removeItem = useGameStore((state) => state.removeItem);
-  const setSkipTurn = useGameStore((state) => state.setSkipTurn);
+const POTION_ID = "POT_HEALTH";
+const POTION_HEAL_AMOUNT = 50; 
 
-  const handleDrink = (item, event) => {
-    event.preventDefault();
-    if (item.type === "potion" && item.healAmount) {
-      useGameStore.setState((state) => ({
-        player: {
-          ...state.player,
-          currentHp: Math.min(
-            state.player.maxHp,
-            state.player.currentHp + item.healAmount
-          ),
-        },
-      }));
-      removeItem(item.id, 1);
-      setSkipTurn(true);
-      setTimeout(() => {
-        const damageAmount = Math.floor(Math.random() * (25 - 5 + 1)) + 5;
-        useGameStore.getState().takeDamage(damageAmount);
-        if (useGameStore.getState().player.currentHp - damageAmount <= 0) {
-          useGameStore.getState().endBattle();
-        } else {
-          useGameStore.getState().setTurnCount(); 
-        }
-        useGameStore.getState().setSkipTurn(false);
-      }, 1000);
+export function ActionBar() {
+  const {
+    setTurnCount,
+    damageEnemy,
+    enemy,
+    nextToAttack,
+    gameOver,
+    takeDamage,
+    endBattle,
+    player,
+    startFighting,
+    stopFighting,
+    heal,
+    inventory,
+    removeItem,
+  } = useGameStore();
+
+  const handleAttack = () => {
+    if (nextToAttack === "PLAYER" && !gameOver) {
+      startFighting();
+      const damage = Math.floor(Math.random() * (25 - 5 + 1)) + 5;
+      damageEnemy(damage);
+      setTurnCount();
+
+      if (enemy.currentHP - damage > 0) {
+        setTimeout(() => {
+          const damageAmount = Math.floor(Math.random() * (25 - 5 + 1)) + 5;
+          takeDamage(damageAmount);
+          if (player.currentHp - damageAmount <= 0) {
+            endBattle();
+          } else {
+            setTurnCount();
+          }
+        }, 1000);
+      }
     }
   };
-  
 
-  switch (action) {
-    case "INITIAL":
-      return <p>Initial</p>;
+  const handleDrink = (e) => {
+    e.stopPropagation();
 
-    case "INVENTORY":
-      return <CombatInventory callback={callback} handleDrink={handleDrink} />;
+    if (!inventory.items[POTION_ID] || inventory.items[POTION_ID] <= 0) {
+      console.warn(`No Health Potion left in inventory.`);
+      return;
+    }
 
-    case "ATTACK":
-      return <AttackBar callback={callback} />;
+    removeItem(POTION_ID);
+    heal(POTION_HEAL_AMOUNT);
+    console.log(`Healed player for ${POTION_HEAL_AMOUNT} HP using Health Potion.`);
+  };
 
-    case "FIGHT":
-      return (
-        <>
-          <div className="flex gap-4 h-12">
-            <button
-              className="w-1/2 border-2 bg-neutral-100 text-xl flex items-center justify-center gap-3"
-              onClick={() => callback("ATTACK")}
-            >
-              Attack{" "}
-              <img src="./public/assets/sprites/weapons/sword_wpn.png" alt="attack" />
-            </button>
-            <button
-              className="w-1/2 border-2 bg-neutral-100 text-xl flex items-center justify-center gap-3"
-              onClick={() => callback("INVENTORY")}
-            >
-              Health Potion{" "}
-              <img src="./public/assets/sprites/potions/hp_pot.png" alt="consumables" />
-            </button>
-          </div>
-          <div className="flex gap-4 h-12">
-            <button className="w-1/2 border-2 bg-neutral-100 text-xl">
-              Special Attack
-            </button>
-            <button className="w-1/2 border-2 bg-neutral-100 text-xl">
-              Run
-            </button>
-          </div>
-        </>
-      );
+  return (
+    <div className="flex flex-col w-full items-center gap-4 absolute bottom-1 left-0">
+      <button
+        className="flex items-center justify-center gap-3 text-white bg-red-700 hover:bg-red-600 rounded-full relative p-3 font-bold text-2xl bottom-6 border-2 border-yellow-300 w-[200px] z-50"
+        onClick={handleAttack}
+        disabled={gameOver}
+      >
+        <img src="assets/sprites/sword-shiny.png" alt="Attack" />
+        Attack!
+      </button>
 
-    default:
-      return <p className="text-white">Waiting for action...</p>;
-  }
+      {inventory.items[POTION_ID] > 0 && (
+        <button
+          className="text-white bg-red-700 hover:bg-red-600 rounded-full absolute right-12 bottom-6 font-bold text-xl p-3 border-2 border-yellow-300 w-fit-content z-50"
+          onClick={handleDrink}
+        >
+          <img
+            src="/assets/sprites/potions/hp_pot.png"
+            alt="Health Potion"
+            className="h-[64px] w-[64px]"
+          />
+        </button>
+      )}
+    </div>
+  );
 }
+
+ 
