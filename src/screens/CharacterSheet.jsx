@@ -187,7 +187,7 @@ export default function CharacterSheet() {
           </div>
         )}
 
-        <h2 className="text-5xl font-bold mt-4 col-start-1 col-end-3 row-start-1">
+        <h2 className="text-5xl font-bold mt-4 col-start-1 col-end-15 row-start-1">
           {player.name}
         </h2>
 
