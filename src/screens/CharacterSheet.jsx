@@ -187,12 +187,12 @@ export default function CharacterSheet() {
           </div>
         )}
 
-        <h2 className="text-5xl font-bold mt-4 col-start-1 col-end-3 row-start-1">
+        <h2 className="text-5xl font-bold mt-4 col-start-1 col-end-15 row-start-1">
           {player.name}
         </h2>
 
         {/* Hero image */}
-        <div className="hero-image flex items-center justify-center absolute bottom-[100px] left-[420px]">
+        <div className="hero-image flex items-center justify-center absolute bottom-[60px] left-[460px]">
           <img
             src={heroImage}
             alt={player.class || "Hero"}
@@ -201,15 +201,16 @@ export default function CharacterSheet() {
         </div>
 
         {/* Equipment */}
-        <div className="flex items-start absolute bottom-4 left-[360px]">
+        <div className="flex items-start absolute bottom-4 left-[420px]">
           <div className="equipment flex gap-2 cursor-pointer">
             {Object.entries(equipped).map(([slot, itemId]) => {
               const item = itemId ? getItemDetails(itemId) : null;
               return (
                 <div
                   key={slot}
-                  className="equipment-slot rounded p-2 w-20 h-20 flex flex-col items-center justify-center relative bg-gray-500/80"
+                  className="equipment-slot rounded p-2 w-[70px] h-[70px] flex flex-col items-center justify-center relative bg-gray-500/80"
                 >
+                  {/* Tooltip */}
                   {item ? (
                     <div className="group" onClick={() => unequipItem(slot)}>
                       <img
@@ -217,8 +218,8 @@ export default function CharacterSheet() {
                         alt={item.name}
                         className="max-w-full max-h-full object-contain"
                       />
-                      <div className="absolute left-0 bottom-0 hidden group-hover:flex flex-col bg-black text-white p-2 rounded text-xs z-10">
-                        <div className="mb-1 h-15">{item.name}</div>
+                      <div className="absolute left-0 bottom-0 h-full w-full hidden group-hover:flex flex-col bg-black text-white p-1 rounded text-xs z-10">
+                        <div className="mb-1 h-15 break-words">{item.name}</div>
                       </div>
                     </div>
                   ) : (
@@ -350,10 +351,12 @@ export default function CharacterSheet() {
                       <div className="absolute top-0 right-0 bg-gray-800 text-white text-2xl px-1">
                         {count}
                       </div>
+
+                      {/* Tooltip */}
                       <div className="absolute left-0 bottom-0 h-24 w-24 hidden group-hover:flex flex-col bg-black text-white p-2 rounded text-xs z-10">
                         {item.type === "potion" ? (
                           <>
-                            <div className="mb-1">{item.name}</div>
+                            <div className="mb-1 break-words">{item.name}</div>
                             <div>Heal {item.healAmount} HP</div>
                           </>
                         ) : (
@@ -361,7 +364,7 @@ export default function CharacterSheet() {
                             onClick={() => handleEquip(item)}
                             title="Click to equip"
                           >
-                            <div className="mb-1">{item.name}</div>
+                            <div className="mb-1 break-words">{item.name}</div>
                             <div>STR: {item.statModifiers?.strength ?? 0}</div>
                             <div>DEF: {item.statModifiers?.defense ?? 0}</div>
                             <div>SPD: {item.statModifiers?.speed ?? 0}</div>
