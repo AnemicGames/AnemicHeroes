@@ -1,11 +1,94 @@
 {
-  "quests": [
+  "main_quests": [
+    {
+      "id": "main_forest",
+      "title": "Prove Your Strength",
+      "description": "Win 1 mob battle to journey into the mountains.",
+      "status": "active",
+      "xpReward": 10,
+      "type": "main",
+      "objective": {
+        "type": "win_mobs",
+        "current": 0,
+        "target": 1
+      },
+      "unlocksWorld": "MOUNTAIN",
+      "next": "main_mountain"
+    },
+    {
+      "id": "main_mountain",
+      "title": "Endure the Climb",
+      "description": "Defeat 1 boss in the mountains to reach the desert.",
+      "status": "locked",
+      "xpReward": 20,
+      "type": "main",
+      "objective": {
+        "type": "defeat_bosses",
+        "current": 0,
+        "target": 1
+      },
+      "unlocksWorld": "DESERT",
+      "previous": "main_forest",
+      "next": "main_desert"
+    },
+    {
+      "id": "main_desert",
+      "title": "Survive the Sands",
+      "description": "Collect 1 artifact from the desert.",
+      "status": "locked",
+      "xpReward": 30,
+      "type": "main",
+      "objective": {
+        "type": "collect_item",
+        "item": "desert_artifact",
+        "current": 0,
+        "target": 1
+      },
+      "unlocksWorld": "SWAMP",
+      "previous": "main_mountain",
+      "next": "main_swamp"
+    },
+    {
+      "id": "main_swamp",
+      "title": "Cleanse the Swamp",
+      "description": "Defeat the Swamp Witch to reach the Caves.",
+      "status": "locked",
+      "xpReward": 40,
+      "type": "main",
+      "objective": {
+        "type": "defeat_named_boss",
+        "targetId": "swamp_witch",
+        "current": 0,
+        "target": 1
+      },
+      "unlocksWorld": "CAVES",
+      "previous": "main_desert",
+      "next": "main_caves"
+    },
+    {
+      "id": "main_caves",
+      "title": "Echoes of Power",
+      "description": "Win 1 mob battle in the Caves to complete your journey.",
+      "status": "locked",
+      "xpReward": 50,
+      "type": "main",
+      "objective": {
+        "type": "win_mobs",
+        "current": 0,
+        "target": 1
+      },
+      "previous": "main_swamp"
+    }
+  ],
+  "side_quests": [
     {
       "id": "mob_10",
       "title": "Win 10 Mob Battles",
       "description": "Win 10 battles against mobs to begin your campaign.",
       "status": "active",
       "xpReward": 50,
+      "type": "side",
+      "world": ["FOREST", "MOUNTAIN", "DESERT", "SWAMP"],
       "objective": {
         "type": "win_mobs",
         "current": 0,
@@ -21,6 +104,8 @@
       "description": "Continue and win 25 battles against mobs to prove your strength.",
       "status": "locked",
       "xpReward": 100,
+      "type": "side",
+      "world": ["FOREST", "MOUNTAIN", "DESERT", "SWAMP"],
       "objective": {
         "type": "win_mobs",
         "current": 0,
@@ -37,6 +122,8 @@
       "description": "Achieve ultimate honor by winning 50 battles against mobs.",
       "status": "locked",
       "xpReward": 200,
+      "type": "side",
+      "world": ["FOREST", "MOUNTAIN", "DESERT", "SWAMP"],
       "objective": {
         "type": "win_mobs",
         "current": 0,
@@ -51,7 +138,9 @@
       "title": "Defeat 5 Bosses",
       "description": "Defeat 5 bosses to demonstrate your valor.",
       "status": "active",
+      "type": "side",
       "xpReward": 300,
+      "world": ["FOREST", "MOUNTAIN", "DESERT", "SWAMP"],
       "objective": {
         "type": "defeat_bosses",
         "current": 0,
@@ -66,7 +155,9 @@
       "title": "Defeat 10 Bosses",
       "description": "Continue your adventure and defeat 10 bosses.",
       "status": "locked",
+      "type": "side",
       "xpReward": 500,
+      "world": ["FOREST", "MOUNTAIN", "DESERT", "SWAMP"],
       "objective": {
         "type": "defeat_bosses",
         "current": 0,
@@ -82,7 +173,9 @@
       "title": "Defeat 20 Bosses",
       "description": "Prove your endurance by defeating 20 bosses.",
       "status": "locked",
+      "type": "side",
       "xpReward": 1000,
+      "world": ["FOREST", "MOUNTAIN", "DESERT", "SWAMP"],
       "objective": {
         "type": "defeat_bosses",
         "current": 0,
@@ -91,6 +184,69 @@
       "chain": "boss_chain",
       "chainMethod": "updateBossChainState",
       "previous": "boss_10"
+    },
+    {
+      "id": "defeat_dark_lord",
+      "title": "Slay the Dark Lord",
+      "description": "Defeat the feared Dark Lord in battle.",
+      "status": "active",
+      "type": "side",
+      "xpReward": 150,
+      "world": ["FOREST"],
+      "objective": {
+        "type": "defeat_named_boss",
+        "targetId": "b1",
+        "current": 0,
+        "target": 1
+      }
+    },
+    {
+      "id": "defeat_frost_wyrm",
+      "title": "Defeat the Frost Wyrm",
+      "description": "Take down the chilling Frost Wyrm.",
+      "status": "locked",
+      "type": "side",
+      "xpReward": 180,
+      "world": ["MOUNTAIN"],
+      "objective": {
+        "type": "defeat_named_boss",
+        "targetId": "b2",
+        "current": 0,
+        "target": 1
+      },
+      "previous": "defeat_dark_lord"
+    },
+    {
+      "id": "defeat_giant",
+      "title": "Crush the Giant",
+      "description": "Survive the brutal battle against the Giant.",
+      "status": "locked",
+      "type": "side",
+      "xpReward": 200,
+      "world": ["DESERT"],
+      "objective": {
+        "type": "defeat_named_boss",
+        "targetId": "b3",
+        "current": 0,
+        "target": 1
+      },
+      "previous": "defeat_frost_wyrm"
+    },
+    {
+      "id": "defeat_vampire",
+      "title": "Stake the Vampire",
+      "description": "Vanquish the Vampire lurking in the swamp.",
+      "status": "locked",
+      "type": "side",
+      "xpReward": 220,
+      "world": ["SWAMP"],
+      "objective": {
+        "type": "defeat_named_boss",
+        "targetId": "vampire",
+        "current": 0,
+        "target": 1
+      },
+      "previous": "defeat_giant"
     }
   ]
 }
