@@ -1,49 +1,110 @@
 [
     {
         "id": "b1",
-        "name": "Dark Lord",
-        "baseHP": 500,
+        "name": "Xalthor The Twilight Blade",
+        "baseHP": 600,
         "baseStrength": 25,
         "baseSpeed": 8,
         "baseDefence": 20,
         "lvlMultiplier": 1.3,
         "dropChance": 1.2,
         "baseGold": 50,
-        "sprite": "/assets/sprites/bosses/dark_lord.png"
+        "sprite": "/assets/sprites/bosses/xalthor.png"
     },
     {
         "id": "b2",
-        "name": "Frost wyrm",
-        "baseHP": 600,
+        "name": "Iseron The Boreal Leviathan",
+        "baseHP": 1600,
         "baseStrength": 30,
         "baseSpeed": 12,
         "baseDefence": 18,
         "lvlMultiplier": 1.35,
         "dropChance": 1.2,
         "baseGold": 60,
-        "sprite": "/assets/sprites/bosses/frost_wyrm.png"
+        "sprite": "/assets/sprites/bosses/iseron.png"
     },
     {
         "id": "b3",
-        "name": "Giant",
-        "baseHP": 800,
-        "baseStrength": 35,
+        "name": "Garruk Ironclad",
+        "baseHP": 2500,
+        "baseStrength": 55,
         "baseSpeed": 6,
         "baseDefence": 25,
         "lvlMultiplier": 1.25,
         "dropChance": 1.1,
         "baseGold": 70,
-        "sprite": "/assets/sprites/bosses/giant.png"
+        "sprite": "/assets/sprites/bosses/garruk-ironclad.png"
     },
     {
-        "name": "Vampire",
-        "baseHP": 450,
-        "baseStrength": 28,
-        "baseSpeed": 10,
-        "baseDefence": 22,
-        "lvlMultiplier": 1.3,
-        "dropChance": 1.2,
-        "baseGold": 55,
-        "sprite": "/assets/sprites/bosses/vampire.png"
+        "id": "b4",
+        "name": "Lady Nocturna",
+        "baseHP": 1000,
+        "baseStrength": 25,
+        "baseSpeed": 6,
+        "baseDefence": 18,
+        "lvlMultiplier": 1.25,
+        "dropChance": 1.1,
+        "baseGold": 290,
+        "sprite": "/assets/sprites/bosses/lady-nocturna.png"
+    },
+    {
+        "id": "b5",
+        "name": "Grimshard Sovereign",
+        "baseHP": 1800,
+        "baseStrength": 35,
+        "baseSpeed": 6,
+        "baseDefence": 15,
+        "lvlMultiplier": 1.25,
+        "dropChance": 1.1,
+        "baseGold": 300,
+        "sprite": "/assets/sprites/bosses/grimshard-sovereign.png"
+    },
+    {
+        "id": "b6",
+        "name": "Viridrax",
+        "baseHP": 2200,
+        "baseStrength": 35,
+        "baseSpeed": 9,
+        "baseDefence": 35,
+        "lvlMultiplier": 1.25,
+        "dropChance": 1.1,
+        "baseGold": 500,
+        "sprite": "/assets/sprites/bosses/viridrax.png"
+    },
+    {
+        "id": "b7",
+        "name": "Void Empress",
+        "baseHP": 2000,
+        "baseStrength": 25,
+        "baseSpeed": 20,
+        "baseDefence": 25,
+        "lvlMultiplier": 1.25,
+        "dropChance": 1.1,
+        "baseGold": 500,
+        "sprite": "/assets/sprites/bosses/viridrax.png"
+    },
+    {
+        "id": "b8",
+        "name": "Frostbound Valkyrie",
+        "baseHP": 1200,
+        "baseStrength": 20,
+        "baseSpeed": 25,
+        "baseDefence": 20,
+        "lvlMultiplier": 1.35,
+        "dropChance": 1.1,
+        "baseGold": 500,
+        "sprite": "/assets/sprites/bosses/frostbound-valkyrie.png"
+    },
+    {
+        "id": "b9",
+        "name": "Aureus The Golden",
+        "baseHP": 1600,
+        "baseStrength": 20,
+        "baseSpeed": 25,
+        "baseDefence": 20,
+        "lvlMultiplier": 1.35,
+        "dropChance": 1.1,
+        "baseGold": 500,
+        "sprite": "/assets/sprites/bosses/aureus.png"
     }
 ]
