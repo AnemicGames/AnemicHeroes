@@ -22,6 +22,7 @@ export default function BattleView() {
   const player = useGameStore((state) => state.player);
   const enemy = useGameStore((state) => state.enemy);
   const encounterType = useGameStore((state) => state.encounterType);
+  const clearMap = useGameStore((state) => state.clearMap)
 
   const playerHealthPercent =
     player.maxHp > 0 ? (player.currentHp / player.maxHp) * 100 : 0;
@@ -101,6 +102,7 @@ export default function BattleView() {
       setBattleOutcome("DEFEAT");
       setIsBattleOver(true);
       resetPosition();
+      clearMap();
     }
   }, [
     enemy.currentHP,
