@@ -21,6 +21,7 @@ export function ActionBar() {
   } = useGameStore();
 
   const [isAttacking, setIsAttacking] = useState(false);
+  const [isDrinkingPotion, setIsDrinkingPotion] = useState(false);
 
   const handleAttack = () => {
     if (nextToAttack === "PLAYER" && !gameOver) {
@@ -52,7 +53,7 @@ export function ActionBar() {
       console.warn(`No Health Potion left in inventory.`);
       return;
     }
-  
+    setIsDrinkingPotion(true)
     removeItem(POTION_ID);
     heal(POTION_HEAL_AMOUNT);
     console.log(`Healed player for ${POTION_HEAL_AMOUNT} HP using Health Potion.`);
@@ -69,6 +70,7 @@ export function ActionBar() {
           setTurnCount();
         }
       }
+      setIsDrinkingPotion(false)
     }, 1000);
   };
   
@@ -88,7 +90,7 @@ export function ActionBar() {
         <button
           className="text-white bg-red-700 hover:bg-red-600 rounded-full absolute right-12 bottom-6 font-bold text-xl p-3 border-2 border-yellow-300 w-fit-content z-50"
           onClick={handleDrink}
-          disabled={gameOver}
+          disabled={gameOver || isDrinkingPotion}
         >
           <img
             src="/assets/sprites/potions/hp_pot.png"
