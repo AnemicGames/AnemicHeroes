@@ -210,6 +210,7 @@ export default function CharacterSheet() {
                   key={slot}
                   className="equipment-slot rounded p-2 w-20 h-20 flex flex-col items-center justify-center relative bg-gray-500/80"
                 >
+                  {/* Tooltip */}
                   {item ? (
                     <div className="group" onClick={() => unequipItem(slot)}>
                       <img
@@ -217,7 +218,7 @@ export default function CharacterSheet() {
                         alt={item.name}
                         className="max-w-full max-h-full object-contain"
                       />
-                      <div className="absolute left-0 bottom-0 hidden group-hover:flex flex-col bg-black text-white p-2 rounded text-xs z-10">
+                      <div className="absolute left-0 bottom-0 h-full w-full hidden group-hover:flex flex-col bg-black text-white p-2 rounded text-xs z-10">
                         <div className="mb-1 h-15">{item.name}</div>
                       </div>
                     </div>
@@ -350,6 +351,8 @@ export default function CharacterSheet() {
                       <div className="absolute top-0 right-0 bg-gray-800 text-white text-2xl px-1">
                         {count}
                       </div>
+
+                      {/* Tooltip */}
                       <div className="absolute left-0 bottom-0 h-24 w-24 hidden group-hover:flex flex-col bg-black text-white p-2 rounded text-xs z-10">
                         {item.type === "potion" ? (
                           <>
