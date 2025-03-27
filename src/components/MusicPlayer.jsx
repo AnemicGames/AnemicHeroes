@@ -11,25 +11,38 @@ function MusicPlayer() {
   const [currentSrc, setCurrentSrc] = useState('');
 
   const determineTrack = () => {
-    if (embark) {
-      return '/assets/audio/bgm/loop3.ogg';
-    }
     if (currentView === 'SPLASH' || currentView === 'CREATE_CHARACTER') {
-      return '/assets/audio/bgm/dread_march_loop.ogg';
+      return '/assets/audio/bgm/splash-bgm.mp3';
     }
 
-    if (currentWorld === 'FOREST' && currentView === 'MAIN_MENU' || currentWorld === 'FOREST' && currentView === 'MAP') {
-      return '/assets/audio/bgm/loop2.ogg';
+    if (currentWorld === 'FOREST' && currentView === 'MAIN_MENU' || currentWorld === 'FOREST' && currentView === 'MAP' || currentWorld === 'FOREST' && currentView === 'CHARACTER_SHEET') {
+      return '/assets/audio/bgm/forest-bgm.mp3';
     }
 
-    if (currentView === 'BATTLE') {
-      return '/assets/audio/bgm/loop.ogg';
+    if (currentWorld === 'MOUNTAIN' && currentView === 'MAIN_MENU' || currentWorld === 'MOUNTAIN' && currentView === 'MAP' || currentWorld === 'MOUNTAIN' && currentView === 'CHARACTER_SHEET') {
+      return '/assets/audio/bgm/mountain-bgm.mp3';
+    }
+    if (currentWorld === 'DESERT' && currentView === 'MAIN_MENU' || currentWorld === 'DESERT' && currentView === 'MAP' || currentWorld === 'DESERT' && currentView === 'CHARACTER_SHEET') {
+      return '/assets/audio/bgm/desert-bgm.mp3';
+    }
+    if (currentWorld === 'SWAMP' && currentView === 'MAIN_MENU' || currentWorld === 'SWAMP' && currentView === 'MAP' || currentWorld === 'SWAMP' && currentView === 'CHARACTER_SHEET') {
+      return '/assets/audio/bgm/swamp-bgm.mp3';
+    }
+    if (currentWorld === 'CAVES' && currentView === 'MAIN_MENU' || currentWorld === 'CAVES' && currentView === 'MAP' || currentWorld === 'CAVES' && currentView === 'CHARACTER_SHEET') {
+      return '/assets/audio/bgm/caves-bgm.mp3';
+    }
+    if (currentWorld === 'CASTLE' && currentView === 'MAIN_MENU' || currentWorld === 'CASTLE' && currentView === 'MAP' || currentWorld === 'CASTLE' && currentView === 'CHARACTER_SHEET') {
+      return '/assets/audio/bgm/desert-bgm.mp3';
     }
     if (currentView === 'SHOP') {
-      return '/assets/audio/bgm/loop2.ogg';
+      return '/assets/audio/bgm/tavern-bgm.wav';
+    }
+    if (currentView === 'BATTLE') {
+      const randomBattleTrack = Math.floor(Math.random() * 3) + 1;
+      return `/assets/audio/bgm/battle-${randomBattleTrack}-bgm.mp3`;
     }
 
-    return '/assets/audio/bgm/loop4.ogg';
+    return '/assets/audio/bgm/forest-bgm.mp3';
   };
 
   const fadeOutHowl = (howl, duration = 500) => {

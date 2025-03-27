@@ -90,10 +90,16 @@ export const assetsManifest = {
         '/assets/mobs.json',
     ],
     audio: [
-        '/assets/audio/bgm/dark_ambient_1.mp3',
-        '/assets/audio/bgm/loop.ogg',
-        '/assets/audio/bgm/loop2.ogg',
-        '/assets/audio/bgm/loop3.ogg',
-        '/assets/audio/bgm/loop4.ogg',
+        '/assets/audio/bgm/battle-1-bgm.mp3',
+        '/assets/audio/bgm/battle-2-bgm.mp3',
+        '/assets/audio/bgm/battle-3-bgm.mp3',
+        '/assets/audio/bgm/castle-bgm.mp3',
+        '/assets/audio/bgm/cave-bgm.mp3',
+        '/assets/audio/bgm/desert-bgm.mp3',
+        '/assets/audio/bgm/forest-bgm.mp3',
+        '/assets/audio/bgm/mountain-bgm.mp3',
+        '/assets/audio/bgm/splash-bgm.mp3',
+        '/assets/audio/bgm/swamp-bgm.mp3',
+        '/assets/audio/bgm/tavern-bgm.wav'
     ],
 };
