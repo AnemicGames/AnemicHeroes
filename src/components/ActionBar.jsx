@@ -88,6 +88,7 @@ export function ActionBar() {
         <button
           className="text-white bg-red-700 hover:bg-red-600 rounded-full absolute right-12 bottom-6 font-bold text-xl p-3 border-2 border-yellow-300 w-fit-content z-50"
           onClick={handleDrink}
+          disabled={gameOver}
         >
           <img
             src="/assets/sprites/potions/hp_pot.png"
