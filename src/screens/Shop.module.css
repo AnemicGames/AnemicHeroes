@@ -81,3 +81,49 @@
     border: 3px solid #FFD700;
     animation: pulsateBorder 1.5s ease-in-out infinite;
   }
+  @keyframes megaFlash {
+    0% {
+      border-color: #FFD700; /* Gull */
+      box-shadow: 0 0 10px 2px rgba(255, 215, 0, 0.5);
+    }
+    50% {
+      border-color: #FFC107; /* Amber (litt mørkere gull) */
+      box-shadow: 0 0 20px 4px rgba(255, 193, 7, 0.8);
+    }
+    100% {
+      border-color: #FFD700; /* Gull igjen */
+      box-shadow: 0 0 10px 2px rgba(255, 215, 0, 0.5);
+    }
+  }
+  
+  @keyframes shineEffect {
+    0% {
+      background-position: -200% center;
+    }
+    100% {
+      background-position: 200% center;
+    }
+  }
+  
+  .mega-flash-border {
+    border-width: 3px;
+    border-style: solid;
+    /* Bruker megaFlash for border og box-shadow, og shineEffect for en "shining" bakgrunn */
+    animation: megaFlash 1.5s ease-in-out infinite, shineEffect 2s linear infinite;
+    background: linear-gradient(120deg, #FFD700, #FF69B4, #FFD700);
+    background-size: 200% 200%;
+  }
+
+  .buyButton {
+    background: linear-gradient(120deg, #FFD700, #FFC107, #FFD700);
+    border: 2px solid #FFD700;
+    box-shadow: 0 0 5px rgba(255, 215, 0, 0.7);
+    color: #000;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  
+  .buyButton:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 10px rgba(255, 215, 0, 0.9);
+  }
+  

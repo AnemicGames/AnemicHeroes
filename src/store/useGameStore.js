@@ -1,11 +1,13 @@
-import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
+import { create } from "zustand";
+import { persist } from "zustand/middleware";
 
-import { createUiSlice } from './uiSlice';
-import { createPlayerSlice } from './playerSlice';
-import { createInventorySlice } from './inventorySlice';
-import { createMapSlice } from './mapSlice';
-import { createBattleSlice } from './battleSlice';
+import { createUiSlice } from "./uiSlice";
+import { createPlayerSlice } from "./playerSlice";
+import { createInventorySlice } from "./inventorySlice";
+import { createMapSlice } from "./mapSlice";
+import { createBattleSlice } from "./battleSlice";
+import { createWorldSlice } from "./worldSlice";
+import { createQuestSlice } from "./questSlice";
 
 export const useGameStore = create(
   persist(
@@ -15,9 +17,11 @@ export const useGameStore = create(
       ...createInventorySlice(set, get),
       ...createMapSlice(set, get),
       ...createBattleSlice(set, get),
+      ...createWorldSlice(set, get),
+      ...createQuestSlice(set, get),
     }),
     {
-      name: 'anemic-heroes-store',
+      name: "anemic-heroes-store",
     }
   )
 );
