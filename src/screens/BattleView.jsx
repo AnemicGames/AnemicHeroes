@@ -1,9 +1,9 @@
 import React from "react";
 import { useGameStore } from "../store/useGameStore";
 import { useEffect, useState } from "react";
-import { ActionBar } from "../components/Actionbar.jsx";
+import { ActionBar } from "/src/components/ActionBar.jsx";
 import { BackgroundImage } from "../components/BattleBackground.jsx";
-// import { ActionBar } from "/src/components/ActionBar.jsx"; bruk denne når du pusher
+
 
 export default function BattleView() {
   const [action, setAction] = useState("FIGHT");
@@ -68,12 +68,8 @@ export default function BattleView() {
       return;
     }
 
-    // Log encounterType to ensure it's correct
-    console.log("Current Encounter Type:", encounterType);
-
     const dataFile =
       encounterType === "BOSS" ? "/assets/bosses.json" : "/assets/mobs.json";
-    console.log("Fetching data from:", dataFile); // Log the dataFile to check if it's correct
 
     fetch(dataFile)
       .then((response) => response.json())
@@ -91,7 +87,7 @@ export default function BattleView() {
       .catch((error) =>
         console.error(`Error loading ${encounterType}:`, error)
       );
-  }, []); // Add encounterType to dependency array
+  }, []);
 
   useEffect(() => {
     if (enemy.currentHP <= 0 && battleOutcome === null) {
@@ -117,7 +113,7 @@ export default function BattleView() {
     addGold,
     setCurrentView,
     resetPosition,
-  ]); // eslint-disable-line react-hooks/exhaustive-deps
+  ]);
 
   useEffect(() => {
     if (isBattleOver) {
