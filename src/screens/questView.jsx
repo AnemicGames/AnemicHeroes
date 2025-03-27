@@ -198,8 +198,8 @@ export default function QuestScreen() {
         >
           <h2 className="text-4xl font-bold mb-4">Side quests</h2>
           {sideQuests.length > 0 ? (
-            <div className="absolute left-[50px] space-y-4 max-w-80 w-full">
-              <ul className="space-y-4">
+            <div className="absolute left-[50px] space-y-4 max-w-80 w-full h-full">
+              <ul className="space-y-4 h-[490px]">
                 {paginatedSideQuests.map((quest) => (
                   <QuestItem
                     quest={quest}
