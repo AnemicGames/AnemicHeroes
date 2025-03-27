@@ -220,7 +220,6 @@ export const createQuestSlice = (set, get) => ({
     set((state) => {
       let questsCopy = [...state.quests];
       let totalXpAward = 0;
-
       const updatedTypes = new Set();
 
       const updateChain = (chainType) => {
@@ -274,12 +273,12 @@ export const createQuestSlice = (set, get) => ({
 
       questsCopy = questsCopy.map((quest) => {
         if (quest.status !== "active") return quest;
-
         const { objective } = quest;
+
         if (
           objective?.type === "win_mobs" &&
           type === "mob" &&
-          !updatedTypes.has("win_mobs")
+          (!quest.chain || !updatedTypes.has("win_mobs"))
         ) {
           const newCurrent = objective.current + 1;
           let newStatus = quest.status;
@@ -297,7 +296,7 @@ export const createQuestSlice = (set, get) => ({
         if (
           objective?.type === "defeat_bosses" &&
           type === "boss" &&
-          !updatedTypes.has("defeat_bosses")
+          (!quest.chain || !updatedTypes.has("defeat_bosses"))
         ) {
           const newCurrent = objective.current + 1;
           let newStatus = quest.status;
@@ -317,26 +316,24 @@ export const createQuestSlice = (set, get) => ({
 
       questsCopy = questsCopy.map((quest) => {
         if (
-          quest.status === "locked" &&
-          quest.previous &&
-          questsCopy.find((q) => q.id === quest.previous)?.status ===
-            "completed"
-        ) {
-          return { ...quest, status: "active" };
-        }
-        return quest;
-      });
-
-      const questsToComplete = questsCopy.filter(
-        (quest) =>
           quest.status === "active" &&
           quest.objective?.current >= quest.objective?.target
-      );
+        ) {
+          if (quest.unlocksWorld) {
+            get().unlockWorld(quest.unlocksWorld);
+          }
 
-      set({ quests: questsCopy });
+          if (quest.next) {
+            questsCopy = questsCopy.map((q) =>
+              q.id === quest.next && q.status === "locked"
+                ? { ...q, status: "active" }
+                : q
+            );
+          }
 
-      questsToComplete.forEach((quest) => {
-        get().completeQuest(quest.id);
+          return { ...quest, status: "completed" };
+        }
+        return quest;
       });
 
       if (totalXpAward > 0) {
