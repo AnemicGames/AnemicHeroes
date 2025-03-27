@@ -201,14 +201,14 @@ export default function CharacterSheet() {
         </div>
 
         {/* Equipment */}
-        <div className="flex items-start absolute bottom-4 left-[360px]">
+        <div className="flex items-start absolute bottom-4 left-[400px]">
           <div className="equipment flex gap-2 cursor-pointer">
             {Object.entries(equipped).map(([slot, itemId]) => {
               const item = itemId ? getItemDetails(itemId) : null;
               return (
                 <div
                   key={slot}
-                  className="equipment-slot rounded p-2 w-20 h-20 flex flex-col items-center justify-center relative bg-gray-500/80"
+                  className="equipment-slot rounded p-2 w-[70px] h-[70px] flex flex-col items-center justify-center relative bg-gray-500/80"
                 >
                   {/* Tooltip */}
                   {item ? (
@@ -218,7 +218,7 @@ export default function CharacterSheet() {
                         alt={item.name}
                         className="max-w-full max-h-full object-contain"
                       />
-                      <div className="absolute left-0 bottom-0 h-full w-full hidden group-hover:flex flex-col bg-black text-white p-2 rounded text-xs z-10">
+                      <div className="absolute left-0 bottom-0 h-full w-full hidden group-hover:flex flex-col bg-black text-white p-1 rounded text-xs z-10">
                         <div className="mb-1 h-15 break-words">{item.name}</div>
                       </div>
                     </div>
