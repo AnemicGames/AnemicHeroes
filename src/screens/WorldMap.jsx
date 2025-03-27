@@ -111,8 +111,6 @@ export default function WorldMap() {
         fetchMap();
     }, [initializeMap]); // eslint-disable-line react-hooks/exhaustive-deps
 
-    const goToMainMenu = () => navigateWithAnimation("MAIN_MENU");
-
     const getLastUnlockedWorld = () => {
         const priorityOrder = [
             "FOREST",
