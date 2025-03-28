@@ -11,7 +11,7 @@ export default function BattleView() {
   const rollInitiative = useGameStore((state) => state.rollInitiative);
   const clearBattle = useGameStore((state) => state.clearBattle);
   const heal = useGameStore((state) => state.heal);
-  const resetBattle = useGameStore((state) => state.resetBattle);
+  const resetBattleState = useGameStore((state) => state.resetBattleState);
   const [battleOutcome, setBattleOutcome] = useState(null);
   const [isBattleOver, setIsBattleOver] = useState(false);
   const setXP = useGameStore((state) => state.setXP);
@@ -22,6 +22,8 @@ export default function BattleView() {
   const enemy = useGameStore((state) => state.enemy);
   const encounterType = useGameStore((state) => state.encounterType);
   const clearMap = useGameStore((state) => state.clearMap);
+  const battleState = useGameStore((state) => state.battleState);
+  const setBattleState = useGameStore((state) => state.setBattleState)
 
   const playerHealthPercent =
     player.maxHp > 0 ? (player.currentHp / player.maxHp) * 100 : 0;
@@ -55,47 +57,49 @@ export default function BattleView() {
   }
 
   useEffect(() => {
-    const savedBattleState = useGameStore.getState().battleState;
-    if (savedBattleState) {
-      const playerState = savedBattleState.player;
-      playerState.currentHp =
-        playerState.currentHp !== null
-          ? playerState.currentHp
-          : playerState.maxHp;
-      setEnemy(savedBattleState.enemy);
+    if (battleState) {
+      setEnemy(battleState.enemy);
       rollInitiative();
-      return;
+    } else {
+      const dataFile =
+        encounterType === "BOSS" ? "/assets/bosses.json" : "/assets/mobs.json";
+
+      fetch(dataFile)
+        .then((response) => response.json())
+        .then((data) => {
+          clearBattle();
+          setBattleOutcome(null);
+          setIsBattleOver(false);
+          heal(player.maxHp);
+
+          const newEnemy = fetchRandomEnemy(data);
+          setEnemy(newEnemy);
+          rollInitiative();
+        })
+        .catch((error) =>
+          console.error(`Error loading ${encounterType}:`, error)
+        );
     }
-
-    const dataFile =
-      encounterType === "BOSS" ? "/assets/bosses.json" : "/assets/mobs.json";
-
-    fetch(dataFile)
-      .then((response) => response.json())
-      .then((data) => {
-        clearBattle();
-        resetBattle();
-        setBattleOutcome(null);
-        setIsBattleOver(false);
-        heal(player.maxHp);
-        const newEnemy = fetchRandomEnemy(data);
-        setEnemy(newEnemy);
-        rollInitiative();
-      })
-      .catch((error) =>
-        console.error(`Error loading ${encounterType}:`, error)
-      );
   }, []);
 
   useEffect(() => {
-    if (enemy.currentHP <= 0 && battleOutcome === null) {
+    if (enemy.currentHP <= 0 && !battleOutcome) {
       setBattleOutcome("VICTORY");
       setIsBattleOver(true);
       setXP(enemy.xp);
       addGold(calculateGoldReward());
+  
+      if (enemy.encounterType === "BOSS") {
+        setBattleOutcome("VICTORY");
+        setIsBattleOver(true);
+        setXP(enemy.xp);
+        addGold(calculateGoldReward());
+        clearMap();
+        setCurrentView("MAIN_MENU");
+      }
     }
-
-    if (player.currentHp <= 0 && battleOutcome === null) {
+    
+    if (player.currentHp <= 0 && !battleOutcome) {
       setBattleOutcome("DEFEAT");
       setIsBattleOver(true);
       resetPosition();
@@ -116,19 +120,18 @@ export default function BattleView() {
 
   useEffect(() => {
     if (isBattleOver) {
-      localStorage.removeItem("battleState");
+      resetBattleState();
     } else {
-      const battleState = {
+      setBattleState({
         enemy,
         player: {
           ...player,
           maxHp: player.maxHp,
           currentHp: player.currentHp,
         },
-      };
-      localStorage.setItem("battleState", JSON.stringify(battleState));
+      });
     }
-  }, [enemy, player.currentHp, isBattleOver, player]);
+  }, [enemy, player.currentHp, isBattleOver]);
 
   return (
     <div className="relative w-full h-full">
@@ -158,7 +161,7 @@ export default function BattleView() {
           }`}
         >
           {enemy.name}
-          {encounterType === "BOSS" && "☠️"} {/* Add skull after the name */}
+          {encounterType === "BOSS" && "☠️"}
         </p>
         <p
           className={`text-xl text-white ${
@@ -180,7 +183,7 @@ export default function BattleView() {
       </div>
       {encounterType === "BOSS" && (
         <img
-          src="/assets/sprites/cracked-skull.png" // Replace with the correct path to your skull sprite
+          src="/assets/sprites/cracked-skull.png"
           alt="Skull"
           className="absolute top-3 left-3/4 transform -translate-x-1/2 w-20 h-20"
         />
@@ -215,6 +218,8 @@ export default function BattleView() {
               <>
                 <h2 className="text-4xl text-green-400">🎉 Victory! 🎉</h2>
                 <p className="text-white">
+                  You defeated {enemy.name}!
+                  <br/>
                   You gained {player.xp} XP and {calculateGoldReward()} gold!
                 </p>
                 <button

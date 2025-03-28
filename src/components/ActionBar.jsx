@@ -80,7 +80,7 @@ export function ActionBar() {
       <button
         className="flex items-center justify-center gap-3 text-white bg-red-700 hover:bg-red-600 rounded-full relative p-3 font-bold text-2xl bottom-6 border-2 border-yellow-300 w-[200px] z-50"
         onClick={handleAttack}
-        disabled={gameOver || isAttacking}
+        disabled={gameOver || isAttacking || isDrinkingPotion}
       >
         <img src="assets/sprites/sword-shiny.png" alt="Attack" />
         Attack!
@@ -90,7 +90,7 @@ export function ActionBar() {
         <button
           className="text-white bg-red-700 hover:bg-red-600 rounded-full absolute right-12 bottom-6 font-bold text-xl p-3 border-2 border-yellow-300 w-fit-content z-50"
           onClick={handleDrink}
-          disabled={gameOver || isDrinkingPotion}
+          disabled={gameOver || isDrinkingPotion || isAttacking}
         >
           <img
             src="/assets/sprites/potions/hp_pot.png"
