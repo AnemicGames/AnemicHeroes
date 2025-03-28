@@ -1,27 +1,19 @@
+import questData from "../../public/assets/quests.json";
+const allQuests = [
+  ...(questData.main_quests || []),
+  ...(questData.side_quests || []),
+].map((quest) => ({
+  ...quest,
+  objective: { current: 0, ...quest.objective },
+  status: quest.previous ? "locked" : quest.status || "active",
+}));
+
 export const createQuestSlice = (set, get) => ({
-  quests: [],
+  quests: allQuests,
   activeQuest: null,
 
   loadQuests: async () => {
-    try {
-      const response = await fetch("/assets/quests.json");
-      const data = await response.json();
-
-      const allQuests = [
-        ...(data.main_quests || []),
-        ...(data.side_quests || []),
-      ];
-
-      const questsWithDefaults = allQuests.map((quest) => ({
-        ...quest,
-        objective: { current: 0, ...quest.objective },
-        status: quest.previous ? quest.status || "locked" : "active",
-      }));
-
-      set({ quests: questsWithDefaults });
-    } catch (error) {
-      console.error("Error loading quests:", error);
-    }
+    set({ quests: allQuests });
   },
 
   completeQuest: (questId) => {
