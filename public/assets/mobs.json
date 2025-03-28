@@ -228,17 +228,17 @@
         "sprite": "/assets/sprites/mobs/barbarian.png"
     },
     {
-        "id": "m19",
-        "name": "Barbarian",
-        "baseHP": 190,
-        "baseStrength": 12,
-        "baseSpeed": 14,
-        "baseDefence": 20,
-        "lvlMultiplier": 1.25,
-        "dropChance": 1.3,
-        "baseGold": 43,
-        "sprite": "/assets/sprites/mobs/.png"
-    },
+        "id": "m7",
+        "name": "Shadow Wraith",
+        "baseHP": 100,
+        "baseStrength": 15,
+        "baseSpeed": 16,
+        "baseDefence": 7,
+        "lvlMultiplier": 1.3,
+        "dropChance": 1.0,
+        "baseGold": 15,
+        "sprite": "/assets/sprites/mobs/shadow_wraith.png"
+    },    
     {
         "id": "m20",
         "name": "Elf",
@@ -334,5 +334,55 @@
         "dropChance": 1.2,
         "baseGold": 50,
         "sprite": "/assets/sprites/mobs/fallen_knight.png"
+    },
+    {
+        "id": "m28",
+        "name": "Night Reaver",
+        "baseHP": 110,
+        "baseStrength": 14,
+        "baseSpeed": 18,
+        "baseDefence": 7,
+        "lvlMultiplier": 1.2,
+        "dropChance": 1.0,
+        "baseGold": 15,
+        "sprite": "/assets/sprites/mobs/night_reaver.png"
+    },
+    {
+        "id": "m29",
+        "name": "Arcane Warblade",
+        "baseHP": 180,
+        "baseStrength": 15,
+        "baseSpeed": 10,
+        "baseDefence": 14,
+        "lvlMultiplier": 1.2,
+        "dropChance": 0.9,
+        "baseGold": 18,
+        "sprite": "/assets/sprites/mobs/arcane_warblade.png"
+    },
+    {
+        "id": "m30",
+        "name": "Twilight Sorcerer",
+        "baseHP": 120,
+        "baseStrength": 16,
+        "baseSpeed": 12,
+        "baseDefence": 8,
+        "lvlMultiplier": 1.3,
+        "dropChance": 1.1,
+        "baseGold": 14,
+        "sprite": "/assets/sprites/mobs/twilight_sorcerer.png"
+    },
+    {
+        "id": "m31",
+        "name": "Iron Inquisitor",
+        "baseHP": 160,
+        "baseStrength": 14,
+        "baseSpeed": 10,
+        "baseDefence": 15,
+        "lvlMultiplier": 1.2,
+        "dropChance": 1.0,
+        "baseGold": 16,
+        "sprite": "/assets/sprites/mobs/iron_inquisitor.png"
     }
+    
+    
 ]
