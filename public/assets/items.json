@@ -534,7 +534,7 @@
         },
         "dropChance": 19,
         "equippable": true,
-        "sprite": "/assets/sprites/trinkets/ruby_trinket.png"
+        "sprite": "/assets/sprites/trinkets/ruby_ring.png"
       },
       {
         "id": "42",
@@ -1496,7 +1496,7 @@
         },
         "dropChance": 9,
         "equippable": true,
-        "sprite": "/assets/sprites/armor/random_armor.png"
+        "sprite": "/assets/sprites/armor/blu_breastplate.png"
       }
     ]
   }
