@@ -241,7 +241,7 @@ export default function Shop() {
   const handleBuy = (item) => {
     const price = getBuyPrice(item);
     if (inventory.gold < price) {
-      console.warn("Ikke nok gull til å kjøpe denne varen!");
+      console.warn("not enogh Gold");
       return;
     }
     // Spesiell håndtering for Health Potion.
@@ -510,7 +510,7 @@ export default function Shop() {
               <>
                 <h3 className="text-lg font-semibold mb-2">Sell</h3>
                 {inventoryArray.length === 0 ? (
-                  <p className="text-center text-xs">Ingen varer i inventar</p>
+                  <p className="text-center text-sm">No items in inventory, fight more!</p>
                 ) : (
                   <div className="grid grid-cols-7 gap-2 w-full">
                     {inventoryArray.map((invItem) => (
