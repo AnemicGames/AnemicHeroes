@@ -1,4 +1,5 @@
 export const createBattleSlice = (set, get) => ({
+  battleState: null,
   enemy: {
     id: "1",
     name: "Forest Knight",
@@ -20,6 +21,10 @@ export const createBattleSlice = (set, get) => ({
   skipTurn: false,
   xp: 1,
 
+
+  setBattleState: (state) => set({ battleState: state }),
+
+  resetBattleState: () => set({ battleState: null }),
 
   isEnemyTurn: () => get().nextToAttack === "ENEMY",
 
@@ -91,6 +96,7 @@ export const createBattleSlice = (set, get) => ({
 
   clearBattle: () =>
     set(() => ({
+      battleState: null,
       enemy: {
         id: "id",
         name: "placeholder",
