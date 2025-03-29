@@ -9,14 +9,20 @@ export function QuestHandler({ battleOutcome }) {
 
     if (!enemy) return;
 
-    const type =
-      encounterType === "BOSS" ? (enemy.id ? "named_boss" : "boss") : "mob";
+    const isBoss = encounterType === "BOSS";
+    const isNamed = isBoss && enemy.id?.startsWith("b");
 
-    const payload =
-      type === "named_boss" ? { type, bossId: enemy.id } : { type };
+    if (!isBoss) {
+      registerKill({ type: "mob" });
+    }
 
-    console.log("QuestHandler -> registerKill", payload);
-    registerKill(payload);
+    if (isBoss) {
+      registerKill({ type: "boss" });
+    }
+
+    if (isNamed) {
+      registerKill({ type: "named_boss", bossId: enemy.id });
+    }
   }, [battleOutcome]);
 
   return null;
