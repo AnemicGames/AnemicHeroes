@@ -2,20 +2,26 @@
     0% {
       opacity: 1;
       transform: translateY(0) scale(1);
-      color: #7FFF00; /* Chartreuse: bright, attention grabbing */
-      text-shadow: 0px 0px 5px rgba(127, 255, 0, 0.8);
+      color: #FFD700; /* Gold */
+      text-shadow: 
+        0px 0px 5px rgba(255, 215, 0, 0.8), 
+        0px 0px 10px rgba(0, 0, 0, 0.8);   
     }
     50% {
       opacity: 1;
       transform: translateY(-20px) scale(1.2);
-      color: #32CD32; /* LimeGreen */
-      text-shadow: 0px 0px 10px rgba(50, 205, 50, 0.8);
+      color: #ff7707; 
+      text-shadow: 
+        0px 0px 10px rgba(255, 193, 7, 0.8),
+        0px 0px 15px rgba(0, 0, 0, 0.8);
     }
     100% {
       opacity: 0;
       transform: translateY(-40px) scale(0.9);
-      color: #006400; /* DarkGreen */
-      text-shadow: 0px 0px 15px rgba(0, 100, 0, 0.8);
+      color: #b8330b; 
+      text-shadow: 
+        0px 0px 15px rgba(184, 134, 11, 0.8),
+        0px 0px 20px rgba(0, 0, 0, 0.8);
     }
   }
 @keyframes flashyFloatUp {
@@ -108,7 +114,6 @@
   .mega-flash-border {
     border-width: 3px;
     border-style: solid;
-    /* Bruker megaFlash for border og box-shadow, og shineEffect for en "shining" bakgrunn */
     animation: megaFlash 1.5s ease-in-out infinite, shineEffect 2s linear infinite;
     background: linear-gradient(120deg, #FFD700, #FF69B4, #FFD700);
     background-size: 200% 200%;

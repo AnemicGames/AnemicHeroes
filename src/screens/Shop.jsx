@@ -241,7 +241,7 @@ export default function Shop() {
   const handleBuy = (item) => {
     const price = getBuyPrice(item);
     if (inventory.gold < price) {
-      console.warn("Ikke nok gull til å kjøpe denne varen!");
+      console.warn("not enogh Gold");
       return;
     }
     // Spesiell håndtering for Health Potion.
@@ -364,23 +364,35 @@ export default function Shop() {
       )}
       <div className="relative z-10">
         {/* Toppseksjon med navigasjon og gullvisning */}
-        <div className="flex justify-between items-center p-4 bg-gray-800/">
-          <img
-            src="/assets/sprites/exit-nav-icon.png"
-            alt="exit icon"
-            onClick={handleReturn}
-            className="cursor-pointer w-12 h-12"
-          />
-          <h1 className="text-2xl font-bold">The Tavern of Goods</h1>
-          <div className="flex items-center text-lg">
-            <img
-              src="/assets/sprites/shop-nav-icon.png"
-              alt=""
-              className="w-12 h-10"
-            />
-            {inventory.gold}
-          </div>
-        </div>
+        <div className="flex justify-between items-center p-4 bg-gray-800/0">
+  {/* Group the exit icon and the tavern sign together */}
+  <div className="flex items-center">
+    <img
+      src="/assets/sprites/exit-nav-icon.png"
+      alt="exit icon"
+      onClick={handleReturn}
+      className="cursor-pointer w-12 h-12"
+    />
+    <div className="relative ml-11 -mt-11">
+      <img
+        src="/assets/tavern_sing_2.png"
+        alt="tavern sign"
+        className="w-auto h-auto"
+      />
+     
+    </div>
+  </div>
+  
+  {/* Shop section */}
+  <div className="flex items-center text-lg">
+    <img
+      src="/assets/sprites/shop-nav-icon.png"
+      alt=""
+      className="w-12 h-10"
+    />
+    {inventory.gold}
+  </div>
+</div>
         {/* Plassholder for midtseksjonen */}
         <div className="hidden relative w-full h-64"></div>
         {/* Begrensede tilbud-seksjonen */}
@@ -510,7 +522,7 @@ export default function Shop() {
               <>
                 <h3 className="text-lg font-semibold mb-2">Sell</h3>
                 {inventoryArray.length === 0 ? (
-                  <p className="text-center text-xs">Ingen varer i inventar</p>
+                  <p className="text-center text-sm">No items in inventory, fight more!</p>
                 ) : (
                   <div className="grid grid-cols-7 gap-2 w-full">
                     {inventoryArray.map((invItem) => (
