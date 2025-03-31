@@ -55,7 +55,10 @@ export const createQuestSlice = (set, get) => ({
     set((state) => {
       let questsCopy = state.quests.map((quest) => {
         if (quest.chain === "mob_chain" && quest.status === "active") {
-          const newCurrent = quest.objective.current + increment;
+          const newCurrent = Math.min(
+            quest.objective.current + increment,
+            quest.objective.target
+          );
           return {
             ...quest,
             objective: { ...quest.objective, current: newCurrent },
@@ -86,7 +89,10 @@ export const createQuestSlice = (set, get) => ({
     set((state) => {
       let questsCopy = state.quests.map((quest) => {
         if (quest.chain === "boss_chain" && quest.status === "active") {
-          const newCurrent = quest.objective.current + increment;
+          const newCurrent = Math.min(
+            quest.objective.current + increment,
+            quest.objective.target
+          );
           return {
             ...quest,
             objective: { ...quest.objective, current: newCurrent },
@@ -117,7 +123,10 @@ export const createQuestSlice = (set, get) => ({
     set((state) => {
       const questsCopy = state.quests.map((quest) => {
         if (quest.id === questId && quest.status === "active") {
-          const newCurrent = quest.objective.current + increment;
+          const newCurrent = Math.min(
+            quest.objective.current + increment,
+            quest.objective.target
+          );
           return {
             ...quest,
             objective: { ...quest.objective, current: newCurrent },
@@ -170,7 +179,10 @@ export const createQuestSlice = (set, get) => ({
       const updateChain = (chainType) => {
         questsCopy = questsCopy.map((quest) => {
           if (quest.chain === chainType && quest.status === "active") {
-            const newCurrent = quest.objective.current + 1;
+            const newCurrent = Math.min(
+              quest.objective.current + 1,
+              quest.objective.target
+            );
             return {
               ...quest,
               objective: { ...quest.objective, current: newCurrent },
