@@ -114,7 +114,6 @@
   .mega-flash-border {
     border-width: 3px;
     border-style: solid;
-    /* Bruker megaFlash for border og box-shadow, og shineEffect for en "shining" bakgrunn */
     animation: megaFlash 1.5s ease-in-out infinite, shineEffect 2s linear infinite;
     background: linear-gradient(120deg, #FFD700, #FF69B4, #FFD700);
     background-size: 200% 200%;
