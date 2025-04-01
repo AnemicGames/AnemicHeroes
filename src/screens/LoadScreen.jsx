@@ -33,22 +33,22 @@ export default function LoadScreen({ onDone }) {
   };
 
   return (
-    <div className="bg-black text-white min-h-screen flex flex-col items-center justify-center relative">
+    <div className="bg-black text-white w-full h-full flex flex-col items-center justify-center relative">
 
         <img
           src="/assets/battle_bg/2.webp"
           alt=""
           style={{ opacity: progressPercent / 100 }}
-          className="w-full h-full absolute top-0 z-0"
+          className="w-full h-auto absolute top-0 z-0"
       />
 
       {
         !isLoaded && (
-          <h1 className="mb-4 text-2xl font-bold">Loading Game...</h1>
+          <h1 className="mb-4 text-2xl font-bold z-10">Loading Game...</h1>
         )
       }
   
-      <div className="absolute top-[575px] w-4/5 max-w-sm h-5 border-2 border-white rounded overflow-hidden mb-2 z-10">
+      <div className="absolute top-[85%] w-4/5 max-w-sm h-5 border-2 border-white rounded overflow-hidden mb-2 z-10">
         <div
           className="h-full bg-red-700 transition-all duration-200 ease-in-out"
           style={{ width: `${progressPercent}%` }}
@@ -56,7 +56,7 @@ export default function LoadScreen({ onDone }) {
       </div>
   
       {total > 0 && !isLoaded && (
-        <p className="text-sm">
+        <p className="text-sm z-10">
           Loading {loaded} of {total} assets ({progressPercent}%)
         </p>
       )}
