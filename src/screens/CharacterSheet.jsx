@@ -1,38 +1,6 @@
 import { useEffect, useState } from "react";
 import { useGameStore } from "../store/useGameStore";
-
-const AnimatedBgImage = () => {
-  const [currentFrame, setCurrentFrame] = useState(1);
-  const currentWorld = useGameStore((state) => state.currentWorld);
-  const totalFrames = 12;
-  const frameRate = 190;
-
-  useEffect(() => {
-    const imageCache = [];
-    for (let i = 1; i <= totalFrames; i++) {
-      const img = new Image();
-      img.src = `/assets/char_sheet_bg/${currentWorld}/${i}.webp`;
-      imageCache.push(img);
-    }
-  }, [currentWorld]);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentFrame((prevFrame) => (prevFrame % totalFrames) + 1);
-    }, frameRate);
-    return () => clearInterval(interval);
-  }, []);
-
-  return (
-    <div className="absolute inset-0 -z-10 w-full h-full">
-      <img
-        src={`/assets/char_sheet_bg/${currentWorld}/${currentFrame}.webp`}
-        alt={`Animated ${currentWorld} Background`}
-        className="w-full h-full object-cover"
-      />
-    </div>
-  );
-};
+import AnimateChar from "../components/AnimateChar";
 
 export default function CharacterSheet() {
   const [itemsData, setItemsData] = useState(null);
@@ -56,6 +24,7 @@ export default function CharacterSheet() {
   const equipItem = useGameStore((state) => state.equipItem);
   const unequipItem = useGameStore((state) => state.unequipItem);
   const removeItem = useGameStore((state) => state.removeItem);
+  const currentWorld = useGameStore((state) => state.currentWorld);
 
   const equipped =
     player.equipped && Object.keys(player.equipped).length > 0
@@ -110,11 +79,6 @@ export default function CharacterSheet() {
   const bonusStrength = effectiveStats.strength - player.strength;
   const bonusDefense = effectiveStats.defense - player.defense;
   const bonusSpeed = effectiveStats.speed - player.speed;
-
-  const heroImage =
-    player.class && player.class.trim().length > 0
-      ? `/assets/sprites/heroes/${player.class.toLowerCase()}.png`
-      : `/assets/sprites/heroes/warrior.png`;
 
   const getSlotFromItemType = (itemType) => {
     switch (itemType) {
@@ -178,7 +142,13 @@ export default function CharacterSheet() {
 
   return (
     <div className="relative h-full w-full text-white overflow-x-hidden">
-      <AnimatedBgImage />
+      <div className="absolute inset-0 -z-10 w-full h-full">
+        <img
+          src={`/assets/char_sheet_bg/${currentWorld}/1.webp`}
+          alt={`${currentWorld} Background`}
+          className="w-full h-full object-cover"
+        />
+      </div>
       <div className="p-4 h-full w-full grid grid-cols-30 grid-rows-5 gap-2 relative z-10">
         {/* Notification */}
         {notification && (
@@ -193,11 +163,7 @@ export default function CharacterSheet() {
 
         {/* Hero image */}
         <div className="hero-image flex items-center justify-center absolute bottom-[60px] left-[460px]">
-          <img
-            src={heroImage}
-            alt={player.class || "Hero"}
-            className="max-w-full object-contain h-80"
-          />
+          <AnimateChar characterClass={player.class.toLowerCase()} />
         </div>
 
         {/* Equipment */}
