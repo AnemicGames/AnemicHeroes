@@ -22,7 +22,6 @@ const AnimatedBgImage = () => {
     const interval = setInterval(() => {
       setCurrentFrame((prevFrame) => (prevFrame % totalFrames) + 1);
     }, frameRate);
-
     return () => clearInterval(interval);
   }, []);
 
@@ -62,6 +61,39 @@ const QuestItem = ({ quest, onComplete }) => (
   </li>
 );
 
+const MainQuestItem = ({ quest, onComplete }) => (
+  <div className="main-quest-item p-4 text-black h-[500px] gap-3 flex flex-col">
+    <h2 className="text-3xl font-bold">{quest.title}</h2>
+    <p className="mt-2 text-xl">{quest.description}</p>
+    {quest.lore && <p className="mt-2 italic text-2xl">{quest.lore}</p>}
+    <p className="mt-2 text-xl">
+      Reward: {quest.xpReward} XP, {quest.moneyReward} Gold
+    </p>
+    <p className="mt-2 text-xl">
+      Progress: {quest.objective.current} / {quest.objective.target}
+    </p>
+    {quest.status === "active" &&
+      quest.objective.current >= quest.objective.target && (
+        <button
+          onClick={() => onComplete(quest.id)}
+          className="mt-4 px-4 py-2 bg-green-500 rounded text-white"
+        >
+          Claim
+        </button>
+      )}
+    {quest.status === "locked" && (
+      <p className="mt-4 text-red-600 font-bold text-3xl flex justify-center">
+        Unlock previous quest
+      </p>
+    )}
+    {quest.status === "completed" && (
+      <p className="mt-4 text-gray-500 text-7xl flex justify-center">
+        Completed
+      </p>
+    )}
+  </div>
+);
+
 export default function QuestScreen() {
   const quests = useGameStore((state) => state.quests);
   const loadQuests = useGameStore((state) => state.loadQuests);
@@ -79,10 +111,6 @@ export default function QuestScreen() {
   }, [quests.length, loadQuests]);
 
   const goToMainMenu = () => setCurrentView("MAIN_MENU");
-
-  const mainQuests = quests.filter(
-    (q) => q.type === "main" && q.status !== "locked"
-  );
 
   const sideQuests = quests.filter(
     (q) =>
@@ -109,7 +137,6 @@ export default function QuestScreen() {
 
   Object.values(sideQuestsByChain).forEach((chainQuests) => {
     const allComplete = chainQuests.every((q) => q.status === "completed");
-
     if (allComplete) {
       displayedSideQuests.push(...chainQuests);
     } else {
@@ -120,33 +147,31 @@ export default function QuestScreen() {
     }
   });
 
-  const groupQuestsByChain = (questsList) => {
-    return questsList.reduce((acc, quest) => {
-      const key = quest.chain || "noChain";
-      if (!acc[key]) {
-        acc[key] = [];
-      }
-      acc[key].push(quest);
-      return acc;
-    }, {});
-  };
-
-  const groupedMainQuests = groupQuestsByChain(mainQuests);
-
-  const displayedMainQuests = [];
-  Object.values(groupedMainQuests).forEach((chainQuests) => {
-    const fullyComplete = chainQuests.every((q) => q.status === "completed");
-    if (fullyComplete) {
-      const latest =
-        chainQuests.find((q) => !q.next) || chainQuests[chainQuests.length - 1];
-      displayedMainQuests.push(latest);
-    } else {
-      const active = chainQuests.find((q) => q.status !== "completed");
-      if (active) {
-        displayedMainQuests.push(active);
+  const mainQuestsAll = quests.filter((q) => q.type === "main");
+  let mainChain = [];
+  if (mainQuestsAll.length > 0) {
+    let start = mainQuestsAll.find((q) => !q.previous);
+    if (!start) {
+      start = mainQuestsAll[0];
+    }
+    let current = start;
+    while (current) {
+      mainChain.push(current);
+      if (current.next) {
+        current = mainQuestsAll.find((q) => q.id === current.next);
+      } else {
+        break;
       }
     }
-  });
+  }
+
+  const [mainPage, setMainPage] = useState(0);
+
+  useEffect(() => {
+    if (mainPage >= mainChain.length && mainChain.length > 0) {
+      setMainPage(mainChain.length - 1);
+    }
+  }, [mainChain, mainPage]);
 
   const [journalClosing, setJournalClosing] = useState(false);
 
@@ -174,20 +199,40 @@ export default function QuestScreen() {
 
         {/* Main quests */}
         <div
-          className={`absolute inset-0 left-[220px] mt-4 p-8 overflow-auto ${questViewStyles.journalContent}`}
+          className={`relative inset-0 left-[220px] mt-4 p-8 w-[450px] h-[750px] overflow-hidden ${questViewStyles.journalContent}`}
           style={{ fontFamily: "Caveat, cursive" }}
         >
-          <h2 className="text-4xl font-bold mb-4">Main quests</h2>
-          {displayedMainQuests.length > 0 ? (
-            <ul className="absolute left-[50px] space-y-4">
-              {displayedMainQuests.map((quest) => (
-                <QuestItem
-                  quest={quest}
-                  onComplete={completeQuest}
-                  key={quest.id}
-                />
-              ))}
-            </ul>
+          <h2 className="text-4xl font-bold mb-4">Main Quests</h2>
+          {mainChain.length > 0 ? (
+            <div className="space-y-4 h-[550px]">
+              <MainQuestItem
+                quest={mainChain[mainPage]}
+                onComplete={completeQuest}
+              />
+              <div className="flex justify-between mt-4 abosolute bottom-0 left-0">
+                <button
+                  onClick={() => setMainPage((prev) => Math.max(prev - 1, 0))}
+                  disabled={mainPage === 0}
+                  className="px-3 py-1 rounded disabled:opacity-40"
+                >
+                  Previous
+                </button>
+                <span className="text-xl flex items-center">
+                  Quest {mainPage + 1} of {mainChain.length}
+                </span>
+                <button
+                  onClick={() =>
+                    setMainPage((prev) =>
+                      Math.min(prev + 1, mainChain.length - 1)
+                    )
+                  }
+                  disabled={mainPage === mainChain.length - 1}
+                  className="px-3 py-1 rounded disabled:opacity-40"
+                >
+                  Next
+                </button>
+              </div>
+            </div>
           ) : (
             <p>No main quests available.</p>
           )}
@@ -216,7 +261,7 @@ export default function QuestScreen() {
                   <button
                     onClick={() => setSidePage((p) => Math.max(p - 1, 1))}
                     disabled={sidePage === 1}
-                    className=" px-3 py-1 rounded disabled:opacity-40"
+                    className="px-3 py-1 rounded disabled:opacity-40"
                   >
                     Previous
                   </button>
@@ -228,7 +273,7 @@ export default function QuestScreen() {
                       setSidePage((p) => Math.min(p + 1, totalPages))
                     }
                     disabled={sidePage === totalPages}
-                    className=" px-3 py-1 rounded disabled:opacity-40"
+                    className="px-3 py-1 rounded disabled:opacity-40"
                   >
                     Next
                   </button>
