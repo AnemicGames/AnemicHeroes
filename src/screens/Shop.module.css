@@ -2,7 +2,7 @@
     0% {
       opacity: 1;
       transform: translateY(0) scale(1);
-      color: #FFD700; /* Gold */
+      color: #ff0000; /* Gold */
       text-shadow: 
         0px 0px 5px rgba(255, 215, 0, 0.8), 
         0px 0px 10px rgba(0, 0, 0, 0.8);   
@@ -10,7 +10,7 @@
     50% {
       opacity: 1;
       transform: translateY(-20px) scale(1.2);
-      color: #ff7707; 
+      color: #ff0000; 
       text-shadow: 
         0px 0px 10px rgba(255, 193, 7, 0.8),
         0px 0px 15px rgba(0, 0, 0, 0.8);
@@ -18,7 +18,7 @@
     100% {
       opacity: 0;
       transform: translateY(-40px) scale(0.9);
-      color: #b8330b; 
+      color: #ff0000; 
       text-shadow: 
         0px 0px 15px rgba(184, 134, 11, 0.8),
         0px 0px 20px rgba(0, 0, 0, 0.8);
