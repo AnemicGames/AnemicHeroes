@@ -49,7 +49,7 @@ export default function Shop() {
   const removeGold = useGameStore((state) => state.removeGold);
   const embark = useGameStore((state) => state.embark);
   const setCurrentView = useGameStore((state) => state.setCurrentView);
-  const [isLoaded, setIsLoaded] = useState(false);
+  
   // Lokale statevariabler.
   const [items, setItems] = useState(null);
   // Begrensede tilbud (2 plasser); hver plass kan inneholde en vare eller null.
@@ -72,13 +72,12 @@ export default function Shop() {
   // Tick for å tvinge re-render hvert sekund (brukes for cooldown-sjekk).
   const [tick, setTick] = useState(0);
 
-  // henter JSON
+  
   useEffect(() => {
     fetch("/assets/items.json")
       .then((response) => response.json())
       .then((data) => {
         setItems(data.itemTable);
-        setIsLoaded(true);
       })
       .catch((error) => console.error("Feil ved lasting av varer:", error));
   }, []);
