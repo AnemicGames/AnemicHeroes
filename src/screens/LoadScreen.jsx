@@ -36,7 +36,7 @@ export default function LoadScreen({ onDone }) {
     <div className="bg-black text-white w-full h-full flex flex-col items-center justify-center relative">
 
         <img
-          src="/assets/battle_bg/2.webp"
+          src="/assets/load-screen-bg.webp"
           alt=""
           style={{ opacity: progressPercent / 100 }}
           className="w-full h-auto absolute top-0 z-0"
