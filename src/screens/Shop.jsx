@@ -2,9 +2,6 @@ import React, { useState, useEffect } from "react";
 import { useGameStore } from "../store/useGameStore";
 import styles from "./Shop.module.css";
 
-/*
-  AnimatedImage-komponenten:
-*/
 const AnimatedImage = () => {
   const [currentFrame, setCurrentFrame] = useState(1);
   const totalFrames = 12;
@@ -32,15 +29,7 @@ const AnimatedImage = () => {
   );
 };
 
-/*
-  Shop-komponenten:
-  - Laster varer fra JSON.
-  - Håndterer begrensede tilbud med localStorage.
-  - Regner ut en tilfeldig finalBuyList (med POT_HEALTH alltid inkludert).
-  - Implementerer cooldown for vanlige varer og spesiell håndtering for helsepotion.
-  - Viser et fast antall varer i Buy-seksjonen (21 varer totalt).
-  - Fjerner kjøpte varer (de er skjult til cooldownen er over, og restocker automatisk).
-*/
+
 export default function Shop() {
   const inventory = useGameStore((state) => state.inventory);
   const addItem = useGameStore((state) => state.addItem);
@@ -50,26 +39,19 @@ export default function Shop() {
   const embark = useGameStore((state) => state.embark);
   const setCurrentView = useGameStore((state) => state.setCurrentView);
 
-  // Lokale statevariabler.
+ 
   const [items, setItems] = useState(null);
-  // Begrensede tilbud (2 plasser); hver plass kan inneholde en vare eller null.
   const [limitedOffers, setLimitedOffers] = useState([null, null]);
-  // Spor kjøpte begrensede tilbud slik at de ikke vises i den vanlige Buy-listen.
   const [purchasedLimitedOfferIds, setPurchasedLimitedOfferIds] = useState([]);
-  // Cooldowns: et objekt som mapper vare-ID til utløpstidspunkt (ms) for en 2-minutters cooldown.
   const [cooldowns, setCooldowns] = useState({});
-  // FinalBuyList: Den statiske, randomiserte listen over varer (21 varer totalt).
   const [finalBuyList, setFinalBuyList] = useState([]);
-  // Spor antall helsepotioner som er kjøpt i denne økten.
   const [healthPotionBought, setHealthPotionBought] = useState(0);
   const [selectedItem, setSelectedItem] = useState(null);
   const [selectedMode, setSelectedMode] = useState(null);
   const [activeTab, setActiveTab] = useState("buy");
   const [floatingSell, setFloatingSell] = useState(null);
   const [floatingBuy, setFloatingBuy] = useState(null);
-  // Nedtelling for begrensede tilbud (60 sekunder = 1 minutt).
   const [countdown, setCountdown] = useState(60);
-  // Tick for å tvinge re-render hvert sekund (brukes for cooldown-sjekk).
   const [tick, setTick] = useState(0);
 
   useEffect(() => {
@@ -81,10 +63,8 @@ export default function Shop() {
       .catch((error) => console.error("Feil ved lasting av varer:", error));
   }, []);
 
-  // Genrerer to limited items når lastet
   useEffect(() => {
     if (items && items.length > 0) {
-      // Filter items into two groups based on dropChance
       const highDropChanceItems = items.filter((item) => item.dropChance > 20);
       const lowDropChanceItems = items.filter((item) => item.dropChance <= 20);
 
@@ -107,7 +87,6 @@ export default function Shop() {
     }
   }, [items]);
 
-  // Laster begrensede tilbud og kjøpte IDer fra localStorage for å beholde dem ved oppdatering.
   useEffect(() => {
     if (items && items.length > 0) {
       const storedOffers = localStorage.getItem("limitedOffers");
