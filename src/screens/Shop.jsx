@@ -120,7 +120,6 @@ export default function Shop() {
     }
   }, [items]);
 
-  // Lagre kjøpte begrensede tilbud til localStorage hver gang de endres.
   useEffect(() => {
     localStorage.setItem(
       "purchasedLimitedOfferIds",
@@ -128,7 +127,6 @@ export default function Shop() {
     );
   }, [purchasedLimitedOfferIds]);
 
-  // Oppdater nedtelling for begrensede tilbud hvert sekund.
   useEffect(() => {
     const interval = setInterval(() => {
       setCountdown((prev) => {
@@ -151,14 +149,12 @@ export default function Shop() {
     return () => clearInterval(interval);
   }, [items]);
 
-  //  Beregn den endelige, randomazied listen over varer (finalBuyList) én gang når varer er lastet.
   useEffect(() => {
     if (items && items.length > 0) {
-      // Finn statisk vare: Health Potion
       const staticItem = items.find((item) => item.id === "POT_HEALTH");
-      // Filtrer ut Health Potion fra de dynamiske varene.
+
       let dynamicItems = items.filter((item) => item.id !== "POT_HEALTH");
-      // Randomiser og begrens til 20 varer, slik at total blir 21 med den statiske varen.
+
       dynamicItems.sort(() => 0.5 - Math.random());
       dynamicItems = dynamicItems.slice(0, 20);
       const final = staticItem ? [staticItem, ...dynamicItems] : dynamicItems;
@@ -166,13 +162,11 @@ export default function Shop() {
     }
   }, [items]);
 
-  // Oppdater tick hvert sekund (for cooldown-sjekk).
   useEffect(() => {
     const interval = setInterval(() => setTick((prev) => prev + 1), 1000);
     return () => clearInterval(interval);
   }, []);
 
-  // Sjekk om Health Potion-cooldownen har utløpt; hvis ja, nullstill telleren og fjern cooldown.
   useEffect(() => {
     if (cooldowns["POT_HEALTH"] && cooldowns["POT_HEALTH"] <= Date.now()) {
       setHealthPotionBought(0);
@@ -183,13 +177,11 @@ export default function Shop() {
     }
   }, [tick, cooldowns["POT_HEALTH"]]);
 
-  // Tilfeldig velg 'count' varer fra en liste.
   function getRandomItems(arr, count) {
     const shuffled = [...arr].sort(() => 0.5 - Math.random());
     return shuffled.slice(0, count);
   }
 
-  //  Formater sekunder til HH:MM:SS.
   function formatTime(seconds) {
     const hrs = Math.floor(seconds / 3600);
     const mins = Math.floor((seconds % 3600) / 60);
@@ -198,21 +190,17 @@ export default function Shop() {
       .toString()
       .padStart(2, "0")}:${secs.toString().padStart(2, "0")}`;
   }
-  // Bregn kjøpspris for limited offers 50% avslag
   const getLimitedOfferPrice = (item) => {
     const normalPrice = getBuyPrice(item);
     return Math.floor(normalPrice * 0.5);
   };
 
-  // Beregn kjøpspris for en vare.
   const getBuyPrice = (item) => {
     if (!item || !item.dropChance) return 0;
     return Math.floor(200 / (item.dropChance / 100));
   };
-  // Beregn salgspris for en vare.
   const getSellPrice = (item) => Math.floor(getBuyPrice(item) / 2);
 
-  // Naviger tilbake.
   const handleReturn = () => {
     setCurrentView(embark ? "MAP" : "MAIN_MENU");
   };
