@@ -241,8 +241,11 @@ export default function Shop() {
   const handleBuy = (item) => {
     const price = getBuyPrice(item);
     if (inventory.gold < price) {
-      console.warn("not enogh Gold");
-      return;
+      setFloatingBuy("Not enough gold");
+    setTimeout(() => {
+      setFloatingBuy(null);
+    }, 2000);
+    return;
     }
     // Spesiell håndtering for Health Potion.
     if (item.id === "POT_HEALTH") {
