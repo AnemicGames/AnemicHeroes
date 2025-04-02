@@ -1,78 +1,59 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useGameStore } from "../store/useGameStore";
-import { useEffect, useState } from "react";
 import { ActionBar } from "/src/components/ActionBar.jsx";
 import { BackgroundImage } from "../components/BattleBackground.jsx";
 import { QuestHandler } from "/src/components/QuestHandler.jsx";
 
 export default function BattleView() {
   const [action, setAction] = useState("FIGHT");
-  const setEnemy = useGameStore((state) => state.setEnemy);
-  const rollInitiative = useGameStore((state) => state.rollInitiative);
-  const clearBattle = useGameStore((state) => state.clearBattle);
-  const heal = useGameStore((state) => state.heal);
-  const resetBattleState = useGameStore((state) => state.resetBattleState);
+  const [lootItems, setLootItems] = useState([]);
   const [battleOutcome, setBattleOutcome] = useState(null);
   const [isBattleOver, setIsBattleOver] = useState(false);
-  const setXP = useGameStore((state) => state.setXP);
-  const addGold = useGameStore((state) => state.addGold);
-  const setCurrentView = useGameStore((state) => state.setCurrentView);
-  const resetPosition = useGameStore((state) => state.resetPosition);
-  const player = useGameStore((state) => state.player);
-  const enemy = useGameStore((state) => state.enemy);
-  const encounterType = useGameStore((state) => state.encounterType);
-  const clearMap = useGameStore((state) => state.clearMap);
-  const battleState = useGameStore((state) => state.battleState);
-  const setBattleState = useGameStore((state) => state.setBattleState)
+
+  const {
+    setEnemy,
+    rollInitiative,
+    clearBattle,
+    heal,
+    resetBattleState,
+    addItem,
+    setXP,
+    addGold,
+    setCurrentView,
+    resetPosition,
+    setBattleState,
+    player,
+    enemy,
+    encounterType,
+    battleState,
+    fetchRandomEnemy,
+    calculateGoldReward,
+    handleVictory,
+    handleDefeat,
+    playerDefeated,
+  } = useGameStore();
 
   const playerHealthPercent =
     player.maxHp > 0 ? (player.currentHp / player.maxHp) * 100 : 0;
   const enemyHealthPercent =
     enemy.baseHP > 0 ? (enemy.currentHP / enemy.baseHP) * 100 : 0;
 
-  {
-    /*function for fetching random mobs */
-  }
-  function fetchRandomEnemy(mobs) {
-    const randomMob = mobs[Math.floor(Math.random() * mobs.length)];
-    const calculatedXP = Math.floor(50 * randomMob.lvlMultiplier);
-
-    return {
-      currentHP: randomMob.baseHP,
-      xp: calculatedXP,
-      gold: randomMob.baseGold,
-      ...randomMob,
-    };
-  }
-
-  function calculateGoldReward() {
-    const goldReward = Math.round(
-      enemy.baseGold * enemy.lvlMultiplier + player.level * enemy.lvlMultiplier
-    );
-    return goldReward;
-  }
-
-  {
-    /*Getting current battleState from localStorage and fetch mobs */
-  }
-
   useEffect(() => {
     if (battleState) {
       setEnemy(battleState.enemy);
       rollInitiative();
     } else {
-      const dataFile =
+      const mobsFile =
         encounterType === "BOSS" ? "/assets/bosses.json" : "/assets/mobs.json";
 
-      fetch(dataFile)
+      fetch(mobsFile)
         .then((response) => response.json())
-        .then((data) => {
+        .then((mobs) => {
           clearBattle();
           setBattleOutcome(null);
           setIsBattleOver(false);
-          heal(player.maxHp);
 
-          const newEnemy = fetchRandomEnemy(data);
+          const newEnemy = fetchRandomEnemy(mobs);
           setEnemy(newEnemy);
           rollInitiative();
         })
@@ -86,29 +67,34 @@ export default function BattleView() {
     if (enemy.currentHP <= 0 && !battleOutcome) {
       setBattleOutcome("VICTORY");
       setIsBattleOver(true);
-      setXP(enemy.xp);
-      addGold(calculateGoldReward());
-  
+      handleVictory().then((loot) => {
+        if (loot && loot.length > 0) {
+          setLootItems(loot);
+          loot.forEach((item) => {
+            addItem(item.id);
+          });
+        }
+      });
+
       if (enemy.encounterType === "BOSS") {
         setBattleOutcome("VICTORY");
         setIsBattleOver(true);
-        setXP(enemy.xp);
-        addGold(calculateGoldReward());
-        clearMap();
+        heal((player.currentHp = player.maxHp));
         setCurrentView("MAIN_MENU");
       }
     }
-    
+
     if (player.currentHp <= 0 && !battleOutcome) {
       setBattleOutcome("DEFEAT");
       setIsBattleOver(true);
-      resetPosition();
-      clearMap();
+      handleDefeat();
+      heal((player.currentHp = player.maxHp));
     }
   }, [
     enemy.currentHP,
     enemy.xp,
     enemy.baseGold,
+    enemy.encounterType,
     player.xp,
     battleOutcome,
     player.currentHp,
@@ -116,6 +102,11 @@ export default function BattleView() {
     addGold,
     setCurrentView,
     resetPosition,
+    handleDefeat,
+    heal,
+    handleVictory,
+    player,
+    addItem,
   ]);
 
   useEffect(() => {
@@ -124,22 +115,22 @@ export default function BattleView() {
     } else {
       setBattleState({
         enemy,
-        player: {
-          ...player,
-          maxHp: player.maxHp,
-          currentHp: player.currentHp,
-        },
+        player: { ...player, maxHp: player.maxHp, currentHp: player.currentHp },
       });
     }
-  }, [enemy, player.currentHp, isBattleOver]);
+  }, [
+    enemy,
+    player.currentHp,
+    isBattleOver,
+    player,
+    resetBattleState,
+    setBattleState,
+  ]);
 
   return (
     <div className="relative w-full h-full">
       <QuestHandler battleOutcome={battleOutcome} />
-      {/* Background image */}
       <BackgroundImage />
-
-      {/* Health Bars */}
 
       {/* Player Health Bar */}
       <div className="w-[40%] mr-20 top-6 absolute left-12">
@@ -167,9 +158,7 @@ export default function BattleView() {
           className={`text-xl text-white ${
             encounterType === "BOSS" ? "text-2xl text-red-300" : ""
           }`}
-        >
-          {`${enemy.currentHP}/${enemy.baseHP}`}
-        </p>
+        >{`${enemy.currentHP}/${enemy.baseHP}`}</p>
         <div className="w-full bg-gray-300 rounded-full h-4">
           <div
             className={`h-full rounded-full ${
@@ -181,6 +170,7 @@ export default function BattleView() {
           ></div>
         </div>
       </div>
+
       {encounterType === "BOSS" && (
         <img
           src="/assets/sprites/cracked-skull.png"
@@ -193,21 +183,21 @@ export default function BattleView() {
       <img
         src={`/assets/sprites/heroes/${player.class.toLowerCase()}.png`}
         alt={`${player.class} Sprite`}
-        className={`absolute bottom-[120px] left-1/6 transform w-[300px] transition-transform duration-300 
-    ${player.currentHp <= 0 ? "rotate-[-90deg] opacity-50 top-[300px]" : ""}`}
+        className={`absolute bottom-[120px] left-1/6 w-[300px] transition-transform duration-500
+    ${
+      playerDefeated
+        ? "rotate-90 opacity-50 transition-opacity duration-1000 top-[300px]"
+        : ""
+    }`}
       />
       {/* Enemy sprite */}
       <img
         src={enemy.sprite}
         alt="Enemy"
-        className={`absolute bottom-[120px] right-1/6 w-[300px] transition-transform duration-500 
-    ${enemy.currentHP <= 0 && "rotate-90 opacity-60 top-[300px]"}`}
-      />
-
-      <ActionBar
-        action={action}
-        callback={setAction}
-        className="animate-shake"
+        className={`absolute bottom-[120px] right-1/6 w-[300px] transition-transform duration-500 ${
+          enemy.currentHP <= 0 &&
+          "rotate-90 opacity-50 transition-opacity duration-1000 top-[300px]"
+        }`}
       />
 
       {/* Victory/Defeat Message */}
@@ -219,9 +209,19 @@ export default function BattleView() {
                 <h2 className="text-4xl text-green-400">🎉 Victory! 🎉</h2>
                 <p className="text-white">
                   You defeated {enemy.name}!
-                  <br/>
+                  <br />
                   You gained {player.xp} XP and {calculateGoldReward()} gold!
                 </p>
+                {lootItems.map((item) => (
+                  <div key={item.id} className="text-center">
+                    <p className="mt-2 text-sm">You also gained {item.name}!</p>
+                    <img
+                      src={item.sprite}
+                      alt={item.name}
+                      className="w-16 h-16 object-cover mx-auto"
+                    />
+                  </div>
+                ))}
                 <button
                   className="mt-4 px-4 py-2 bg-gray-700 text-white rounded"
                   onClick={() => {
@@ -250,6 +250,12 @@ export default function BattleView() {
           </div>
         )}
       </div>
+
+      <ActionBar
+        action={action}
+        callback={setAction}
+        className="animate-shake"
+      />
     </div>
   );
 }
