@@ -29,7 +29,6 @@ const AnimatedImage = () => {
   );
 };
 
-
 export default function Shop() {
   const inventory = useGameStore((state) => state.inventory);
   const addItem = useGameStore((state) => state.addItem);
@@ -38,8 +37,6 @@ export default function Shop() {
   const removeGold = useGameStore((state) => state.removeGold);
   const embark = useGameStore((state) => state.embark);
   const setCurrentView = useGameStore((state) => state.setCurrentView);
-
- 
   const [items, setItems] = useState(null);
   const [limitedOffers, setLimitedOffers] = useState([null, null]);
   const [purchasedLimitedOfferIds, setPurchasedLimitedOfferIds] = useState([]);
@@ -205,13 +202,11 @@ export default function Shop() {
     setCurrentView(embark ? "MAP" : "MAIN_MENU");
   };
 
-  //Sett valgt vare og modus for visning av varedetaljer.
   const handleItemClick = (item, mode) => {
     setSelectedItem(item);
     setSelectedMode(mode);
   };
 
-  //  Kjøp en vare.og fjern vare fra item details når kjøpt
   const handleBuy = (item) => {
     const price = getBuyPrice(item);
     if (inventory.gold < price) {
@@ -221,14 +216,13 @@ export default function Shop() {
       }, 2000);
       return;
     }
-    // Spesiell håndtering for Health Potion.
+
     if (item.id === "POT_HEALTH") {
-      // Tillat alltid å kjøpe opptil 5 potions uansett hva inventory viser.
       if (healthPotionBought < 5) {
         removeGold(price);
         addItem(item.id, 1);
         setHealthPotionBought((prev) => prev + 1);
-        // Hvis dette kjøpet gir 5 potions, sett en cooldown.
+
         if (healthPotionBought + 1 === 5) {
           setCooldowns((prev) => ({
             ...prev,
@@ -237,7 +231,6 @@ export default function Shop() {
         }
       }
     } else if (limitedOffers.some((offer) => offer && offer.id === item.id)) {
-      // For begrensede tilbud, fjern varen fra tilbudene og spor kjøpet.
       setLimitedOffers((prevOffers) =>
         prevOffers.map((offer) =>
           offer && offer.id === item.id ? null : offer
@@ -255,7 +248,6 @@ export default function Shop() {
       removeGold(price);
       addItem(item.id, 1);
     } else {
-      // For normale varer, 2-minutters cooldown og fjern varen fra butikken.
       removeGold(price);
       addItem(item.id, 1);
       setCooldowns((prev) => ({ ...prev, [item.id]: Date.now() + 120 * 1000 }));
@@ -271,7 +263,6 @@ export default function Shop() {
     }, 2000);
   };
 
-  // Selg en vare.
   const handleSell = (item) => {
     const count = inventory.items[item.id] || 0;
     if (count > 0) {
@@ -293,14 +284,12 @@ export default function Shop() {
 
   const visibleBuyList = finalBuyList.filter((item) => {
     if (item.id === "POT_HEALTH") {
-      // For Health Potion, vis den hvis færre enn 5 er kjøpt, ellers sjekk cooldown.
       if (healthPotionBought < 5) return true;
       return !(cooldowns[item.id] && cooldowns[item.id] > Date.now());
     }
     return !(cooldowns[item.id] && cooldowns[item.id] > Date.now());
   });
 
-  // Bygg inventory-listen fra inventory-objektet.
   const inventoryArray = Object.entries(inventory.items)
     .map(([id, count]) => {
       const itemInfo = items.find((i) => i.id === id);
@@ -312,7 +301,6 @@ export default function Shop() {
   const leftLimitedOffer = limitedOffers[0];
   const rightLimitedOffer = limitedOffers[1];
 
-  // Beregn gjenværende cooldown (i sekunder) for en valgt vare, hvis den er på cooldown.
   const remainingCooldown =
     selectedItem && cooldowns[selectedItem.id]
       ? Math.max(
@@ -324,7 +312,6 @@ export default function Shop() {
   return (
     <div className="w-full h-full text-white relative">
       <AnimatedImage />
-      {/* Flytende meldinger */}
       {floatingSell && (
         <div
           className={`${styles["flash-up"]} absolute top-20 left-1/2 transform -translate-x-1/2`}
@@ -340,7 +327,6 @@ export default function Shop() {
         </div>
       )}
       <div className="relative z-10">
-        {/* Toppseksjon med navigasjon og gullvisning */}
         <div className="flex justify-between items-center p-4 bg-gray-800/0">
           <div className="flex items-center">
             <img
@@ -358,7 +344,6 @@ export default function Shop() {
             </div>
           </div>
 
-          {/* Shop section */}
           <div className="flex items-center text-lg">
             <img
               src="/assets/sprites/shop-nav-icon.png"
@@ -368,11 +353,8 @@ export default function Shop() {
             {inventory.gold}
           </div>
         </div>
-        {/* Plassholder for midtseksjonen */}
         <div className="hidden relative w-full h-64"></div>
-        {/* Begrensede tilbud-seksjonen */}
         <div className="relative w-full h-64">
-          {/* Venstre boks: varer med dropChance > 20, vanlig flashy border */}
           <div
             className={`${
               leftLimitedOffer ? styles["flicker-border"] : ""
@@ -452,7 +434,6 @@ export default function Shop() {
             )}
           </div>
         </div>
-        {/* Faner for nedre seksjonen */}
         <div className="flex justify-start space-x-4 p-4 bg-gray-800/ bg-opacity-90">
           <button
             onClick={() => setActiveTab("buy")}
@@ -471,9 +452,7 @@ export default function Shop() {
             Sell
           </button>
         </div>
-        {/* Nedre seksjonen: To kolonner – venstre: Liste (Buy/Sell) og høyre: Varedetaljer */}
         <div className="flex gap-4 p-2 w-full h-80">
-          {/* Venstre kolonne: Liste for aktiv fane */}
           <div className="bg-gray-800/80 p-2 rounded w-full overflow-y-auto">
             {activeTab === "buy" ? (
               <>
@@ -529,7 +508,6 @@ export default function Shop() {
               </>
             )}
           </div>
-          {/* Høyre kolonne: Varedetaljer */}
           <div className="bg-gray-800/80 p-2 rounded flex flex-col items-center w-[20%]">
             <h3 className="text-lg font-semibold mb-2">Item Details</h3>
             {!selectedItem ? (
