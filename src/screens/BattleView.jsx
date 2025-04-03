@@ -70,11 +70,9 @@ export default function BattleView() {
       handleVictory().then((loot) => {
         if (loot && loot.length > 0) {
           setLootItems(loot);
-          loot.forEach((item) => {
-            addItem(item.id);
-          });
         }
       });
+      
 
       if (enemy.encounterType === "BOSS") {
         setBattleOutcome("VICTORY");

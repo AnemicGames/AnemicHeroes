@@ -200,7 +200,14 @@ export const createBattleSlice = (set, get) => ({
     addGold(get().calculateGoldReward());
 
     const lootItemIds = await getRandomItems(1);
-    lootItemIds.forEach((itemId) => addItem(itemId, 1));
+    lootItemIds.forEach((item) => {
+      if (typeof item === "object" && item.id) {
+        addItem(item.id, 1);  // Ensure only item ID is stored
+      } else {
+        addItem(item, 1);  // If item is already an ID, store it directly
+      }
+    });
+    
     console.log(lootItemIds)
 
     if (enemy.encounterType === "BOSS") {
