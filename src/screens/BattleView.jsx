@@ -28,6 +28,7 @@ export default function BattleView() {
     calculateGoldReward,
     handleVictory,
     handleDefeat,
+    firstAttacker,
   } = useGameStore();
 
   const playerHealthPercent =
@@ -72,7 +73,7 @@ export default function BattleView() {
 
       if (enemy.encounterType === "BOSS") {
         setCurrentView("MAIN_MENU");
-        heal((player.currentHp = player.maxHp));
+        heal(player.currentHp = player.maxHp);
       }
     }
 
@@ -80,7 +81,6 @@ export default function BattleView() {
       setBattleOutcome("DEFEAT");
       setIsBattleOver(true);
       handleDefeat();
-      heal((player.currentHp = player.maxHp));
     }
   }, [
     enemy.currentHP,
@@ -119,6 +119,16 @@ export default function BattleView() {
 
   return (
     <div className="relative w-full h-full">
+      {/* Display turns to user */}
+      {firstAttacker && (
+        <div className="absolute top-4 left-1/2 transform -translate-x-1/2 text-xl text-white">
+          <p>
+            {firstAttacker === "PLAYER"
+              ? "You strike first!"
+              : "The enemy strikes first!"}
+          </p>
+        </div>
+      )}
       <QuestHandler battleOutcome={battleOutcome} />
       <BackgroundImage />
 
@@ -176,7 +186,7 @@ export default function BattleView() {
         className={`absolute bottom-[120px] left-1/6 w-[300px] transition-transform duration-500
           ${
             player.currentHp <= 0 &&
-            "rotate-90 opacity-50 transition-opacity duration-1000 top-[300px]"
+            "rotate-[-90deg] opacity-50 transition-opacity duration-1000 top-[300px]"
           }
         `}
       />
@@ -233,6 +243,7 @@ export default function BattleView() {
                   onClick={() => {
                     clearBattle();
                     setCurrentView("MAIN_MENU");
+                    heal(player.currentHp = player.maxHp);
                   }}
                 >
                   Respawn

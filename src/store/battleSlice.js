@@ -21,6 +21,7 @@ import { getRandomItems } from "../utils/getRandomItem";
     isFighting: true,
     skipTurn: false,
     xp: 1,
+    message: "",
 
   setBattleState: (state) => set({ battleState: state }),
 
@@ -264,7 +265,7 @@ import { getRandomItems } from "../utils/getRandomItem";
     resetPosition();
     clearMap();
     setBattleOutcome("DEFEAT");
-    setPlayerDefeated(true);
+    setPlayerDefeated();
   },
 
   updateBattleState: () => {
@@ -337,6 +338,12 @@ import { getRandomItems } from "../utils/getRandomItem";
   
     const firstAttacker = playerInitiative >= enemyInitiative ? "PLAYER" : "ENEMY";
     set({ nextToAttack: firstAttacker });
+
+    if (firstAttacker === "ENEMY") {
+      set({ message: "The enemy strikes first!" });
+    } else {
+      set({ message: "You strike first!" });
+    }
   
     if (firstAttacker === "ENEMY") {
       setTimeout(() => {
