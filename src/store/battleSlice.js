@@ -1,26 +1,26 @@
 import { getRandomItems } from "../utils/getRandomItem";
 
-export const createBattleSlice = (set, get) => ({
-  battleState: null,
-  enemy: {
-    id: "1",
-    name: "Forest Knight",
-    baseHP: 150,
-    baseStrength: 1,
-    baseSpeed: 1,
-    baseDefence: 1,
-    lvlMultiplier: 1,
-    dropChance: 1,
-    baseGold: 1,
-    sprite: "",
-    currentHP: 1,
-  },
-  gameOver: false,
-  turnCount: 0,
-  nextToAttack: null,
-  isFighting: true,
-  skipTurn: false,
-  xp: 1,
+  export const createBattleSlice = (set, get) => ({
+    battleState: null,
+    enemy: {
+      id: "1",
+      name: "Forest Knight",
+      baseHP: 150,
+      baseStrength: 1,
+      baseSpeed: 1,
+      baseDefence: 1,
+      lvlMultiplier: 1,
+      dropChance: 1,
+      baseGold: 1,
+      sprite: "",
+      currentHP: 1,
+    },
+    gameOver: false,
+    turnCount: 0,
+    nextToAttack: null,
+    isFighting: true,
+    skipTurn: false,
+    xp: 1,
 
   setBattleState: (state) => set({ battleState: state }),
 
@@ -100,14 +100,27 @@ export const createBattleSlice = (set, get) => ({
       setBattleOutcome,
       player,
     } = get();
-    const playerDamage = Math.floor(Math.random() * (25 - 5 + 1)) + 5;
-    damageEnemy(playerDamage);
-    setTurnCount();
+  
 
-    if (enemy.currentHP - playerDamage > 0) {
+    const baseDamage = player.strength *2;
+    const randomVariance = Math.floor(Math.random() * 7) - 3; // Random between -3 and +3
+  
+    // Calculate raw damage
+    let rawDamage = baseDamage + randomVariance;
+  
+    // Apply enemy defense reduction
+    const enemyDefenseReduction = Math.floor(enemy.baseDefence / 2);
+    const finalDamage = Math.max(1, rawDamage - enemyDefenseReduction); // Ensures at least 1 damage
+  
+    // Deal damage
+    damageEnemy(finalDamage);
+    setTurnCount();
+  
+    if (enemy.currentHP - finalDamage > 0) {
       setTimeout(() => {
         const enemyDamage = Math.floor(Math.random() * (25 - 5 + 1)) + 5;
         takeDamage(enemyDamage);
+  
         if (player.currentHp - enemyDamage <= 0) {
           setBattleOutcome(true);
         } else {
@@ -116,6 +129,7 @@ export const createBattleSlice = (set, get) => ({
       }, 1000);
     }
   },
+  
 
   applyDrinkPotion: () => {
     const {
@@ -246,11 +260,11 @@ export const createBattleSlice = (set, get) => ({
 
   handleDefeat: () => {
     const { resetPosition, clearMap, setBattleOutcome, setPlayerDefeated } =
-      get();
+    get();
     resetPosition();
     clearMap();
     setBattleOutcome("DEFEAT");
-    setPlayerDefeated();
+    setPlayerDefeated(true);
   },
 
   updateBattleState: () => {
@@ -286,7 +300,7 @@ export const createBattleSlice = (set, get) => ({
         newLevel += 1;
         newXpToNextLvl = Math.floor(newXpToNextLvl * 1.2);
         newMaxHp = Math.floor(newMaxHp * 1.1);
-        currentHp = newMaxHp;
+        currentHp = newMaxHp; // Må endres til currentHp = state.player.currentHp hvis vi ikke vil at spilleren skal heales hver gang den lvler opp
       }
 
       return {
@@ -312,12 +326,27 @@ export const createBattleSlice = (set, get) => ({
   },
 
   rollInitiative: () => {
-    const playerSpeed = 5;
-    const enemySpeed = 5;
+    const { player, enemy, setTurnCount, applyPlayerAttack, takeDamage, } = get();
+    
+    const playerSpeed = player.speed;
+    const enemySpeed = enemy.baseSpeed;
+  
+
     const playerInitiative = Math.floor(Math.random() * 20) + 1 + playerSpeed;
     const enemyInitiative = Math.floor(Math.random() * 20) + 1 + enemySpeed;
-    set({
-      nextToAttack: playerInitiative >= enemyInitiative ? "PLAYER" : "ENEMY",
-    });
-  },
+  
+    const firstAttacker = playerInitiative >= enemyInitiative ? "PLAYER" : "ENEMY";
+    set({ nextToAttack: firstAttacker });
+  
+    if (firstAttacker === "ENEMY") {
+      setTimeout(() => {
+        const enemyDamage = Math.floor(Math.random() * (25 - 5 + 1)) + 5;
+        takeDamage(enemyDamage);
+        setTurnCount();
+        set({ nextToAttack: "PLAYER" });
+      }, 1000);
+    } else {
+      setTurnCount();
+    }
+  }  
 });

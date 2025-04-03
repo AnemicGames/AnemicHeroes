@@ -17,8 +17,6 @@ export default function BattleView() {
     heal,
     resetBattleState,
     addItem,
-    setXP,
-    addGold,
     setCurrentView,
     resetPosition,
     setBattleState,
@@ -30,7 +28,6 @@ export default function BattleView() {
     calculateGoldReward,
     handleVictory,
     handleDefeat,
-    playerDefeated,
   } = useGameStore();
 
   const playerHealthPercent =
@@ -72,13 +69,10 @@ export default function BattleView() {
           setLootItems(loot);
         }
       });
-      
 
       if (enemy.encounterType === "BOSS") {
-        setBattleOutcome("VICTORY");
-        setIsBattleOver(true);
-        heal((player.currentHp = player.maxHp));
         setCurrentView("MAIN_MENU");
+        heal((player.currentHp = player.maxHp));
       }
     }
 
@@ -95,14 +89,12 @@ export default function BattleView() {
     enemy.encounterType,
     player.xp,
     battleOutcome,
-    player.currentHp,
-    setXP,
-    addGold,
     setCurrentView,
     resetPosition,
     handleDefeat,
     heal,
     handleVictory,
+    player.currentHp,
     player,
     addItem,
   ]);
@@ -182,11 +174,11 @@ export default function BattleView() {
         src={`/assets/sprites/heroes/${player.class.toLowerCase()}.png`}
         alt={`${player.class} Sprite`}
         className={`absolute bottom-[120px] left-1/6 w-[300px] transition-transform duration-500
-    ${
-      playerDefeated
-        ? "rotate-90 opacity-50 transition-opacity duration-1000 top-[300px]"
-        : ""
-    }`}
+          ${
+            player.currentHp <= 0 &&
+            "rotate-90 opacity-50 transition-opacity duration-1000 top-[300px]"
+          }
+        `}
       />
       {/* Enemy sprite */}
       <img
@@ -224,7 +216,9 @@ export default function BattleView() {
                   className="mt-4 px-4 py-2 bg-gray-700 text-white rounded"
                   onClick={() => {
                     clearBattle();
-                    setCurrentView("MAP");
+                    setCurrentView(
+                      encounterType === "BOSS" ? "MAIN_MENU" : "MAP"
+                    );
                   }}
                 >
                   Continue
