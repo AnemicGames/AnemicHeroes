@@ -6,7 +6,7 @@ export function ActionBar() {
   const [isAttacking, setIsAttacking] = useState(false);
   const [isDrinkingPotion, setIsDrinkingPotion] = useState(false);
 
-  const hasPotions = inventory.items?.POT_HEALTH > 0;
+  const hasPotions = (inventory.items ?? {})["POT_HEALTH"] > 0;
 
   return (
     <div className="flex flex-col w-full items-center gap-4 absolute bottom-1 left-0">

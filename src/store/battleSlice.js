@@ -43,13 +43,13 @@ export const createBattleSlice = (set, get) => ({
     }));
   },
 
-  setPlayerDefeated: () => set((state) => {
-    if (state.player.currentHp <= 0) {
-      return { playerDefeated: true };
-    }
-    return state;
-  }),
-  
+  setPlayerDefeated: () =>
+    set((state) => {
+      if (state.player.currentHp <= 0) {
+        return { playerDefeated: true };
+      }
+      return state;
+    }),
 
   takeDamage: (damage) => {
     set((state) => ({
@@ -64,9 +64,31 @@ export const createBattleSlice = (set, get) => ({
     set((state) => ({
       player: {
         ...state.player,
-        currentHp: Math.min(state.player.maxHp, state.player.currentHp + amount),
+        currentHp: Math.min(
+          state.player.maxHp,
+          state.player.currentHp + amount
+        ),
       },
     }));
+  },
+
+  updateItemCount: (itemId, amount) => {
+    set((state) => {
+      const updatedItems = { ...state.inventory.items };
+
+      if (!updatedItems[itemId] || updatedItems[itemId] + amount < 0) {
+        return state;
+      }
+
+      updatedItems[itemId] += amount;
+
+      return {
+        inventory: {
+          ...state.inventory,
+          items: updatedItems,
+        },
+      };
+    });
   },
 
   applyPlayerAttack: () => {
@@ -175,7 +197,7 @@ export const createBattleSlice = (set, get) => ({
 
   setLootItems: (items) => set({ lootItems: items }),
 
-    addItem: (itemId, count = 1) => {
+  addItem: (itemId, count = 1) => {
     set((state) => {
       const updatedItems = { ...state.inventory.items };
 
@@ -195,24 +217,23 @@ export const createBattleSlice = (set, get) => ({
   },
 
   handleVictory: async () => {
-    const { enemy, setXP, addGold, clearMap, addItem, setBattleOutcome } = get();
+    const { enemy, setXP, addGold, clearMap, addItem, setBattleOutcome } =
+      get();
     setXP(enemy.xp);
     addGold(get().calculateGoldReward());
 
     const lootItemIds = await getRandomItems(1);
     lootItemIds.forEach((item) => {
       if (typeof item === "object" && item.id) {
-        addItem(item.id, 1);  // Ensure only item ID is stored
+        addItem(item.id, 1);
       } else {
-        addItem(item, 1);  // If item is already an ID, store it directly
+        addItem(item, 1);
       }
     });
-    
-    console.log(lootItemIds)
 
     if (enemy.encounterType === "BOSS") {
       clearMap();
-      addItem(3); 
+      addItem(3);
       const bossLootItemIds = await getRandomItems(3);
       bossLootItemIds.forEach((itemId) => addItem(itemId, 1));
     }
@@ -224,7 +245,8 @@ export const createBattleSlice = (set, get) => ({
   },
 
   handleDefeat: () => {
-    const { resetPosition, clearMap, setBattleOutcome, setPlayerDefeated } = get();
+    const { resetPosition, clearMap, setBattleOutcome, setPlayerDefeated } =
+      get();
     resetPosition();
     clearMap();
     setBattleOutcome("DEFEAT");
@@ -232,7 +254,8 @@ export const createBattleSlice = (set, get) => ({
   },
 
   updateBattleState: () => {
-    const { enemy, player, isBattleOver, resetBattleState, setBattleState } = get();
+    const { enemy, player, isBattleOver, resetBattleState, setBattleState } =
+      get();
     if (isBattleOver) {
       resetBattleState();
     } else {
@@ -247,7 +270,8 @@ export const createBattleSlice = (set, get) => ({
     }
   },
 
-  setBattleOutcome: (outcome) => set({ battleOutcome: outcome, isBattleOver: true }),
+  setBattleOutcome: (outcome) =>
+    set({ battleOutcome: outcome, isBattleOver: true }),
 
   setXP: (xp) => {
     set((state) => {
