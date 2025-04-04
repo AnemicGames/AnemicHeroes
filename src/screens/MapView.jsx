@@ -226,7 +226,7 @@ export default function MapView() {
                     <button
                         className="absolute bottom-0 right-0 m-4 p-2 hover:bg-red-800 rounded z-50"
                         title="Exit"
-                        onClick={() => goToQuestLog("QUEST")}
+                        onClick={() => goToQuestLog()}
                     >
                         <img
                             src="/assets/sprites/feather.png"
@@ -237,7 +237,7 @@ export default function MapView() {
                     <button
                         className="absolute bottom-20 right-0 m-4 p-2 hover:bg-red-800 rounded z-50"
                         title="Exit"
-                        onClick={() => goToInventory("CHARACTER_SHEET")}
+                        onClick={() => goToInventory()}
                     >
                         <img
                             src="/assets/sprites/inventory-nav-icon.png"
