@@ -230,7 +230,7 @@ export default function MapView() {
                     >
                         <img
                             src="/assets/sprites/feather.png"
-                            alt="Exit"
+                            alt="Quest Log"
                             className="w-10 h-11"
                         />
                     </button>
@@ -241,7 +241,7 @@ export default function MapView() {
                     >
                         <img
                             src="/assets/sprites/inventory-nav-icon.png"
-                            alt="Exit"
+                            alt="Inventory"
                             className="w-10 h-11"
                         />
                     </button>
