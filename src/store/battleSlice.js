@@ -1,3 +1,5 @@
+import { getRandomItems } from "../utils/getRandomItem";
+
 export const createBattleSlice = (set, get) => ({
   battleState: null,
   enemy: {
@@ -11,7 +13,6 @@ export const createBattleSlice = (set, get) => ({
     dropChance: 1,
     baseGold: 1,
     sprite: "",
-
     currentHP: 1,
   },
   gameOver: false,
@@ -20,77 +21,166 @@ export const createBattleSlice = (set, get) => ({
   isFighting: true,
   skipTurn: false,
   xp: 1,
-
+  //message: "", this is for displaying turn messages
 
   setBattleState: (state) => set({ battleState: state }),
 
-  resetBattleState: () => set({ battleState: null }),
+  resetBattleState: () => set({ battleState: null, playerDefeated: false }),
 
   isEnemyTurn: () => get().nextToAttack === "ENEMY",
 
   setNextToAttack: (attacker) => set({ nextToAttack: attacker }),
 
-  setXP: (xp) => {
+  setTurnCount: () => set((state) => ({ turnCount: state.turnCount + 1 })),
+
+  setMessage: (message) => set({ battleMessage: message }),
+
+  damageEnemy: (damage) => {
+    set((state) => ({
+      enemy: {
+        ...state.enemy,
+        currentHP: Math.max(0, state.enemy.currentHP - damage),
+      },
+    }));
+  },
+
+  setPlayerDefeated: () =>
     set((state) => {
-      let newXP = state.player.xp + xp;
-      let newLevel = state.player.level;
-      let newXpToNextLvl = state.player.xpToNextLvl;
-      let newMaxHp = state.player.maxHp;
-      let currentHp = state.player.currentHp;
+      if (state.player.currentHp <= 0) {
+        return { playerDefeated: true };
+      }
+      return state;
+    }),
 
-      while (newXP >= newXpToNextLvl) {
-        newXP -= newXpToNextLvl;
-        newLevel += 1;
-        newXpToNextLvl = Math.floor(newXpToNextLvl * 1.2); //XP scaling
+  takeDamage: (damage) => {
+    set((state) => ({
+      player: {
+        ...state.player,
+        currentHp: Math.max(0, state.player.currentHp - damage),
+      },
+    }));
+  },
 
-        newMaxHp = Math.floor(newMaxHp * 1.1); //HP scaling
-        currentHp = newMaxHp;
+  heal: (amount) => {
+    set((state) => ({
+      player: {
+        ...state.player,
+        currentHp: Math.min(
+          state.player.maxHp,
+          state.player.currentHp + amount
+        ),
+      },
+    }));
+  },
+
+  updateItemCount: (itemId, amount) => {
+    set((state) => {
+      const updatedItems = { ...state.inventory.items };
+
+      if (!updatedItems[itemId] || updatedItems[itemId] + amount < 0) {
+        return state;
       }
 
+      updatedItems[itemId] += amount;
+
       return {
-        player: {
-          ...state.player,
-          xp: newXP,
-          level: newLevel,
-          xpToNextLvl: newXpToNextLvl,
-          maxHp: newMaxHp,
-          currentHp: currentHp,
+        inventory: {
+          ...state.inventory,
+          items: updatedItems,
         },
       };
     });
   },
 
-  addGold: (amount) => {
-    set((state) => ({
-      inventory: {
-        ...state.inventory,
-        gold: state.inventory.gold + amount,
-      },
-    }));
+  applyPlayerAttack: () => {
+    const {
+      enemy,
+      damageEnemy,
+      takeDamage,
+      setTurnCount,
+      setBattleOutcome,
+      player,
+      handleVictory
+    } = get();
+
+    // Her må det diskuteres hvordan damage kalkulasjonen faktisk skal gjøres. Det jeg har lagt inn er et foreløpig forslag
+    const baseDamage = player.strength * 2;
+    // Tilfeldig variance fra -3 til 3
+    const randomVariance = Math.floor(Math.random() * 7) - 3;
+
+    let rawDamage = baseDamage + randomVariance;
+
+    const enemyDefenseReduction = Math.floor(enemy.baseDefence / 2);
+
+    const finalDamage = Math.max(1, rawDamage - enemyDefenseReduction);
+
+    damageEnemy(finalDamage);
+    setTurnCount();
+
+  setTimeout(async () => {
+    const updatedEnemyHP = get().enemy.currentHP;
+
+    if (updatedEnemyHP <= 0) {
+      await handleVictory();
+    } else {
+      const enemyDamage = Math.floor(Math.random() * (25 - 5 + 1)) + 5;
+      const updatedPlayerHP = player.currentHp - enemyDamage;
+
+      takeDamage(enemyDamage);
+
+      if (updatedPlayerHP <= 0) {
+        setBattleOutcome("DEFEAT");
+      } else {
+        setTurnCount();
+      }
+    }
+  }, 300);
+},
+
+  applyDrinkPotion: () => {
+    const {
+      inventory,
+      heal,
+      updateItemCount,
+      takeDamage,
+      setTurnCount,
+      player,
+      setBattleOutcome,
+    } = get();
+
+    if (!inventory.items.POT_HEALTH || inventory.items.POT_HEALTH <= 0) {
+      get().setMessage("No Health Potion left in inventory!");
+      setTimeout(() => get().setMessage(""), 2000);
+      return;
+    }
+
+    updateItemCount("POT_HEALTH", -1);
+    heal(50);
+    setTurnCount();
+
+    setTimeout(() => {
+      if (player.currentHp > 0) {
+        const enemyDamage = Math.floor(Math.random() * (25 - 5 + 1)) + 5;
+        takeDamage(enemyDamage);
+
+        if (player.currentHp - enemyDamage <= 0) {
+          setBattleOutcome();
+        } else {
+          setTurnCount();
+        }
+      }
+    }, 1000);
   },
 
-  setSkipTurn: (skip) =>
-    set(() => ({
-      player: {
-        skipTurn: skip,
-      },
-    })),
-
-  startFighting: () =>
-    set({
-      isFighting: true,
-    }),
-
-  stopFighting: () =>
-    set({
-      isFighting: false,
-    }),
-
-  resetBattle: () =>
-    set({
-      gameOver: false,
-      turnCount: 0,
-    }),
+  fetchRandomEnemy: (mobs) => {
+    const randomMob = mobs[Math.floor(Math.random() * mobs.length)];
+    return {
+      currentHP: randomMob.baseHP,
+      xp: Math.floor(50 * randomMob.lvlMultiplier),
+      gold: randomMob.baseGold,
+      ...randomMob,
+    };
+  },
 
   setEnemy: (enemy) => set({ enemy, currentHP: enemy.baseHP }),
 
@@ -118,37 +208,157 @@ export const createBattleSlice = (set, get) => ({
       xp: 1,
     })),
 
-  damageEnemy: (amount) =>
+  calculateGoldReward: () => {
+    const { enemy, player } = get();
+    return Math.round(
+      enemy.baseGold * enemy.lvlMultiplier + player.level * enemy.lvlMultiplier
+    );
+  },
+
+  setLootItems: (items) => set({ lootItems: items }),
+
+  addItem: (itemId, count = 1) => {
     set((state) => {
-      const newHealth = Math.max(0, state.enemy.currentHP - amount);
-      const enemyDefeated = newHealth === 0;
-      if (enemyDefeated) {
-        console.log(`${state.enemy.name} has been defeated!`);
+      const updatedItems = { ...state.inventory.items };
+
+      if (updatedItems[itemId]) {
+        updatedItems[itemId] += count;
+      } else {
+        updatedItems[itemId] = count;
       }
+
       return {
-        enemy: { ...state.enemy, currentHP: newHealth },
-        gameOver: enemyDefeated,
+        inventory: {
+          ...state.inventory,
+          items: updatedItems,
+        },
       };
-    }),
+    });
+  },
 
-  endBattle: () =>
-    set(() => {
-      return { gameOver: true };
-    }),
+  handleVictory: async () => {
+    const { enemy, setXP, addGold, clearMap, addItem, setBattleOutcome } =
+      get();
+    setXP(enemy.xp);
+    addGold(get().calculateGoldReward());
 
-  setTurnCount: () =>
+    const lootItemIds = await getRandomItems(1);
+    lootItemIds.forEach((item) => {
+      if (typeof item === "object" && item.id) {
+        addItem(item.id, 1);
+      } else {
+        addItem(item, 1);
+      }
+    });
+
+    if (enemy.encounterType === "BOSS") {
+      clearMap();
+      addItem(3);
+      const bossLootItemIds = await getRandomItems(3);
+      bossLootItemIds.forEach((itemId) => addItem(itemId, 1));
+    }
+
+    const allLoot = [...lootItemIds];
+    setBattleOutcome("VICTORY");
+
+    return allLoot;
+  },
+
+  handleDefeat: () => {
+    const { resetPosition, clearMap, setBattleOutcome, setPlayerDefeated } =
+      get();
+    resetPosition();
+    clearMap();
+    setBattleOutcome("DEFEAT");
+    setPlayerDefeated();
+  },
+
+  updateBattleState: () => {
+    const { enemy, player, isBattleOver, resetBattleState, setBattleState } =
+      get();
+    if (isBattleOver) {
+      resetBattleState();
+    } else {
+      setBattleState({
+        enemy,
+        player: {
+          ...player,
+          maxHp: player.maxHp,
+          currentHp: player.currentHp,
+        },
+      });
+    }
+  },
+
+  setBattleOutcome: (outcome) =>
+    set({ battleOutcome: outcome, isBattleOver: true }),
+
+  setXP: (xp) => {
     set((state) => {
-      const newTurnCount = state.turnCount + 1;
-      return { turnCount: newTurnCount };
-    }),
+      let newXP = state.player.xp + xp;
+      let newLevel = state.player.level;
+      let newXpToNextLvl = state.player.xpToNextLvl;
+      let newMaxHp = state.player.maxHp;
+      let currentHp = state.player.currentHp;
+
+      while (newXP >= newXpToNextLvl) {
+        newXP -= newXpToNextLvl;
+        newLevel += 1;
+        newXpToNextLvl = Math.floor(newXpToNextLvl * 1.2);
+        newMaxHp = Math.floor(newMaxHp * 1.1);
+        currentHp = newMaxHp; // Må endres til currentHp = state.player.currentHp hvis vi ikke vil at spilleren skal heales hver gang den lvler opp
+      }
+
+      return {
+        player: {
+          ...state.player,
+          xp: newXP,
+          level: newLevel,
+          xpToNextLvl: newXpToNextLvl,
+          maxHp: newMaxHp,
+          currentHp: currentHp,
+        },
+      };
+    });
+  },
+
+  addGold: (amount) => {
+    set((state) => ({
+      inventory: {
+        ...state.inventory,
+        gold: state.inventory.gold + amount,
+      },
+    }));
+  },
 
   rollInitiative: () => {
-    const playerSpeed = 5;
-    const enemySpeed = 5;
+    const { player, enemy, setTurnCount, takeDamage } = get();
+
+    const playerSpeed = player.speed;
+    const enemySpeed = enemy.baseSpeed;
+
     const playerInitiative = Math.floor(Math.random() * 20) + 1 + playerSpeed;
     const enemyInitiative = Math.floor(Math.random() * 20) + 1 + enemySpeed;
+
     const firstAttacker =
       playerInitiative >= enemyInitiative ? "PLAYER" : "ENEMY";
-    set({ nextToAttack: "PLAYER" });
+    set({ nextToAttack: firstAttacker });
+
+    if (firstAttacker === "ENEMY") {
+      set({ message: "The enemy strikes first!" });
+    } else {
+      set({ message: "You strike first!" });
+    }
+
+    if (firstAttacker === "ENEMY") {
+      setTimeout(() => {
+        const enemyDamage = Math.floor(Math.random() * (25 - 5 + 1)) + 5;
+        takeDamage(enemyDamage);
+        setTurnCount();
+        set({ nextToAttack: "PLAYER" });
+      }, 1000);
+    } else {
+      setTurnCount();
+    }
   },
 });
