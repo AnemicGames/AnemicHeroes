@@ -130,6 +130,7 @@ export default function QuestScreen() {
   const quests = useGameStore((state) => state.quests);
   const loadQuests = useGameStore((state) => state.loadQuests);
   const completeQuest = useGameStore((state) => state.completeQuest);
+  const setEmbark = useGameStore((state) => state.setEmbark);
   const setCurrentView = useGameStore((state) => state.setCurrentView);
   const currentWorld = useGameStore((state) => state.currentWorld);
 
@@ -207,10 +208,15 @@ export default function QuestScreen() {
 
   const [journalClosing, setJournalClosing] = useState(false);
 
-  const closeJournal = () => {
+  const exitGame = (embark) => {
+    setEmbark(embark);
+    setCurrentView(embark ? "MAP" : "MAIN_MENU");
+  };
+
+  const closeJournal = (embark) => {
     setJournalClosing(true);
     setTimeout(() => {
-      goToMainMenu();
+      exitGame(embark);
     }, 1000);
   };
 
@@ -321,7 +327,7 @@ export default function QuestScreen() {
       <button
         className="absolute bottom-0 left-0 m-4 p-2 hover:bg-red-800 rounded z-50"
         title="Exit"
-        onClick={closeJournal}
+        onClick={() => closeJournal(true)}
       >
         <img
           src="/assets/sprites/exit-nav-icon.png"
