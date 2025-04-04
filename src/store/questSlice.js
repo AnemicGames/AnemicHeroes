@@ -1,27 +1,19 @@
+import questData from "../../public/assets/quests.json";
+const allQuests = [
+  ...(questData.main_quests || []),
+  ...(questData.side_quests || []),
+].map((quest) => ({
+  ...quest,
+  objective: { current: 0, ...quest.objective },
+  status: quest.previous ? "locked" : quest.status || "active",
+}));
+
 export const createQuestSlice = (set, get) => ({
-  quests: [],
+  quests: allQuests,
   activeQuest: null,
 
   loadQuests: async () => {
-    try {
-      const response = await fetch("/assets/quests.json");
-      const data = await response.json();
-
-      const allQuests = [
-        ...(data.main_quests || []),
-        ...(data.side_quests || []),
-      ];
-
-      const questsWithDefaults = allQuests.map((quest) => ({
-        ...quest,
-        objective: { current: 0, ...quest.objective },
-        status: quest.previous ? quest.status || "locked" : "active",
-      }));
-
-      set({ quests: questsWithDefaults });
-    } catch (error) {
-      console.error("Error loading quests:", error);
-    }
+    set({ quests: allQuests });
   },
 
   completeQuest: (questId) => {
@@ -33,12 +25,10 @@ export const createQuestSlice = (set, get) => ({
             return quest;
           }
           totalXpAward += quest.xpReward || 0;
-
           if (quest.unlocksWorld) {
             const unlockWorld = get().unlockWorld;
             unlockWorld(quest.unlocksWorld);
           }
-
           return { ...quest, status: "completed" };
         }
         return quest;
@@ -57,26 +47,21 @@ export const createQuestSlice = (set, get) => ({
       if (totalXpAward > 0) {
         get().setXP(totalXpAward);
       }
-
       return { quests: questsCopy, activeQuest: null };
     });
   },
 
   updateMobChainState: (increment) => {
     set((state) => {
-      let totalXpAward = 0;
       let questsCopy = state.quests.map((quest) => {
         if (quest.chain === "mob_chain" && quest.status === "active") {
-          const newCurrent = quest.objective.current + increment;
-          let newStatus = quest.status;
-          if (newCurrent >= quest.objective.target) {
-            newStatus = "completed";
-            totalXpAward += quest.xpReward || 0;
-          }
+          const newCurrent = Math.min(
+            quest.objective.current + increment,
+            quest.objective.target
+          );
           return {
             ...quest,
             objective: { ...quest.objective, current: newCurrent },
-            status: newStatus,
           };
         }
         return quest;
@@ -96,28 +81,21 @@ export const createQuestSlice = (set, get) => ({
         return quest;
       });
 
-      if (totalXpAward > 0) {
-        get().setXP(totalXpAward);
-      }
       return { quests: questsCopy };
     });
   },
 
   updateBossChainState: (increment) => {
     set((state) => {
-      let totalXpAward = 0;
       let questsCopy = state.quests.map((quest) => {
         if (quest.chain === "boss_chain" && quest.status === "active") {
-          const newCurrent = quest.objective.current + increment;
-          let newStatus = quest.status;
-          if (newCurrent >= quest.objective.target) {
-            newStatus = "completed";
-            totalXpAward += quest.xpReward || 0;
-          }
+          const newCurrent = Math.min(
+            quest.objective.current + increment,
+            quest.objective.target
+          );
           return {
             ...quest,
             objective: { ...quest.objective, current: newCurrent },
-            status: newStatus,
           };
         }
         return quest;
@@ -137,42 +115,31 @@ export const createQuestSlice = (set, get) => ({
         return quest;
       });
 
-      if (totalXpAward > 0) {
-        get().setXP(totalXpAward);
-      }
       return { quests: questsCopy };
     });
   },
 
   updateQuestProgress: (questId, increment) => {
     set((state) => {
-      let totalXpAward = 0;
       const questsCopy = state.quests.map((quest) => {
         if (quest.id === questId && quest.status === "active") {
-          const newCurrent = quest.objective.current + increment;
-          let newStatus = quest.status;
-          if (newCurrent >= quest.objective.target) {
-            newStatus = "completed";
-            totalXpAward += quest.xpReward || 0;
-          }
+          const newCurrent = Math.min(
+            quest.objective.current + increment,
+            quest.objective.target
+          );
           return {
             ...quest,
             objective: { ...quest.objective, current: newCurrent },
-            status: newStatus,
           };
         }
         return quest;
       });
-      if (totalXpAward > 0) {
-        get().setXP(totalXpAward);
-      }
       return { quests: questsCopy };
     });
   },
 
   updateNamedBossState: (bossId) => {
     set((state) => {
-      let totalXpAward = 0;
       let questsCopy = state.quests.map((quest) => {
         if (
           quest.objective?.type === "defeat_named_boss" &&
@@ -180,23 +147,14 @@ export const createQuestSlice = (set, get) => ({
           quest.objective.targetId === bossId
         ) {
           const newCurrent = quest.objective.current + 1;
-          let newStatus = quest.status;
-
-          if (newCurrent >= quest.objective.target) {
-            newStatus = "completed";
-            totalXpAward += quest.xpReward || 0;
-          }
-
           return {
             ...quest,
             objective: { ...quest.objective, current: newCurrent },
-            status: newStatus,
           };
         }
         return quest;
       });
 
-      // Unlock next in chain (if any)
       questsCopy = questsCopy.map((quest) => {
         if (
           quest.status === "locked" &&
@@ -209,55 +167,78 @@ export const createQuestSlice = (set, get) => ({
         return quest;
       });
 
-      if (totalXpAward > 0) {
-        get().setXP(totalXpAward);
-      }
-
       return { quests: questsCopy };
     });
   },
 
   registerKill: ({ type, bossId = null }) => {
-    if (type === "mob") {
-      get().updateMobChainState(1);
-    } else if (type === "boss") {
-      get().updateBossChainState(1);
-    } else if (type === "named_boss" && bossId) {
-      get().updateNamedBossState(bossId);
-    }
+    set((state) => {
+      let questsCopy = [...state.quests];
+      const updatedTypes = new Set();
 
-    const updatedQuests = get().quests;
+      const updateChain = (chainType) => {
+        questsCopy = questsCopy.map((quest) => {
+          if (quest.chain === chainType && quest.status === "active") {
+            const newCurrent = Math.min(
+              quest.objective.current + 1,
+              quest.objective.target
+            );
+            return {
+              ...quest,
+              objective: { ...quest.objective, current: newCurrent },
+            };
+          }
+          return quest;
+        });
+        updatedTypes.add(
+          chainType === "mob_chain" ? "win_mobs" : "defeat_bosses"
+        );
+      };
 
-    updatedQuests.forEach((quest) => {
-      if (quest.status !== "active") return;
+      if (type === "mob") updateChain("mob_chain");
+      if (type === "boss") updateChain("boss_chain");
 
-      const { objective } = quest;
-
-      if (objective?.type === "win_mobs" && type === "mob") {
-        get().updateQuestProgress(quest.id, 1);
+      if (type === "named_boss" && bossId) {
+        questsCopy = questsCopy.map((quest) => {
+          if (
+            quest.status === "active" &&
+            quest.objective?.type === "defeat_named_boss" &&
+            quest.objective?.targetId === bossId
+          ) {
+            const newCurrent = quest.objective.current + 1;
+            return {
+              ...quest,
+              objective: { ...quest.objective, current: newCurrent },
+            };
+          }
+          return quest;
+        });
+        updatedTypes.add("defeat_named_boss");
       }
 
-      if (objective?.type === "defeat_bosses" && type === "boss") {
-        get().updateQuestProgress(quest.id, 1);
-      }
+      questsCopy = questsCopy.map((quest) => {
+        if (quest.status !== "active") return quest;
+        const { objective } = quest;
+        if (
+          objective?.type === "win_mobs" &&
+          type === "mob" &&
+          (!quest.chain || !updatedTypes.has("win_mobs"))
+        ) {
+          const newCurrent = objective.current + 1;
+          return { ...quest, objective: { ...objective, current: newCurrent } };
+        }
+        if (
+          objective?.type === "defeat_bosses" &&
+          type === "boss" &&
+          (!quest.chain || !updatedTypes.has("defeat_bosses"))
+        ) {
+          const newCurrent = objective.current + 1;
+          return { ...quest, objective: { ...objective, current: newCurrent } };
+        }
+        return quest;
+      });
 
-      if (
-        objective?.type === "defeat_named_boss" &&
-        objective?.targetId === bossId &&
-        type === "named_boss"
-      ) {
-        get().updateNamedBossState(bossId);
-      }
-
-      const latestQuest = get().quests.find((q) => q.id === quest.id);
-      if (
-        latestQuest &&
-        latestQuest.objective.current >= latestQuest.objective.target &&
-        latestQuest.status !== "completed"
-      ) {
-        get().completeQuest(latestQuest.id);
-      }
-      console.log("Quest progress updated:", quest.id, quest.objective.current);
+      return { quests: questsCopy };
     });
   },
 });
