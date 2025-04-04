@@ -171,72 +171,129 @@ export const createQuestSlice = (set, get) => ({
     });
   },
 
-  registerKill: ({ type, bossId = null }) => {
+  registerKill: ({ type, bossId = null, mobId = null }) => {
     set((state) => {
       let questsCopy = [...state.quests];
-      const updatedTypes = new Set();
 
-      const updateChain = (chainType) => {
+      const effectiveMobId = mobId || (state.enemy ? state.enemy.id : null);
+
+      const updateCompoundObjective = (
+        quest,
+        targetType,
+        additionalCheck = () => true
+      ) => {
+        if (quest.objective.type !== "compound") return quest;
+        const newObjectives = quest.objective.objectives.map((obj) => {
+          if (obj.type === targetType && additionalCheck(obj)) {
+            return { ...obj, current: Math.min(obj.current + 1, obj.target) };
+          }
+          return obj;
+        });
+        return {
+          ...quest,
+          objective: { ...quest.objective, objectives: newObjectives },
+        };
+      };
+
+      if (type === "mob") {
         questsCopy = questsCopy.map((quest) => {
-          if (quest.chain === chainType && quest.status === "active") {
-            const newCurrent = Math.min(
-              quest.objective.current + 1,
-              quest.objective.target
-            );
+          if (quest.status !== "active") return quest;
+          if (quest.objective.type === "compound") {
+            return updateCompoundObjective(quest, "win_mobs", (obj) => {
+              if (obj.specificMob) {
+                return effectiveMobId && obj.specificMob === effectiveMobId;
+              }
+              return true;
+            });
+          } else if (quest.objective.type === "win_mobs") {
+            if (quest.objective.specificMob) {
+              if (
+                effectiveMobId &&
+                quest.objective.specificMob === effectiveMobId
+              ) {
+                return {
+                  ...quest,
+                  objective: {
+                    ...quest.objective,
+                    current: Math.min(
+                      quest.objective.current + 1,
+                      quest.objective.target
+                    ),
+                  },
+                };
+              }
+              return quest;
+            } else {
+              return {
+                ...quest,
+                objective: {
+                  ...quest.objective,
+                  current: Math.min(
+                    quest.objective.current + 1,
+                    quest.objective.target
+                  ),
+                },
+              };
+            }
+          }
+          return quest;
+        });
+      }
+
+      if (type === "boss") {
+        questsCopy = questsCopy.map((quest) => {
+          if (quest.status !== "active") return quest;
+          if (quest.objective.type === "compound") {
+            return updateCompoundObjective(quest, "defeat_bosses");
+          } else if (quest.objective.type === "defeat_bosses") {
             return {
               ...quest,
-              objective: { ...quest.objective, current: newCurrent },
+              objective: {
+                ...quest.objective,
+                current: Math.min(
+                  quest.objective.current + 1,
+                  quest.objective.target
+                ),
+              },
             };
           }
           return quest;
         });
-        updatedTypes.add(
-          chainType === "mob_chain" ? "win_mobs" : "defeat_bosses"
-        );
-      };
-
-      if (type === "mob") updateChain("mob_chain");
-      if (type === "boss") updateChain("boss_chain");
+      }
 
       if (type === "named_boss" && bossId) {
         questsCopy = questsCopy.map((quest) => {
-          if (
-            quest.status === "active" &&
-            quest.objective?.type === "defeat_named_boss" &&
-            quest.objective?.targetId === bossId
+          if (quest.status !== "active") return quest;
+          if (quest.objective.type === "compound") {
+            const hasMatching = quest.objective.objectives.find(
+              (obj) =>
+                obj.type === "defeat_named_boss" && obj.targetId === bossId
+            );
+            if (hasMatching) {
+              return updateCompoundObjective(
+                quest,
+                "defeat_named_boss",
+                (obj) => obj.targetId === bossId
+              );
+            }
+          } else if (
+            quest.objective.type === "defeat_named_boss" &&
+            quest.objective.targetId === bossId
           ) {
-            const newCurrent = quest.objective.current + 1;
             return {
               ...quest,
-              objective: { ...quest.objective, current: newCurrent },
+              objective: {
+                ...quest.objective,
+                current: Math.min(
+                  quest.objective.current + 1,
+                  quest.objective.target
+                ),
+              },
             };
           }
           return quest;
         });
-        updatedTypes.add("defeat_named_boss");
       }
-
-      questsCopy = questsCopy.map((quest) => {
-        if (quest.status !== "active") return quest;
-        const { objective } = quest;
-        if (
-          objective?.type === "win_mobs" &&
-          type === "mob" &&
-          (!quest.chain || !updatedTypes.has("win_mobs"))
-        ) {
-          const newCurrent = objective.current + 1;
-          return { ...quest, objective: { ...objective, current: newCurrent } };
-        }
-        if (
-          objective?.type === "defeat_bosses" &&
-          type === "boss" &&
-          (!quest.chain || !updatedTypes.has("defeat_bosses"))
-        ) {
-          const newCurrent = objective.current + 1;
-          return { ...quest, objective: { ...objective, current: newCurrent } };
-        }
-        return quest;
-      });
 
       return { quests: questsCopy };
     });
