@@ -245,7 +245,7 @@ export default function QuestScreen() {
                 <button
                   onClick={() => setMainPage((prev) => Math.max(prev - 1, 0))}
                   disabled={mainPage === 0}
-                  className="px-3 py-1 rounded disabled:opacity-40"
+                  className="px-3 py-1 rounded disabled:opacity-40 cursor-pointer"
                 >
                   Previous
                 </button>
@@ -259,7 +259,7 @@ export default function QuestScreen() {
                     )
                   }
                   disabled={mainPage === mainChain.length - 1}
-                  className="px-3 py-1 rounded disabled:opacity-40"
+                  className="px-3 py-1 rounded disabled:opacity-40 cursor-pointer"
                 >
                   Next
                 </button>
@@ -293,7 +293,7 @@ export default function QuestScreen() {
                   <button
                     onClick={() => setSidePage((p) => Math.max(p - 1, 1))}
                     disabled={sidePage === 1}
-                    className="px-3 py-1 rounded disabled:opacity-40"
+                    className="px-3 py-1 rounded disabled:opacity-40 cursor-pointer"
                   >
                     Previous
                   </button>
@@ -305,7 +305,7 @@ export default function QuestScreen() {
                       setSidePage((p) => Math.min(p + 1, totalPages))
                     }
                     disabled={sidePage === totalPages}
-                    className="px-3 py-1 rounded disabled:opacity-40"
+                    className="px-3 py-1 rounded disabled:opacity-40 cursor-pointer"
                   >
                     Next
                   </button>
