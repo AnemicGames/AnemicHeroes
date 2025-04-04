@@ -335,11 +335,11 @@ export default function Shop() {
               onClick={handleReturn}
               className="cursor-pointer w-12 h-12"
             />
-            <div className="relative ml-11 -mt-11">
+            <div className="relative ml-14 mt-[-14px]">
               <img
-                src="/assets/tavern_sing_2.png"
+                src="/assets/bysty_brew_1.png"
                 alt="tavern sign"
-                className="w-auto h-auto"
+                className="w-60 h-auto"
               />
             </div>
           </div>
@@ -434,7 +434,7 @@ export default function Shop() {
             )}
           </div>
         </div>
-        <div className="flex justify-start space-x-4 p-4 bg-gray-800/ bg-opacity-90">
+        <div className="flex justify-start space-x-4 pt-4 pl-4  bg-gray-800/ bg-opacity-90">
           <button
             onClick={() => setActiveTab("buy")}
             className={`px-4 py-2 rounded cursor-pointer ${
