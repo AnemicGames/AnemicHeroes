@@ -28,7 +28,8 @@ export default function BattleView() {
     calculateGoldReward,
     handleVictory,
     handleDefeat,
-    firstAttacker,
+    clearMap,
+    //firstAttacker, er for å displaye turns
   } = useGameStore();
 
   const playerHealthPercent =
@@ -73,7 +74,7 @@ export default function BattleView() {
 
       if (enemy.encounterType === "BOSS") {
         setCurrentView("MAIN_MENU");
-        heal(player.currentHp = player.maxHp);
+        heal((player.currentHp = player.maxHp));
       }
     }
 
@@ -120,7 +121,8 @@ export default function BattleView() {
   return (
     <div className="relative w-full h-full">
       {/* Display turns to user */}
-      {firstAttacker && (
+      {/* Example code for displaying turn messages */}
+      {/* {firstAttacker && (
         <div className="absolute top-4 left-1/2 transform -translate-x-1/2 text-xl text-white">
           <p>
             {firstAttacker === "PLAYER"
@@ -128,7 +130,7 @@ export default function BattleView() {
               : "The enemy strikes first!"}
           </p>
         </div>
-      )}
+      )} */}
       <QuestHandler battleOutcome={battleOutcome} />
       <BackgroundImage />
 
@@ -226,12 +228,15 @@ export default function BattleView() {
                   className="mt-4 px-4 py-2 bg-gray-700 text-white rounded"
                   onClick={() => {
                     clearBattle();
-                    setCurrentView(
-                      encounterType === "BOSS" ? "MAIN_MENU" : "MAP"
-                    );
+                    if (encounterType === "BOSS") {
+                      clearMap();
+                      setCurrentView("MAIN_MENU");
+                    } else {
+                      setCurrentView("MAP");
+                    }
                   }}
                 >
-                  Continue
+                  Continue!
                 </button>
               </>
             ) : (
@@ -243,7 +248,7 @@ export default function BattleView() {
                   onClick={() => {
                     clearBattle();
                     setCurrentView("MAIN_MENU");
-                    heal(player.currentHp = player.maxHp);
+                    heal((player.currentHp = player.maxHp));
                   }}
                 >
                   Respawn

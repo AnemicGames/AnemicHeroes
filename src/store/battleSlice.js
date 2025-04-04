@@ -1,27 +1,27 @@
 import { getRandomItems } from "../utils/getRandomItem";
 
-  export const createBattleSlice = (set, get) => ({
-    battleState: null,
-    enemy: {
-      id: "1",
-      name: "Forest Knight",
-      baseHP: 150,
-      baseStrength: 1,
-      baseSpeed: 1,
-      baseDefence: 1,
-      lvlMultiplier: 1,
-      dropChance: 1,
-      baseGold: 1,
-      sprite: "",
-      currentHP: 1,
-    },
-    gameOver: false,
-    turnCount: 0,
-    nextToAttack: null,
-    isFighting: true,
-    skipTurn: false,
-    xp: 1,
-    message: "",
+export const createBattleSlice = (set, get) => ({
+  battleState: null,
+  enemy: {
+    id: "1",
+    name: "Forest Knight",
+    baseHP: 150,
+    baseStrength: 1,
+    baseSpeed: 1,
+    baseDefence: 1,
+    lvlMultiplier: 1,
+    dropChance: 1,
+    baseGold: 1,
+    sprite: "",
+    currentHP: 1,
+  },
+  gameOver: false,
+  turnCount: 0,
+  nextToAttack: null,
+  isFighting: true,
+  skipTurn: false,
+  xp: 1,
+  //message: "", this is for displaying turn messages
 
   setBattleState: (state) => set({ battleState: state }),
 
@@ -100,37 +100,42 @@ import { getRandomItems } from "../utils/getRandomItem";
       setTurnCount,
       setBattleOutcome,
       player,
+      handleVictory
     } = get();
-  
 
-    const baseDamage = player.strength *2;
-    const randomVariance = Math.floor(Math.random() * 7) - 3; // Random between -3 and +3
-  
-    // Calculate raw damage
+    // Her må det diskuteres hvordan damage kalkulasjonen faktisk skal gjøres. Det jeg har lagt inn er et foreløpig forslag
+    const baseDamage = player.strength * 2;
+    // Tilfeldig variance fra -3 til 3
+    const randomVariance = Math.floor(Math.random() * 7) - 3;
+
     let rawDamage = baseDamage + randomVariance;
-  
-    // Apply enemy defense reduction
+
     const enemyDefenseReduction = Math.floor(enemy.baseDefence / 2);
-    const finalDamage = Math.max(1, rawDamage - enemyDefenseReduction); // Ensures at least 1 damage
-  
-    // Deal damage
+
+    const finalDamage = Math.max(1, rawDamage - enemyDefenseReduction);
+
     damageEnemy(finalDamage);
     setTurnCount();
-  
-    if (enemy.currentHP - finalDamage > 0) {
-      setTimeout(() => {
-        const enemyDamage = Math.floor(Math.random() * (25 - 5 + 1)) + 5;
-        takeDamage(enemyDamage);
-  
-        if (player.currentHp - enemyDamage <= 0) {
-          setBattleOutcome(true);
-        } else {
-          setTurnCount();
-        }
-      }, 1000);
+
+  setTimeout(async () => {
+    const updatedEnemyHP = get().enemy.currentHP;
+
+    if (updatedEnemyHP <= 0) {
+      await handleVictory();
+    } else {
+      const enemyDamage = Math.floor(Math.random() * (25 - 5 + 1)) + 5;
+      const updatedPlayerHP = player.currentHp - enemyDamage;
+
+      takeDamage(enemyDamage);
+
+      if (updatedPlayerHP <= 0) {
+        setBattleOutcome("DEFEAT");
+      } else {
+        setTurnCount();
+      }
     }
-  },
-  
+  }, 300);
+},
 
   applyDrinkPotion: () => {
     const {
@@ -261,7 +266,7 @@ import { getRandomItems } from "../utils/getRandomItem";
 
   handleDefeat: () => {
     const { resetPosition, clearMap, setBattleOutcome, setPlayerDefeated } =
-    get();
+      get();
     resetPosition();
     clearMap();
     setBattleOutcome("DEFEAT");
@@ -327,16 +332,16 @@ import { getRandomItems } from "../utils/getRandomItem";
   },
 
   rollInitiative: () => {
-    const { player, enemy, setTurnCount, applyPlayerAttack, takeDamage, } = get();
-    
+    const { player, enemy, setTurnCount, takeDamage } = get();
+
     const playerSpeed = player.speed;
     const enemySpeed = enemy.baseSpeed;
-  
 
     const playerInitiative = Math.floor(Math.random() * 20) + 1 + playerSpeed;
     const enemyInitiative = Math.floor(Math.random() * 20) + 1 + enemySpeed;
-  
-    const firstAttacker = playerInitiative >= enemyInitiative ? "PLAYER" : "ENEMY";
+
+    const firstAttacker =
+      playerInitiative >= enemyInitiative ? "PLAYER" : "ENEMY";
     set({ nextToAttack: firstAttacker });
 
     if (firstAttacker === "ENEMY") {
@@ -344,7 +349,7 @@ import { getRandomItems } from "../utils/getRandomItem";
     } else {
       set({ message: "You strike first!" });
     }
-  
+
     if (firstAttacker === "ENEMY") {
       setTimeout(() => {
         const enemyDamage = Math.floor(Math.random() * (25 - 5 + 1)) + 5;
@@ -355,5 +360,5 @@ import { getRandomItems } from "../utils/getRandomItem";
     } else {
       setTurnCount();
     }
-  }  
+  },
 });
