@@ -107,7 +107,7 @@ const MainQuestItem = ({ quest, onComplete }) => {
       {quest.status === "active" && isComplete && (
         <button
           onClick={() => onComplete(quest.id)}
-          className="mt-4 px-4 py-2  text-black text-3xl"
+          className="mt-4 px-4 py-2  text-black hover:drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.8)] text-3xl font-bold"
         >
           Claim
         </button>
