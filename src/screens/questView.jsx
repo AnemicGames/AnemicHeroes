@@ -53,7 +53,7 @@ const QuestItem = ({ quest, onComplete }) => (
       quest.objective?.current >= quest.objective?.target && (
         <button
           onClick={() => onComplete(quest.id)}
-          className="ml-20 px-3 py-1 text-black hover:drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.8)] text-3xl cursor-pointer"
+          className="ml-20 px-3 py-1 text-black hover:drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.8)] text-3xl cursor-pointer font-bold"
         >
           Claim
         </button>
@@ -208,15 +208,15 @@ export default function QuestScreen() {
 
   const [journalClosing, setJournalClosing] = useState(false);
 
-  const exitGame = (embark) => {
-    setEmbark(embark);
+  const exitGame = () => {
+    const { embark, setCurrentView } = useGameStore.getState();
     setCurrentView(embark ? "MAP" : "MAIN_MENU");
   };
 
-  const closeJournal = (embark) => {
+  const closeJournal = () => {
     setJournalClosing(true);
     setTimeout(() => {
-      exitGame(embark);
+      exitGame();
     }, 1000);
   };
 
@@ -327,7 +327,7 @@ export default function QuestScreen() {
       <button
         className="absolute bottom-0 left-0 m-4 p-2 hover:bg-red-800 rounded z-50"
         title="Exit"
-        onClick={() => closeJournal(true)}
+        onClick={closeJournal}
       >
         <img
           src="/assets/sprites/exit-nav-icon.png"
