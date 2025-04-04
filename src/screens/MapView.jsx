@@ -156,19 +156,19 @@ export default function MapView() {
                                     <div
                                         className={`relative w-full h-full flex items-center justify-center rounded-xl ${
                                             isPlayer
-                                                ? "border-2 border-amber-950/90 bg-blue-800/80 cursor-pointer p-[.75px]"
+                                                ? "border-2 border-amber-950/90 bg-blue-800/80 p-[.75px]"
                                                 : isWalkable
                                                 ? "border-2 border-amber-950/90 bg-amber-200/80 cursor-pointer p-[.75px]"
                                                 : cell.type === "START"
-                                                ? "border-2 border-amber-950/90 bg-green-950/80 cursor-pointer p-[.75px]"
+                                                ? "border-2 border-amber-950/90 bg-green-950/80 p-[.75px]"
                                                 : cell.type === "BATTLE"
                                                 ? "border-2 border-amber-950/90 bg-amber-800/70 cursor-not-allowed p-[.75px]"
                                                 : cell.type === "BOSS"
-                                                ? "border-2 border-amber-950/90 bg-red-600 cursor-pointer"
+                                                ? "border-2 border-amber-950/90 bg-red-600 cursor-not-allowed"
                                                 : cell.type === "SHOP"
-                                                ? "border-2 border-amber-950/90 bg-yellow-400/80 cursor-pointer p-[.75px]"
+                                                ? "border-2 border-amber-950/90 bg-yellow-400/80 cursor-not-allowed p-[.75px]"
                                                 : cell.type === "EVENT"
-                                                ? "border-2 border-amber-950/90 bg-amber-400/80 cursor-pointer p-[.75px]"
+                                                ? "border-2 border-amber-950/90 bg-amber-400/80 cursor-not-allowed p-[.75px]"
                                                 : "transparent"
                                         }`}
                                     >
