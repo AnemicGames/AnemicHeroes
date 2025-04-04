@@ -116,6 +116,8 @@ export default function MapView() {
     const goToMainMenu = () => navigateWithAnimation("MAIN_MENU");
     const goToBattle = () => navigateToOther("BATTLE");
     const goToShop = () => navigateToOther("SHOP");
+    const goToQuestLog = () => navigateToOther("QUEST");
+    const goToInventory = () => navigateToOther("CHARACTER_SHEET");
 
     return (
         <div className="relative h-full w-full">
@@ -209,17 +211,41 @@ export default function MapView() {
             </div>
 
             {startPosition && currentPosition.id === startPosition.id && (
-                <button
-                    className="absolute bottom-0 left-0 m-4 p-2 hover:bg-red-800 rounded z-50"
-                    title="Exit"
-                    onClick={() => goToMainMenu("MAIN_MENU")}
-                >
-                    <img
-                        src="/assets/sprites/exit-nav-icon.png"
-                        alt="Exit"
-                        className="w-10 h-11"
-                    />
-                </button>
+                <>
+                    <button
+                        className="absolute bottom-0 left-0 m-4 p-2 hover:bg-red-800 rounded z-50"
+                        title="Exit"
+                        onClick={() => goToMainMenu("MAIN_MENU")}
+                    >
+                        <img
+                            src="/assets/sprites/exit-nav-icon.png"
+                            alt="Exit"
+                            className="w-10 h-11"
+                        />
+                    </button>
+                    <button
+                        className="absolute bottom-0 right-0 m-4 p-2 hover:bg-red-800 rounded z-50"
+                        title="Exit"
+                        onClick={() => goToQuestLog("QUEST")}
+                    >
+                        <img
+                            src="/assets/sprites/feather.png"
+                            alt="Exit"
+                            className="w-10 h-11"
+                        />
+                    </button>
+                    <button
+                        className="absolute bottom-20 right-0 m-4 p-2 hover:bg-red-800 rounded z-50"
+                        title="Exit"
+                        onClick={() => goToInventory("CHARACTER_SHEET")}
+                    >
+                        <img
+                            src="/assets/sprites/inventory-nav-icon.png"
+                            alt="Exit"
+                            className="w-10 h-11"
+                        />
+                    </button>
+                </>
             )}
         </div>
     );
