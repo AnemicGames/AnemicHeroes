@@ -172,7 +172,7 @@ export default function CharacterSheet() {
         </div>
 
         {/* Equipment */}
-        <div className="flex items-start absolute bottom-4 left-[420px]">
+        <div className="flex items-start absolute bottom-4 left-[450px]">
           <div className="equipment flex gap-2 cursor-pointer">
             {Object.entries(equipped).map(([slot, itemId]) => {
               const item = itemId ? getItemDetails(itemId) : null;
@@ -205,7 +205,7 @@ export default function CharacterSheet() {
         </div>
 
         {/* Stats */}
-        <div className="stats-box rounded p-2 flex flex-col gap-8 text-2xl bg-gray-500/80 col-start-1 col-end-8 row-start-2 row-end-6 relative">
+        <div className="stats-box rounded p-2 flex flex-col gap-8 text-2xl bg-gray-500/80 col-start-1 col-end-9 row-start-2 row-end-6 relative">
           <h3 className="font-semibold mb-2 text-2xl">Stats</h3>
           <div>
             <div>Class: {player.class}</div>
