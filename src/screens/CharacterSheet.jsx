@@ -304,7 +304,7 @@ export default function CharacterSheet() {
                   return (
                     <div
                       key={itemId}
-                      className="inventory-item rounded p-2 w-24 h-28 relative group flex flex-col items-center justify-center bg-gray-800 cursor-pointer"
+                      className="inventory-item rounded w-24 h-[115px] relative group flex flex-col items-center justify-center bg-gray-800 cursor-pointer overflow-hidden"
                       onContextMenu={(e) => {
                         if (item.type === "potion") handleDrink(item, e);
                       }}
@@ -324,7 +324,7 @@ export default function CharacterSheet() {
                       </div>
 
                       {/* Tooltip */}
-                      <div className="absolute left-0 bottom-0 h-28 w-24 hidden group-hover:flex flex-col bg-black text-white p-2 rounded text-xs z-10 overflow-x-hidden">
+                      <div className="absolute left-0 bottom-0 h-[115px] w-24 hidden group-hover:flex flex-col bg-black text-white px-2 py-1 rounded text-xs z-10 overflow-y-hidden">
                         {item.type === "potion" ? (
                           <>
                             <div className="mb-1 break-words">{item.name}</div>
