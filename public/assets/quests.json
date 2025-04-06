@@ -38,7 +38,7 @@
     {
       "id": "main_desert",
       "title": "Survive the Sands",
-      "description": "Defeat the Desert Pharaoh to tame the scorching sands.",
+      "description": "Defeat Garruk Ironclad to tame the scorching sands.",
       "lore": "Beneath the burning sun, the ancient Desert Pharaoh awaits—its defeat is key to mastering the sands.",
       "status": "locked",
       "xpReward": 150,
@@ -46,7 +46,7 @@
       "type": "main",
       "objective": {
         "type": "defeat_named_boss",
-        "targetId": "desert_pharaoh",
+        "targetId": "b3",
         "current": 0,
         "target": 1
       },
@@ -57,7 +57,7 @@
     {
       "id": "main_swamp",
       "title": "Cleanse the Swamp",
-      "description": "Defeat the Swamp Witch to purge the corruption.",
+      "description": "Defeat Lady Nocturna to purge the corruption.",
       "lore": "In the murky depths, the Swamp Witch festers—her defeat will purify the land and open the path forward.",
       "status": "locked",
       "xpReward": 200,
@@ -65,7 +65,7 @@
       "type": "main",
       "objective": {
         "type": "defeat_named_boss",
-        "targetId": "swamp_witch",
+        "targetId": "b4",
         "current": 0,
         "target": 1
       },
