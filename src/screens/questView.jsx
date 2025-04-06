@@ -53,7 +53,7 @@ const QuestItem = ({ quest, onComplete }) => (
       quest.objective?.current >= quest.objective?.target && (
         <button
           onClick={() => onComplete(quest.id)}
-          className="ml-20 px-3 py-1 rounded text-black hover:drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.8)] text-3xl cursor-pointer"
+          className="ml-20 px-3 py-1 text-black hover:drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.8)] text-3xl cursor-pointer font-bold"
         >
           Claim
         </button>
@@ -61,43 +61,76 @@ const QuestItem = ({ quest, onComplete }) => (
   </li>
 );
 
-const MainQuestItem = ({ quest, onComplete }) => (
-  <div className="main-quest-item p-4 text-black h-[500px] gap-3 flex flex-col">
-    <h2 className="text-3xl font-bold">{quest.title}</h2>
-    <p className="mt-2 text-xl">{quest.description}</p>
-    {quest.lore && <p className="mt-2 italic text-2xl">{quest.lore}</p>}
-    <p className="mt-2 text-xl">
-      Reward: {quest.xpReward} XP, {quest.moneyReward} Gold
-    </p>
-    <p className="mt-2 text-xl">
-      Progress: {quest.objective.current} / {quest.objective.target}
-    </p>
-    {quest.status === "active" &&
-      quest.objective.current >= quest.objective.target && (
+const MainQuestItem = ({ quest, onComplete }) => {
+  let progressDisplay = "";
+  let isComplete = false;
+
+  if (quest.objective.type === "compound") {
+    progressDisplay = quest.objective.objectives
+      .map((obj) => {
+        let label = obj.name;
+        if (!label) {
+          switch (obj.type) {
+            case "win_mobs":
+              label = "Mobs";
+              break;
+            case "defeat_bosses":
+              label = "Bosses";
+              break;
+            case "defeat_named_boss":
+              label = "Named Boss";
+              break;
+            default:
+              label = obj.type;
+          }
+        }
+        return `${label}: ${obj.current} / ${obj.target}`;
+      })
+      .join(" | ");
+    isComplete = quest.objective.objectives.every(
+      (obj) => (obj.current || 0) >= (obj.target || 0)
+    );
+  } else {
+    progressDisplay = `Progress: ${quest.objective.current} / ${quest.objective.target}`;
+    isComplete = quest.objective.current >= quest.objective.target;
+  }
+
+  return (
+    <div className="main-quest-item p-4 text-black h-[500px] gap-3 flex flex-col">
+      <h2 className="text-3xl font-bold">{quest.title}</h2>
+      <p className="mt-2 text-xl">{quest.description}</p>
+      {quest.lore && <p className="mt-2 italic text-2xl">{quest.lore}</p>}
+      <p className="mt-2 text-xl">
+        Reward: {quest.xpReward} XP, {quest.moneyReward} Gold
+      </p>
+      <p className="mt-2 text-xl">{progressDisplay}</p>
+      {quest.status === "active" && isComplete && (
         <button
           onClick={() => onComplete(quest.id)}
-          className="mt-4 px-4 py-2 bg-green-500 rounded text-white"
+          className="mt-4 px-4 py-2  text-black hover:drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.8)] text-3xl font-bold"
         >
           Claim
         </button>
       )}
-    {quest.status === "locked" && (
-      <p className="mt-4 text-red-600 font-bold text-3xl flex justify-center">
-        Unlock previous quest
-      </p>
-    )}
-    {quest.status === "completed" && (
-      <p className="mt-4 text-gray-500 text-7xl flex justify-center">
-        Completed
-      </p>
-    )}
-  </div>
-);
+      {quest.status === "locked" && (
+        <p className="mt-4 text-red-600 font-bold text-3xl flex justify-center">
+          Unlock previous quest
+        </p>
+      )}
+      {quest.status === "completed" && (
+        <p className="mt-4 text-gray-500 text-7xl flex justify-center">
+          Completed
+        </p>
+      )}
+    </div>
+  );
+};
 
 export default function QuestScreen() {
   const quests = useGameStore((state) => state.quests);
   const loadQuests = useGameStore((state) => state.loadQuests);
   const completeQuest = useGameStore((state) => state.completeQuest);
+  const setEmbark = useGameStore((state) => state.setEmbark);
   const setCurrentView = useGameStore((state) => state.setCurrentView);
   const currentWorld = useGameStore((state) => state.currentWorld);
 
@@ -175,10 +208,15 @@ export default function QuestScreen() {
 
   const [journalClosing, setJournalClosing] = useState(false);
 
+  const exitGame = () => {
+    const { embark, setCurrentView } = useGameStore.getState();
+    setCurrentView(embark ? "MAP" : "MAIN_MENU");
+  };
+
   const closeJournal = () => {
     setJournalClosing(true);
     setTimeout(() => {
-      goToMainMenu();
+      exitGame();
     }, 1000);
   };
 
@@ -213,7 +251,7 @@ export default function QuestScreen() {
                 <button
                   onClick={() => setMainPage((prev) => Math.max(prev - 1, 0))}
                   disabled={mainPage === 0}
-                  className="px-3 py-1 rounded disabled:opacity-40"
+                  className="px-3 py-1 rounded disabled:opacity-40 cursor-pointer"
                 >
                   Previous
                 </button>
@@ -227,7 +265,7 @@ export default function QuestScreen() {
                     )
                   }
                   disabled={mainPage === mainChain.length - 1}
-                  className="px-3 py-1 rounded disabled:opacity-40"
+                  className="px-3 py-1 rounded disabled:opacity-40 cursor-pointer"
                 >
                   Next
                 </button>
@@ -261,7 +299,7 @@ export default function QuestScreen() {
                   <button
                     onClick={() => setSidePage((p) => Math.max(p - 1, 1))}
                     disabled={sidePage === 1}
-                    className="px-3 py-1 rounded disabled:opacity-40"
+                    className="px-3 py-1 rounded disabled:opacity-40 cursor-pointer"
                   >
                     Previous
                   </button>
@@ -273,7 +311,7 @@ export default function QuestScreen() {
                       setSidePage((p) => Math.min(p + 1, totalPages))
                     }
                     disabled={sidePage === totalPages}
-                    className="px-3 py-1 rounded disabled:opacity-40"
+                    className="px-3 py-1 rounded disabled:opacity-40 cursor-pointer"
                   >
                     Next
                   </button>
