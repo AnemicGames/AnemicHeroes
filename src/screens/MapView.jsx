@@ -116,6 +116,8 @@ export default function MapView() {
     const goToMainMenu = () => navigateWithAnimation("MAIN_MENU");
     const goToBattle = () => navigateToOther("BATTLE");
     const goToShop = () => navigateToOther("SHOP");
+    const goToQuestLog = () => navigateToOther("QUEST");
+    const goToInventory = () => navigateToOther("CHARACTER_SHEET");
 
     return (
         <div className="relative h-full w-full">
@@ -154,19 +156,19 @@ export default function MapView() {
                                     <div
                                         className={`relative w-full h-full flex items-center justify-center rounded-xl ${
                                             isPlayer
-                                                ? "border-2 border-amber-950/90 bg-blue-800/80 cursor-pointer p-[.75px]"
+                                                ? "border-2 border-amber-950/90 bg-blue-800/80 p-[.75px]"
                                                 : isWalkable
                                                 ? "border-2 border-amber-950/90 bg-amber-200/80 cursor-pointer p-[.75px]"
                                                 : cell.type === "START"
-                                                ? "border-2 border-amber-950/90 bg-green-950/80 cursor-pointer p-[.75px]"
+                                                ? "border-2 border-amber-950/90 bg-green-950/80 p-[.75px]"
                                                 : cell.type === "BATTLE"
                                                 ? "border-2 border-amber-950/90 bg-amber-800/70 cursor-not-allowed p-[.75px]"
                                                 : cell.type === "BOSS"
-                                                ? "border-2 border-amber-950/90 bg-red-600 cursor-pointer"
+                                                ? "border-2 border-amber-950/90 bg-red-600 cursor-not-allowed"
                                                 : cell.type === "SHOP"
-                                                ? "border-2 border-amber-950/90 bg-yellow-400/80 cursor-pointer p-[.75px]"
+                                                ? "border-2 border-amber-950/90 bg-yellow-400/80 cursor-not-allowed p-[.75px]"
                                                 : cell.type === "EVENT"
-                                                ? "border-2 border-amber-950/90 bg-amber-400/80 cursor-pointer p-[.75px]"
+                                                ? "border-2 border-amber-950/90 bg-amber-400/80 cursor-not-allowed p-[.75px]"
                                                 : "transparent"
                                         }`}
                                     >
@@ -209,17 +211,41 @@ export default function MapView() {
             </div>
 
             {startPosition && currentPosition.id === startPosition.id && (
-                <button
-                    className="absolute bottom-0 left-0 m-4 p-2 hover:bg-red-800 rounded z-50"
-                    title="Exit"
-                    onClick={() => goToMainMenu("MAIN_MENU")}
-                >
-                    <img
-                        src="/assets/sprites/exit-nav-icon.png"
-                        alt="Exit"
-                        className="w-10 h-11"
-                    />
-                </button>
+                <>
+                    <button
+                        className="absolute bottom-0 left-0 m-4 p-2 hover:bg-red-800 rounded z-50"
+                        title="Exit"
+                        onClick={() => goToMainMenu("MAIN_MENU")}
+                    >
+                        <img
+                            src="/assets/sprites/exit-nav-icon.png"
+                            alt="Exit"
+                            className="w-10 h-11"
+                        />
+                    </button>
+                    <button
+                        className="absolute bottom-0 right-0 m-4 p-2 hover:bg-red-800 rounded z-50"
+                        title="Exit"
+                        onClick={() => goToQuestLog()}
+                    >
+                        <img
+                            src="/assets/sprites/feather.png"
+                            alt="Quest Log"
+                            className="w-10 h-11"
+                        />
+                    </button>
+                    <button
+                        className="absolute bottom-20 right-0 m-4 p-2 hover:bg-red-800 rounded z-50"
+                        title="Exit"
+                        onClick={() => goToInventory()}
+                    >
+                        <img
+                            src="/assets/sprites/inventory-nav-icon.png"
+                            alt="Inventory"
+                            className="w-10 h-11"
+                        />
+                    </button>
+                </>
             )}
         </div>
     );

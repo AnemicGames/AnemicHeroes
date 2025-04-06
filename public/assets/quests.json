@@ -2,45 +2,34 @@
   "main_quests": [
     {
       "id": "main_forest",
-      "title": "Prove Your Might",
-      "description": "Defeat the fearsome forest guardian to unlock the Mountain.",
-      "lore": "Deep in the forest, a legendary warrior awaits. Overcome him to prove your might.",
+      "title": "Prove Your Strength",
+      "description": "Defeat 20 mobs in the forest to begin your journey.",
+      "lore": "The forest is teeming with dangers. Only those who prove their might can venture further.",
       "status": "active",
       "xpReward": 50,
       "moneyReward": 200,
       "type": "main",
       "objective": {
-        "type": "defeat_named_boss",
-        "targetId": "b1",
+        "type": "win_mobs",
         "current": 0,
-        "target": 1
+        "target": 20
       },
       "unlocksWorld": "MOUNTAIN",
       "next": "main_mountain"
     },
     {
       "id": "main_mountain",
-      "title": "Climb the Heights",
-      "description": "Defeat 17 mountain mobs and a fierce boss to unlock the Desert.",
-      "lore": "The mountain is treacherous. Conquer its creatures and a mighty foe to prove your endurance.",
+      "title": "Endure the Climb",
+      "description": "Defeat the formidable mountain boss to prove your endurance.",
+      "lore": "High on the rugged slopes, the mountain guardian stands as the first true test of your resolve.",
       "status": "locked",
       "xpReward": 100,
       "moneyReward": 500,
       "type": "main",
       "objective": {
-        "type": "compound",
-        "objectives": [
-          {
-            "type": "win_mobs",
-            "current": 0,
-            "target": 17
-          },
-          {
-            "type": "defeat_bosses",
-            "current": 0,
-            "target": 1
-          }
-        ]
+        "type": "defeat_bosses",
+        "current": 0,
+        "target": 1
       },
       "unlocksWorld": "DESERT",
       "previous": "main_forest",
@@ -48,92 +37,37 @@
     },
     {
       "id": "main_desert",
-      "title": "Conquer the Sands",
-      "description": "Defeat 5 specific desert foes to unlock the Swamp.",
-      "lore": "The sands hide perilous adversaries. Identify and defeat these key creatures to continue your journey.",
+      "title": "Survive the Sands",
+      "description": "Defeat Garruk Ironclad to tame the scorching sands.",
+      "lore": "Beneath the burning sun, the ancient Desert Pharaoh awaits—its defeat is key to mastering the sands.",
       "status": "locked",
       "xpReward": 150,
       "moneyReward": 750,
       "type": "main",
       "objective": {
-        "type": "compound",
-        "objectives": [
-          {
-            "type": "win_mobs",
-            "specificMob": "m13",
-            "name": "Golem",
-            "current": 0,
-            "target": 1
-          },
-          {
-            "type": "win_mobs",
-            "specificMob": "m7",
-            "name": "Shadow Wraith",
-            "current": 0,
-            "target": 1
-          },
-          {
-            "type": "win_mobs",
-            "specificMob": "m6",
-            "name": "Shadowy figure",
-            "current": 0,
-            "target": 1
-          },
-          {
-            "type": "win_mobs",
-            "specificMob": "m28",
-            "name": "Night Reaver",
-            "current": 0,
-            "target": 1
-          },
-          {
-            "type": "win_mobs",
-            "specificMob": "m29",
-            "name": "Arcane Warblade",
-            "current": 0,
-            "target": 1
-          }
-        ]
+        "type": "defeat_named_boss",
+        "targetId": "b3",
+        "current": 0,
+        "target": 1
       },
       "unlocksWorld": "SWAMP",
       "previous": "main_mountain",
       "next": "main_swamp"
-    }
-    ,
+    },
     {
       "id": "main_swamp",
-      "title": "Purge the Mire",
-      "description": "Defeat 3 distinct swamp bosses to cleanse the mire and unlock the Caves.",
-      "lore": "The swamp is ruled by dark figures. Vanquish three of its most notorious lords to purify the land.",
+      "title": "Cleanse the Swamp",
+      "description": "Defeat Lady Nocturna to purge the corruption.",
+      "lore": "In the murky depths, the Swamp Witch festers—her defeat will purify the land and open the path forward.",
       "status": "locked",
       "xpReward": 200,
       "moneyReward": 1000,
       "type": "main",
       "objective": {
-        "type": "compound",
-        "objectives": [
-          {
-            "type": "defeat_named_boss",
-            "name": "Iseron The Boreal Leviathan",
-            "targetId": "b2",
-            "current": 0,
-            "target": 1
-          },
-          {
-            "type": "defeat_named_boss",
-            "name": "Garruk Ironclad",
-            "targetId": "b3",
-            "current": 0,
-            "target": 1
-          },
-          {
-            "type": "defeat_named_boss",
-            "name": "Lady Nocturna",
-            "targetId": "b4",
-            "current": 0,
-            "target": 1
-          }
-        ]
+        "type": "defeat_named_boss",
+        "targetId": "b4",
+        "current": 0,
+        "target": 1
       },
       "unlocksWorld": "CAVES",
       "previous": "main_desert",
@@ -141,9 +75,9 @@
     },
     {
       "id": "main_caves",
-      "title": "Echoes of Destiny",
-      "description": "Win a battle in the mysterious Caves to complete your journey.",
-      "lore": "The echoes within the caves herald your destiny. Survive the final challenge to complete your quest.",
+      "title": "Echoes of Power",
+      "description": "Win a battle in the mysterious caves to unlock the final realm.",
+      "lore": "Deep within the caves, echoes of an ancient power call out. Triumph here to earn passage to the Castle.",
       "status": "locked",
       "xpReward": 250,
       "moneyReward": 1500,
@@ -153,6 +87,7 @@
         "current": 0,
         "target": 1
       },
+      "unlocksWorld": "CASTLE",
       "previous": "main_swamp"
     }
   ],

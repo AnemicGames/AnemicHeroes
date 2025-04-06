@@ -7,7 +7,7 @@ export default function CharacterSheet() {
   const [notification, setNotification] = useState(null);
 
   const [currentInventoryPage, setCurrentInventoryPage] = useState(1);
-  const itemsPerPage = 18;
+  const itemsPerPage = 15;
 
   useEffect(() => {
     fetch("/assets/items.json")
@@ -18,13 +18,18 @@ export default function CharacterSheet() {
 
   const setCurrentView = useGameStore((state) => state.setCurrentView);
   const goToMainMenu = () => setCurrentView("MAIN_MENU");
-
   const player = useGameStore((state) => state.player);
   const inventory = useGameStore((state) => state.inventory);
   const equipItem = useGameStore((state) => state.equipItem);
   const unequipItem = useGameStore((state) => state.unequipItem);
   const removeItem = useGameStore((state) => state.removeItem);
   const currentWorld = useGameStore((state) => state.currentWorld);
+  const setEmbark = useGameStore((state) => state.setEmbark);
+
+  const exitGame = () => {
+    const { embark } = useGameStore.getState();
+    setCurrentView(embark ? "MAP" : "MAIN_MENU");
+  };
 
   const equipped =
     player.equipped && Object.keys(player.equipped).length > 0
@@ -167,7 +172,7 @@ export default function CharacterSheet() {
         </div>
 
         {/* Equipment */}
-        <div className="flex items-start absolute bottom-4 left-[420px]">
+        <div className="flex items-start absolute bottom-4 left-[450px]">
           <div className="equipment flex gap-2 cursor-pointer">
             {Object.entries(equipped).map(([slot, itemId]) => {
               const item = itemId ? getItemDetails(itemId) : null;
@@ -200,7 +205,7 @@ export default function CharacterSheet() {
         </div>
 
         {/* Stats */}
-        <div className="stats-box rounded p-2 flex flex-col gap-8 text-2xl bg-gray-500/80 col-start-1 col-end-8 row-start-2 row-end-6 relative">
+        <div className="stats-box rounded p-2 flex flex-col gap-8 text-2xl bg-gray-500/80 col-start-1 col-end-9 row-start-2 row-end-6 relative">
           <h3 className="font-semibold mb-2 text-2xl">Stats</h3>
           <div>
             <div>Class: {player.class}</div>
@@ -276,7 +281,7 @@ export default function CharacterSheet() {
                 src="/assets/sprites/exit-nav-icon.png"
                 alt="Exit"
                 className="px-2 py-1 rounded text-white w-14 h-14"
-                onClick={goToMainMenu}
+                onClick={exitGame}
               />
             </button>
           </div>
@@ -299,7 +304,7 @@ export default function CharacterSheet() {
                   return (
                     <div
                       key={itemId}
-                      className="inventory-item rounded p-2 w-24 h-24 relative group flex flex-col items-center justify-center bg-gray-800 cursor-pointer"
+                      className="inventory-item rounded w-24 h-[115px] relative group flex flex-col items-center justify-center bg-gray-800 cursor-pointer overflow-hidden"
                       onContextMenu={(e) => {
                         if (item.type === "potion") handleDrink(item, e);
                       }}
@@ -319,7 +324,7 @@ export default function CharacterSheet() {
                       </div>
 
                       {/* Tooltip */}
-                      <div className="absolute left-0 bottom-0 h-24 w-24 hidden group-hover:flex flex-col bg-black text-white p-2 rounded text-xs z-10">
+                      <div className="absolute left-0 bottom-0 h-[115px] w-24 hidden group-hover:flex flex-col bg-black text-white px-2 py-1 rounded text-xs z-10 overflow-y-hidden">
                         {item.type === "potion" ? (
                           <>
                             <div className="mb-1 break-words">{item.name}</div>
@@ -348,7 +353,7 @@ export default function CharacterSheet() {
                     setCurrentInventoryPage((prev) => Math.max(prev - 1, 1))
                   }
                   disabled={currentInventoryPage === 1}
-                  className="bg-gray-700 px-2 py-1 rounded"
+                  className="bg-gray-700 px-2 py-1 rounded cursor-pointer"
                 >
                   Previous
                 </button>
@@ -362,7 +367,7 @@ export default function CharacterSheet() {
                     )
                   }
                   disabled={currentInventoryPage === totalInventoryPages}
-                  className="bg-gray-700 px-2 py-1 rounded"
+                  className="bg-gray-700 px-2 py-1 rounded cursor-pointer"
                 >
                   Next
                 </button>
