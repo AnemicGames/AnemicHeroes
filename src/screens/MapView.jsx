@@ -223,30 +223,30 @@ export default function MapView() {
                             className="w-10 h-11"
                         />
                     </button>
-                    <button
-                        className="absolute bottom-0 right-0 m-4 p-2 hover:bg-red-800 rounded z-50"
-                        title="Exit"
-                        onClick={() => goToQuestLog()}
-                    >
-                        <img
-                            src="/assets/sprites/feather.png"
-                            alt="Quest Log"
-                            className="w-10 h-11"
-                        />
-                    </button>
-                    <button
-                        className="absolute bottom-20 right-0 m-4 p-2 hover:bg-red-800 rounded z-50"
-                        title="Exit"
-                        onClick={() => goToInventory()}
-                    >
-                        <img
-                            src="/assets/sprites/inventory-nav-icon.png"
-                            alt="Inventory"
-                            className="w-10 h-11"
-                        />
-                    </button>
                 </>
             )}
+            <button
+                className="absolute bottom-0 right-0 m-4 p-2 hover:bg-red-800 rounded z-50"
+                title="Quest Log"
+                onClick={() => goToQuestLog()}
+            >
+                <img
+                    src="/assets/sprites/feather.png"
+                    alt="Quest Log"
+                    className="w-10 h-11"
+                />
+            </button>
+            <button
+                className="absolute bottom-20 right-0 m-4 p-2 hover:bg-red-800 rounded z-50"
+                title="Inventory"
+                onClick={() => goToInventory()}
+            >
+                <img
+                    src="/assets/sprites/inventory-nav-icon.png"
+                    alt="Inventory"
+                    className="w-10 h-11"
+                />
+            </button>
         </div>
     );
 }
