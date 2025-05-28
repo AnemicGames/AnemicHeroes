@@ -15,6 +15,7 @@ export const createBattleSlice = (set, get) => ({
     sprite: "",
     currentHP: 1,
   },
+  lootItems: [],
   gameOver: false,
   turnCount: 0,
   nextToAttack: null,
@@ -248,33 +249,35 @@ export const createBattleSlice = (set, get) => ({
     });
   },
 
-  handleVictory: async () => {
-    const { enemy, setXP, addGold, clearMap, addItem, setBattleOutcome } =
-      get();
-    setXP(enemy.xp);
-    addGold(get().calculateGoldReward());
+handleVictory: async () => {
+  const { enemy, setXP, addGold, clearMap, addItem, setBattleOutcome, setLootItems } = get();
 
-    const lootItemIds = await getRandomItems(1);
-    lootItemIds.forEach((item) => {
-      if (typeof item === "object" && item.id) {
-        addItem(item.id, 1);
-      } else {
-        addItem(item, 1);
-      }
-    });
+  setXP(enemy.xp);
+  addGold(get().calculateGoldReward());
 
-    if (enemy.encounterType === "BOSS") {
-      clearMap();
-      addItem(3);
-      const bossLootItemIds = await getRandomItems(3);
-      bossLootItemIds.forEach((itemId) => addItem(itemId, 1));
-    }
+  const lootItems = await getRandomItems(1);
+  lootItems.forEach((item) => {
+    addItem(item.id, 1);
+  });
 
-    const allLoot = [...lootItemIds];
-    setBattleOutcome("VICTORY");
+  let bossLootItems = [];
+  if (enemy.encounterType === "BOSS") {
+    clearMap();
+    addItem(3);
 
-    return allLoot;
-  },
+    bossLootItems = await getRandomItems(3);
+    bossLootItems.forEach((item) => addItem(item.id, 1));
+  }
+
+  const allLootItems = [...lootItems, ...bossLootItems];
+  console.log("Loot dropped:", allLootItems);
+  setLootItems(allLootItems);
+
+  setBattleOutcome("VICTORY");
+
+  return allLootItems;
+},
+
 
   handleDefeat: () => {
     const { resetPosition, clearMap, setBattleOutcome, setPlayerDefeated } =

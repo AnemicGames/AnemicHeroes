@@ -50,6 +50,7 @@ export default function BattleView() {
         .then((mobs) => {
           clearBattle();
           setBattleOutcome(null);
+          setLootItems([])
           setIsBattleOver(false);
 
           const newEnemy = fetchRandomEnemy(mobs);
@@ -62,6 +63,7 @@ export default function BattleView() {
     }
   }, []);
 
+
   useEffect(() => {
     if (enemy.currentHP <= 0 && !battleOutcome) {
       setBattleOutcome("VICTORY");
@@ -69,6 +71,8 @@ export default function BattleView() {
       handleVictory().then((loot) => {
         if (loot && loot.length > 0) {
           setLootItems(loot);
+          console.log("Generated loot item:", loot);
+
         }
       });
 

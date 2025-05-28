@@ -8,13 +8,16 @@
  */
 export async function getRandomItems(count = 1) {
   try {
-    const response = await fetch('/assets/items.json');
-    if (!response.ok) throw new Error('Failed to fetch items.json');
+    const response = await fetch("/assets/items.json");
+    if (!response.ok) throw new Error("Failed to fetch items.json");
     const data = await response.json();
     const itemTable = data.itemTable;
     if (!Array.isArray(itemTable) || itemTable.length === 0) return [];
 
-    const totalWeight = itemTable.reduce((sum, item) => sum + item.dropChance, 0);
+    const totalWeight = itemTable.reduce(
+      (sum, item) => sum + item.dropChance,
+      0
+    );
 
     const selectedItems = [];
 
@@ -23,11 +26,7 @@ export async function getRandomItems(count = 1) {
 
       for (const item of itemTable) {
         if (randomValue < item.dropChance) {
-          selectedItems.push({
-            id: item.id,
-            name: item.name,
-            sprite: item.sprite,
-          });
+          selectedItems.push(item);
           break;
         }
         randomValue -= item.dropChance;
@@ -35,9 +34,8 @@ export async function getRandomItems(count = 1) {
     }
 
     return selectedItems;
-
   } catch (error) {
-    console.error('Error getting random items:', error);
+    console.error("Error getting random items:", error);
     return [];
   }
 }
