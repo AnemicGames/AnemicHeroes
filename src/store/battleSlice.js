@@ -22,6 +22,12 @@ export const createBattleSlice = (set, get) => ({
   isFighting: true,
   skipTurn: false,
   xp: 1,
+  showLevelUp: false,
+  levelUpMessage: "",
+  setLevelUpMessage: (message) =>
+    set({ levelUpMessage: message, showLevelUp: true }),
+  clearLevelUpMessage: () => set({ levelUpMessage: "", showLevelUp: false }),
+
   //message: "", this is for displaying turn messages
 
   setBattleState: (state) => set({ battleState: state }),
@@ -249,35 +255,52 @@ export const createBattleSlice = (set, get) => ({
     });
   },
 
-handleVictory: async () => {
-  const { enemy, setXP, addGold, clearMap, addItem, setBattleOutcome, setLootItems } = get();
+  handleVictory: async () => {
+    const {
+      enemy,
+      setXP,
+      addGold,
+      clearMap,
+      addItem,
+      setBattleOutcome,
+      setLootItems,
+      setLevelUpMessage,
+      clearLevelUpMessage,
+    } = get();
 
-  setXP(enemy.xp);
-  addGold(get().calculateGoldReward());
+    const leveledUp = setXP(enemy.xp);
 
-  const lootItems = await getRandomItems(1);
-  lootItems.forEach((item) => {
-    addItem(item.id, 1);
-  });
+    if (leveledUp) {
+      setLevelUpMessage(`Level Up! You are now level ${get().player.level}!`);
+      setTimeout(() => {
+        clearLevelUpMessage();
+      }, 3000);
+    }
 
-  let bossLootItems = [];
-  if (enemy.encounterType === "BOSS") {
-    clearMap();
-    addItem(3);
+    addGold(get().calculateGoldReward());
 
-    bossLootItems = await getRandomItems(3);
-    bossLootItems.forEach((item) => addItem(item.id, 1));
-  }
+    const lootItems = await getRandomItems(1);
+    lootItems.forEach((item) => {
+      addItem(item.id, 1);
+    });
 
-  const allLootItems = [...lootItems, ...bossLootItems];
-  console.log("Loot dropped:", allLootItems);
-  setLootItems(allLootItems);
+    let bossLootItems = [];
+    if (enemy.encounterType === "BOSS") {
+      clearMap();
+      addItem(3);
 
-  setBattleOutcome("VICTORY");
+      bossLootItems = await getRandomItems(3);
+      bossLootItems.forEach((item) => addItem(item.id, 1));
+    }
 
-  return allLootItems;
-},
+    const allLootItems = [...lootItems, ...bossLootItems];
+    console.log("Loot dropped:", allLootItems);
+    setLootItems(allLootItems);
 
+    setBattleOutcome("VICTORY");
+
+    return allLootItems;
+  },
 
   handleDefeat: () => {
     const { resetPosition, clearMap, setBattleOutcome, setPlayerDefeated } =
@@ -309,24 +332,21 @@ handleVictory: async () => {
     set({ battleOutcome: outcome, isBattleOver: true }),
 
   setXP: (xp) => {
+    let leveledUp = false;
+
     set((state) => {
       let newXP = state.player.xp + xp;
       let newLevel = state.player.level;
       let newXpToNextLvl = state.player.xpToNextLvl;
       let newMaxHp = state.player.maxHp;
       let currentHp = state.player.currentHp;
-      // Dette er lagt til nylig, må kanskje fjernes
-      let totalStrength = state.player.strength;
-      let totalSpeed = state.player.speed;
-      let totalDefense = state.player.defense;
 
-      // Dette er lagt til nylig, må kanskje fjernes
       if (state.inventory.items) {
         Object.values(state.inventory.items).forEach((item) => {
           if (item.statModifiers) {
-            totalStrength += item.statModifiers.strength || 0;
-            totalSpeed += item.statModifiers.speed || 0;
-            totalDefense += item.statModifiers.defense || 0;
+            state.player.strength += item.statModifiers.strength || 0;
+            state.player.speed += item.statModifiers.speed || 0;
+            state.player.defense += item.statModifiers.defense || 0;
           }
         });
       }
@@ -336,7 +356,8 @@ handleVictory: async () => {
         newLevel += 1;
         newXpToNextLvl = Math.floor(newXpToNextLvl * 1.2);
         newMaxHp = Math.floor(newMaxHp * 1.1);
-        currentHp = newMaxHp; // Må endres til currentHp = state.player.currentHp hvis vi ikke vil at spilleren skal heales hver gang den lvler opp
+        currentHp = newMaxHp;
+        leveledUp = true;
       }
 
       return {
@@ -346,14 +367,12 @@ handleVictory: async () => {
           level: newLevel,
           xpToNextLvl: newXpToNextLvl,
           maxHp: newMaxHp,
-          currentHp: currentHp,
-          // Dette er lagt til nylig, må kanskje fjernes
-          strength: totalStrength,
-          speed: totalSpeed,
-          defense: totalDefense,
+          currentHp,
         },
       };
     });
+
+    return leveledUp;
   },
 
   addGold: (amount) => {

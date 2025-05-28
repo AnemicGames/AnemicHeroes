@@ -29,6 +29,8 @@ export default function BattleView() {
     handleVictory,
     handleDefeat,
     clearMap,
+    levelUpMessage,
+    showLevelUp,
     //firstAttacker, er for å displaye turns
   } = useGameStore();
 
@@ -50,7 +52,7 @@ export default function BattleView() {
         .then((mobs) => {
           clearBattle();
           setBattleOutcome(null);
-          setLootItems([])
+          setLootItems([]);
           setIsBattleOver(false);
 
           const newEnemy = fetchRandomEnemy(mobs);
@@ -63,7 +65,6 @@ export default function BattleView() {
     }
   }, []);
 
-
   useEffect(() => {
     if (enemy.currentHP <= 0 && !battleOutcome) {
       setBattleOutcome("VICTORY");
@@ -71,14 +72,12 @@ export default function BattleView() {
       handleVictory().then((loot) => {
         if (loot && loot.length > 0) {
           setLootItems(loot);
-          console.log("Generated loot item:", loot);
-
         }
       });
 
       if (enemy.encounterType === "BOSS") {
         setCurrentView("MAIN_MENU");
-        heal((player.currentHp = player.maxHp));
+        heal(player.maxHp);
       }
     }
 
@@ -211,7 +210,7 @@ export default function BattleView() {
           <div className="absolute top-1/3 left-1/2 transform -translate-x-1/2 text-center p-6 bg-black bg-opacity-80 rounded-xl">
             {battleOutcome === "VICTORY" ? (
               <>
-                <h2 className="text-4xl text-green-400">🎉 Victory! 🎉</h2>
+                <h2 className="text-4xl text-green-400"> Victory! </h2>
                 <p className="text-white">
                   You defeated {enemy.name}!
                   <br />
@@ -243,7 +242,7 @@ export default function BattleView() {
                   </div>
                 ))}
                 <button
-                  className="mt-4 px-4 py-2 bg-gray-700 text-white rounded cursor-pointer"
+                  className="mt-4 px-4 py-2 text-white rounded cursor-pointer bg-green-600 font-bold hover:bg-green-800 transition duration-150"
                   onClick={() => {
                     clearBattle();
                     if (encounterType === "BOSS") {
@@ -275,13 +274,19 @@ export default function BattleView() {
             )}
           </div>
         )}
-      </div>
+        
+        {showLevelUp && (
+          <div className="absolute top-4 left-1/2 transform -translate-x-1/2 bg-black p-4 rounded shadow text-white text-lg z-50 p-6">
+            {levelUpMessage}
+          </div>
+        )}
 
-      <ActionBar
-        action={action}
-        callback={setAction}
-        className="animate-shake"
-      />
+        <ActionBar
+          action={action}
+          callback={setAction}
+          className="animate-shake"
+        />
+      </div>
     </div>
   );
 }
