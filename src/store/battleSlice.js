@@ -100,12 +100,24 @@ export const createBattleSlice = (set, get) => ({
       setTurnCount,
       setBattleOutcome,
       player,
-      handleVictory
+      handleVictory,
+      inventory,
     } = get();
 
     // Her må det diskuteres hvordan damage kalkulasjonen faktisk skal gjøres. Det jeg har lagt inn er et foreløpig forslag
-    const baseDamage = player.strength * 2;
-    // Tilfeldig variance fra -3 til 3
+    // Dette er lagt til nylig, må kanskje fjernes
+    let totalStrength = player.strength;
+    if (inventory.items) {
+      Object.values(inventory.items).forEach((item) => {
+        if (item.statModifiers) {
+          totalStrength += item.statModifiers.strength || 0;
+        }
+      });
+    }
+
+    const baseDamage = totalStrength * 2;
+    // ned til hit
+
     const randomVariance = Math.floor(Math.random() * 7) - 3;
 
     let rawDamage = baseDamage + randomVariance;
@@ -117,25 +129,25 @@ export const createBattleSlice = (set, get) => ({
     damageEnemy(finalDamage);
     setTurnCount();
 
-  setTimeout(async () => {
-    const updatedEnemyHP = get().enemy.currentHP;
+    setTimeout(async () => {
+      const updatedEnemyHP = get().enemy.currentHP;
 
-    if (updatedEnemyHP <= 0) {
-      await handleVictory();
-    } else {
-      const enemyDamage = Math.floor(Math.random() * (25 - 5 + 1)) + 5;
-      const updatedPlayerHP = player.currentHp - enemyDamage;
-
-      takeDamage(enemyDamage);
-
-      if (updatedPlayerHP <= 0) {
-        setBattleOutcome("DEFEAT");
+      if (updatedEnemyHP <= 0) {
+        await handleVictory();
       } else {
-        setTurnCount();
+        const enemyDamage = Math.floor(Math.random() * (25 - 5 + 1)) + 5;
+        const updatedPlayerHP = player.currentHp - enemyDamage;
+
+        takeDamage(enemyDamage);
+
+        if (updatedPlayerHP <= 0) {
+          setBattleOutcome("DEFEAT");
+        } else {
+          setTurnCount();
+        }
       }
-    }
-  }, 300);
-},
+    }, 300);
+  },
 
   applyDrinkPotion: () => {
     const {
@@ -300,6 +312,21 @@ export const createBattleSlice = (set, get) => ({
       let newXpToNextLvl = state.player.xpToNextLvl;
       let newMaxHp = state.player.maxHp;
       let currentHp = state.player.currentHp;
+      // Dette er lagt til nylig, må kanskje fjernes
+      let totalStrength = state.player.strength;
+      let totalSpeed = state.player.speed;
+      let totalDefense = state.player.defense;
+
+      // Dette er lagt til nylig, må kanskje fjernes
+      if (state.inventory.items) {
+        Object.values(state.inventory.items).forEach((item) => {
+          if (item.statModifiers) {
+            totalStrength += item.statModifiers.strength || 0;
+            totalSpeed += item.statModifiers.speed || 0;
+            totalDefense += item.statModifiers.defense || 0;
+          }
+        });
+      }
 
       while (newXP >= newXpToNextLvl) {
         newXP -= newXpToNextLvl;
@@ -317,6 +344,10 @@ export const createBattleSlice = (set, get) => ({
           xpToNextLvl: newXpToNextLvl,
           maxHp: newMaxHp,
           currentHp: currentHp,
+          // Dette er lagt til nylig, må kanskje fjernes
+          strength: totalStrength,
+          speed: totalSpeed,
+          defense: totalDefense,
         },
       };
     });

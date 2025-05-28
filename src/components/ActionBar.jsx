@@ -11,7 +11,7 @@ export function ActionBar() {
   return (
     <div className="flex flex-col w-full items-center gap-4 absolute bottom-1 left-0">
       <button
-        className="flex items-center justify-center gap-3 text-white bg-red-700 hover:bg-red-600 rounded-full relative p-3 font-bold text-2xl bottom-6 border-2 border-yellow-300 w-[200px] z-50"
+        className="flex items-center justify-center gap-3 text-white bg-red-700 hover:bg-red-600 rounded-full relative p-3 font-bold text-2xl bottom-6 border-2 border-yellow-300 w-[200px] z-50 cursor-pointer"
         onClick={() => {
           setIsAttacking(true);
           applyPlayerAttack();
@@ -24,7 +24,7 @@ export function ActionBar() {
       </button>
 
       <button
-        className={`text-white rounded-full absolute right-12 bottom-6 font-bold text-xl p-3 border-2 border-yellow-300 w-fit-content z-50
+        className={`text-white rounded-full cursor-pointer absolute right-12 bottom-6 font-bold text-xl p-3 border-2 border-yellow-300 w-fit-content z-50
           ${!hasPotions ? "bg-gray-500 cursor-not-allowed" : "bg-red-700 hover:bg-red-600"}
         `}
         onClick={() => {

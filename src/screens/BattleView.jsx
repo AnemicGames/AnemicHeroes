@@ -189,8 +189,7 @@ export default function BattleView() {
           ${
             player.currentHp <= 0 &&
             "rotate-[-90deg] opacity-50 transition-opacity duration-1000 top-[300px]"
-          }
-        `}
+          }`}
       />
       {/* Enemy sprite */}
       <img
@@ -215,17 +214,32 @@ export default function BattleView() {
                   You gained {player.xp} XP and {calculateGoldReward()} gold!
                 </p>
                 {lootItems.map((item) => (
-                  <div key={item.id} className="text-center">
+                  <div key={item.id} className="text-center group relative">
                     <p className="mt-2 text-sm">You also gained {item.name}!</p>
                     <img
                       src={item.sprite}
                       alt={item.name}
                       className="w-16 h-16 object-cover mx-auto"
                     />
+                    <div className="absolute left-0 bottom-0 h-24 w-24 hidden group-hover:flex flex-col bg-black text-white p-2 rounded text-xs z-10">
+                      {item.type === "potion" ? (
+                        <>
+                          <div className="mb-1 break-words">{item.name}</div>
+                          <div>Heal {item.healAmount} HP</div>
+                        </>
+                      ) : (
+                        <div>
+                          <div className="mb-1 break-words">{item.name}</div>
+                          <div>STR: {item.statModifiers?.strength ?? 0}</div>
+                          <div>DEF: {item.statModifiers?.defense ?? 0}</div>
+                          <div>SPD: {item.statModifiers?.speed ?? 0}</div>
+                        </div>
+                      )}
+                    </div>
                   </div>
                 ))}
                 <button
-                  className="mt-4 px-4 py-2 bg-gray-700 text-white rounded"
+                  className="mt-4 px-4 py-2 bg-gray-700 text-white rounded cursor-pointer"
                   onClick={() => {
                     clearBattle();
                     if (encounterType === "BOSS") {
