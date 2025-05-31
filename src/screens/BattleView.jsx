@@ -140,8 +140,12 @@ export default function BattleView() {
 
       {/* Player Health Bar */}
       <div className="w-[40%] mr-20 top-6 absolute left-12">
-        <p className="text-xl text-white">{player.name}</p>
-        <p className="text-xl text-white">{`${player.currentHp}/${player.maxHp}`}</p>
+        <p className="text-2xl text-white">{player.name}</p>
+
+        <div className="flex gap-92">
+          <p className="text-xl text-white">{`${player.currentHp}/${player.maxHp}`}</p>
+          <p className="text-xl text-white">Level: {player.level}</p>
+        </div>
         <div className="w-full bg-gray-300 rounded-full h-4">
           <div
             className="h-full rounded-full bg-red-500"
@@ -164,7 +168,9 @@ export default function BattleView() {
           className={`text-xl text-white ${
             encounterType === "BOSS" ? "text-2xl text-red-300" : ""
           }`}
-        >{`${enemy.currentHP}/${enemy.baseHP}`}</p>
+        >
+          {`${enemy.currentHP}/${enemy.baseHP}`}
+          </p>
         <div className="w-full bg-gray-300 rounded-full h-4">
           <div
             className={`h-full rounded-full ${

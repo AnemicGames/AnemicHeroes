@@ -13,8 +13,6 @@ async function ensureItemDataLoaded() {
   }
 }
 
-
-
 export const createBattleSlice = (set, get) => ({
   battleState: null,
   enemy: {
@@ -63,9 +61,6 @@ getPlayerEffectiveStats: async () => {
 
   return { strength, speed, defense };
 },
-
-
-
 
   
   setLevelUpMessage: (message) =>
