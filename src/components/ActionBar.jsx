@@ -2,11 +2,11 @@ import { useGameStore } from "../store/useGameStore";
 import { useState } from "react";
 
 export function ActionBar() {
-  const { applyPlayerAttack, applyDrinkPotion, gameOver, inventory } = useGameStore();
-  const [isAttacking, setIsAttacking] = useState(false);
+  const { applyPlayerAttack, applyDrinkPotion, gameOver, inventory, isAttacking, setIsAttacking } =
+    useGameStore();
   const [isDrinkingPotion, setIsDrinkingPotion] = useState(false);
-
   const hasPotions = (inventory.items ?? {})["POT_HEALTH"] > 0;
+
 
   return (
     <div className="flex flex-col w-full items-center gap-4 absolute bottom-1 left-0">
@@ -25,7 +25,11 @@ export function ActionBar() {
 
       <button
         className={`text-white rounded-full cursor-pointer absolute right-12 bottom-6 font-bold text-xl p-3 border-2 border-yellow-300 w-fit-content z-50
-          ${!hasPotions ? "bg-gray-500 cursor-not-allowed" : "bg-red-700 hover:bg-red-600"}
+          ${
+            !hasPotions
+              ? "bg-gray-500 cursor-not-allowed"
+              : "bg-red-700 hover:bg-red-600"
+          }
         `}
         onClick={() => {
           setIsDrinkingPotion(true);

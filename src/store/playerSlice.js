@@ -1,7 +1,7 @@
 export const createPlayerSlice = (set, get) => ({
   player: {
-    name: "Hero",
-    class: "",
+    name: 'Hero',
+    class: '',
     level: 0,
     currentHp: 100,
     maxHp: 100,
@@ -24,7 +24,7 @@ export const createPlayerSlice = (set, get) => ({
     let startingEquipment = {};
 
     switch (playerClass) {
-      case "Mage":
+      case 'Mage':
         newStats = {
           maxHp: 80,
           currentHp: 80,
@@ -40,7 +40,7 @@ export const createPlayerSlice = (set, get) => ({
           trinket: "TRK_AMULET",
         };
         break;
-      case "Warrior":
+      case 'Warrior':
         newStats = {
           maxHp: 120,
           currentHp: 120,
@@ -56,7 +56,7 @@ export const createPlayerSlice = (set, get) => ({
           trinket: "TRK_NECKLACE",
         };
         break;
-      case "Rogue":
+      case 'Rogue':
         newStats = {
           maxHp: 90,
           currentHp: 90,
@@ -130,6 +130,7 @@ export const createPlayerSlice = (set, get) => ({
     });
   },
 
+
   unequipItem: (slot) => {
     set((state) => {
       const equippedItems = state.player.equipped;
@@ -164,47 +165,41 @@ export const createPlayerSlice = (set, get) => ({
     });
   },
 
-setXP: (xp) => {
-  let leveledUp = false;
-  set((state) => {
-    let newXP = state.player.xp + xp;
-    let newLevel = state.player.level;
-    let newXpToNextLvl = state.player.xpToNextLvl;
-    let newMaxHp = state.player.maxHp;
-    let currentHp = state.player.currentHp;
+  setXP: (xp) => {
+    set((state) => {
+      let newXP = state.player.xp + xp;
+      let newLevel = state.player.level;
+      let newXpToNextLvl = state.player.xpToNextLvl;
+      let newMaxHp = state.player.maxHp;
+      let currentHp = state.player.currentHp;
 
-    while (newXP >= newXpToNextLvl) {
-      newXP -= newXpToNextLvl;
-      newLevel += 1;
-      newXpToNextLvl = Math.floor(newXpToNextLvl * 1.2);
-      newMaxHp = Math.floor(newMaxHp * 1.1);
-      currentHp = newMaxHp;
-      leveledUp = true;
-    }
+      while (newXP >= newXpToNextLvl) {
+        newXP -= newXpToNextLvl;
+        newLevel += 1;
+        newXpToNextLvl = Math.floor(newXpToNextLvl * 1.2); //XP scaling
 
-    return {
-      player: {
-        ...state.player,
-        xp: newXP,
-        level: newLevel,
-        xpToNextLvl: newXpToNextLvl,
-        maxHp: newMaxHp,
-        currentHp: currentHp,
-      },
-    };
-  });
-  return leveledUp;
-},
+        newMaxHp = Math.floor(newMaxHp * 1.1); //HP scaling
+        currentHp = newMaxHp;
+      }
 
+      return {
+        player: {
+          ...state.player,
+          xp: newXP,
+          level: newLevel,
+          xpToNextLvl: newXpToNextLvl,
+          maxHp: newMaxHp,
+          currentHp: currentHp,
+        },
+      };
+    });
+  },
 
   heal: (amount) => {
     set((state) => ({
       player: {
         ...state.player,
-        currentHp: Math.min(
-          state.player.currentHp + amount,
-          state.player.maxHp
-        ),
+        currentHp: Math.min(state.player.currentHp + amount, state.player.maxHp),
       },
     }));
   },
@@ -217,4 +212,5 @@ setXP: (xp) => {
       },
     }));
   },
+
 });
