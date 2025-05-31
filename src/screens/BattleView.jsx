@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useGameStore } from "../store/useGameStore";
 import { ActionBar } from "/src/components/ActionBar.jsx";
 import { BackgroundImage } from "../components/BattleBackground.jsx";
@@ -29,6 +29,9 @@ export default function BattleView() {
     handleVictory,
     handleDefeat,
     clearMap,
+    levelUpMessage,
+    showLevelUp,
+    isAttacking,
     //firstAttacker, er for å displaye turns
   } = useGameStore();
 
@@ -50,6 +53,7 @@ export default function BattleView() {
         .then((mobs) => {
           clearBattle();
           setBattleOutcome(null);
+          setLootItems([]);
           setIsBattleOver(false);
 
           const newEnemy = fetchRandomEnemy(mobs);
@@ -74,7 +78,7 @@ export default function BattleView() {
 
       if (enemy.encounterType === "BOSS") {
         setCurrentView("MAIN_MENU");
-        heal((player.currentHp = player.maxHp));
+        heal(player.maxHp);
       }
     }
 
@@ -185,20 +189,27 @@ export default function BattleView() {
       <img
         src={`/assets/sprites/heroes/${player.class.toLowerCase()}.png`}
         alt={`${player.class} Sprite`}
-        className={`absolute bottom-[120px] left-1/6 w-[300px] transition-transform duration-500
-          ${
-            player.currentHp <= 0 &&
-            "rotate-[-90deg] opacity-50 transition-opacity duration-1000 top-[300px]"
-          }`}
+        className={`absolute bottom-[120px] left-1/6 w-[300px] transition-transform duration-300
+    ${
+      player.currentHp <= 0
+        ? "rotate-[-90deg] opacity-50 transition-opacity duration-1000 top-[300px]"
+        : ""
+    }
+    ${isAttacking ? "translate-x-5" : "translate-x-0"}
+  `}
       />
       {/* Enemy sprite */}
       <img
         src={enemy.sprite}
         alt="Enemy"
-        className={`absolute bottom-[120px] right-1/6 w-[300px] transition-transform duration-500 ${
-          enemy.currentHP <= 0 &&
-          "rotate-90 opacity-50 transition-opacity duration-1000 top-[300px]"
-        }`}
+        className={`absolute bottom-[120px] right-1/6 w-[300px] transition-all duration-300
+    ${
+      enemy.currentHP <= 0
+        ? "rotate-90 opacity-50 transition-opacity duration-1000 top-[300px]"
+        : ""
+    }
+    ${isAttacking ? "animate-pulse" : ""}
+  `}
       />
 
       {/* Victory/Defeat Message */}
@@ -207,7 +218,7 @@ export default function BattleView() {
           <div className="absolute top-1/3 left-1/2 transform -translate-x-1/2 text-center p-6 bg-black bg-opacity-80 rounded-xl">
             {battleOutcome === "VICTORY" ? (
               <>
-                <h2 className="text-4xl text-green-400">🎉 Victory! 🎉</h2>
+                <h2 className="text-4xl text-green-400"> Victory! </h2>
                 <p className="text-white">
                   You defeated {enemy.name}!
                   <br />
@@ -221,7 +232,7 @@ export default function BattleView() {
                       alt={item.name}
                       className="w-16 h-16 object-cover mx-auto"
                     />
-                    <div className="absolute left-0 bottom-0 h-24 w-24 hidden group-hover:flex flex-col bg-black text-white p-2 rounded text-xs z-10">
+                    <div className="absolute left-0 bottom-0 h-28 w-24 hidden group-hover:flex flex-col bg-gray-900 text-white p-2 rounded text-xs z-10">
                       {item.type === "potion" ? (
                         <>
                           <div className="mb-1 break-words">{item.name}</div>
@@ -230,6 +241,7 @@ export default function BattleView() {
                       ) : (
                         <div>
                           <div className="mb-1 break-words">{item.name}</div>
+                          <div className="underline">{item.type ?? 0}</div>
                           <div>STR: {item.statModifiers?.strength ?? 0}</div>
                           <div>DEF: {item.statModifiers?.defense ?? 0}</div>
                           <div>SPD: {item.statModifiers?.speed ?? 0}</div>
@@ -239,7 +251,7 @@ export default function BattleView() {
                   </div>
                 ))}
                 <button
-                  className="mt-4 px-4 py-2 bg-gray-700 text-white rounded cursor-pointer"
+                  className="mt-4 px-4 py-2 text-white rounded cursor-pointer bg-green-600 font-bold hover:bg-green-800 transition duration-150"
                   onClick={() => {
                     clearBattle();
                     if (encounterType === "BOSS") {
@@ -258,11 +270,11 @@ export default function BattleView() {
                 <h2 className="text-4xl text-red-400">☠️ Defeat! ☠️</h2>
                 <p className="text-white">You were defeated in battle...</p>
                 <button
-                  className="mt-4 px-4 py-2 bg-gray-500/80 text-white rounded"
+                  className="mt-4 px-4 py-2 bg-red-500/80 text-white rounded cursor-pointer"
                   onClick={() => {
                     clearBattle();
                     setCurrentView("MAIN_MENU");
-                    heal((player.currentHp = player.maxHp));
+                    heal(player.maxHp);
                   }}
                 >
                   Respawn
@@ -271,13 +283,19 @@ export default function BattleView() {
             )}
           </div>
         )}
-      </div>
 
-      <ActionBar
-        action={action}
-        callback={setAction}
-        className="animate-shake"
-      />
+        {showLevelUp && (
+          <div className="absolute top-32 left-1/2 transform -translate-x-1/2 bg-black rounded shadow text-white text-lg z-50 p-4">
+            {levelUpMessage}
+          </div>
+        )}
+
+        <ActionBar
+          action={action}
+          callback={setAction}
+          className="animate-shake"
+        />
+      </div>
     </div>
   );
 }

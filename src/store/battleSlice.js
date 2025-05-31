@@ -1,5 +1,20 @@
 import { getRandomItems } from "../utils/getRandomItem";
 
+let itemDataById = {};
+
+async function ensureItemDataLoaded() {
+  if (Object.keys(itemDataById).length === 0) {
+    const response = await fetch("/assets/items.json");
+    const data = await response.json();
+    itemDataById = {};
+    data.itemTable.forEach(item => {
+      itemDataById[item.id] = item;
+    });
+  }
+}
+
+
+
 export const createBattleSlice = (set, get) => ({
   battleState: null,
   enemy: {
@@ -15,13 +30,50 @@ export const createBattleSlice = (set, get) => ({
     sprite: "",
     currentHP: 1,
   },
+  lootItems: [],
   gameOver: false,
   turnCount: 0,
   nextToAttack: null,
   isFighting: true,
   skipTurn: false,
   xp: 1,
-  //message: "", this is for displaying turn messages
+  showLevelUp: false,
+  levelUpMessage: "",
+  isAttacking: false,
+
+getPlayerEffectiveStats: async () => {
+  const { player, inventory } = get();
+
+  await ensureItemDataLoaded();
+
+  let strength = player.strength;
+  let speed = player.speed;
+  let defense = player.defense;
+
+  if (inventory && inventory.items) {
+    Object.entries(inventory.items).forEach(([itemId, count]) => {
+      if (count > 0 && itemDataById[itemId]) {
+        const modifiers = itemDataById[itemId].statModifiers;
+        strength += modifiers.strength || 0;
+        speed += modifiers.speed || 0;
+        defense += modifiers.defense || 0;
+      }
+    });
+  }
+
+  return { strength, speed, defense };
+},
+
+
+
+
+  
+  setLevelUpMessage: (message) =>
+    set({ levelUpMessage: message, showLevelUp: true }),
+  clearLevelUpMessage: () => set({ levelUpMessage: "", showLevelUp: false }),
+
+  setIsAttacking: (value) => set({ isAttacking: value }),
+
 
   setBattleState: (state) => set({ battleState: state }),
 
@@ -92,62 +144,53 @@ export const createBattleSlice = (set, get) => ({
     });
   },
 
-  applyPlayerAttack: () => {
-    const {
-      enemy,
-      damageEnemy,
-      takeDamage,
-      setTurnCount,
-      setBattleOutcome,
-      player,
-      handleVictory,
-      inventory,
-    } = get();
+applyPlayerAttack: async () => {
+  const {
+    enemy,
+    damageEnemy,
+    takeDamage,
+    setTurnCount,
+    setBattleOutcome,
+    player,
+    handleVictory,
+    getPlayerEffectiveStats
+  } = get();
 
-    // Her må det diskuteres hvordan damage kalkulasjonen faktisk skal gjøres. Det jeg har lagt inn er et foreløpig forslag
-    // Dette er lagt til nylig, må kanskje fjernes
-    let totalStrength = player.strength;
-    if (inventory.items) {
-      Object.values(inventory.items).forEach((item) => {
-        if (item.statModifiers) {
-          totalStrength += item.statModifiers.strength || 0;
-        }
-      });
-    }
+  const stats = await getPlayerEffectiveStats(); // Await the function
 
-    const baseDamage = totalStrength * 2;
-    // ned til hit
+  console.log("Effective player stats during attack:", stats);
+  console.log("Player base strength:", player.strength);
 
-    const randomVariance = Math.floor(Math.random() * 7) - 3;
+  const baseDamage = stats.strength * 2;
+  const randomVariance = Math.floor(Math.random() * 7) - 3;
+  const rawDamage = baseDamage + randomVariance;
+  const enemyDefenseReduction = Math.floor(enemy.baseDefence / 2);
+  const finalDamage = Math.max(1, rawDamage - enemyDefenseReduction);
 
-    let rawDamage = baseDamage + randomVariance;
+  damageEnemy(finalDamage);
+  setTurnCount();
 
-    const enemyDefenseReduction = Math.floor(enemy.baseDefence / 2);
+  setTimeout(async () => {
+    const updatedEnemyHP = get().enemy.currentHP;
 
-    const finalDamage = Math.max(1, rawDamage - enemyDefenseReduction);
+    if (updatedEnemyHP <= 0) {
+      await handleVictory();
+    } else {
+      const enemyDamage = Math.floor(Math.random() * (25 - 5 + 1)) + 5;
+      const updatedPlayerHP = player.currentHp - enemyDamage;
 
-    damageEnemy(finalDamage);
-    setTurnCount();
+      takeDamage(enemyDamage);
 
-    setTimeout(async () => {
-      const updatedEnemyHP = get().enemy.currentHP;
-
-      if (updatedEnemyHP <= 0) {
-        await handleVictory();
+      if (updatedPlayerHP <= 0) {
+        setBattleOutcome("DEFEAT");
       } else {
-        const enemyDamage = Math.floor(Math.random() * (25 - 5 + 1)) + 5;
-        const updatedPlayerHP = player.currentHp - enemyDamage;
-
-        takeDamage(enemyDamage);
-
-        if (updatedPlayerHP <= 0) {
-          setBattleOutcome("DEFEAT");
-        } else {
-          setTurnCount();
-        }
+        setTurnCount();
       }
-    }, 300);
-  },
+    }
+  }, 300);
+},
+
+
 
   applyDrinkPotion: () => {
     const {
@@ -249,31 +292,50 @@ export const createBattleSlice = (set, get) => ({
   },
 
   handleVictory: async () => {
-    const { enemy, setXP, addGold, clearMap, addItem, setBattleOutcome } =
-      get();
-    setXP(enemy.xp);
+    const {
+      enemy,
+      setXP,
+      addGold,
+      clearMap,
+      addItem,
+      setBattleOutcome,
+      setLootItems,
+      setLevelUpMessage,
+      clearLevelUpMessage,
+    } = get();
+
+    const leveledUp = setXP(enemy.xp);
+
+    if (leveledUp) {
+      setLevelUpMessage(`Level Up! You are now level ${get().player.level}!`);
+      setTimeout(() => {
+        clearLevelUpMessage();
+      }, 3000);
+    }
+
     addGold(get().calculateGoldReward());
 
-    const lootItemIds = await getRandomItems(1);
-    lootItemIds.forEach((item) => {
-      if (typeof item === "object" && item.id) {
-        addItem(item.id, 1);
-      } else {
-        addItem(item, 1);
-      }
+    const lootItems = await getRandomItems(1);
+    lootItems.forEach((item) => {
+      addItem(item.id, 1);
     });
 
+    let bossLootItems = [];
     if (enemy.encounterType === "BOSS") {
       clearMap();
       addItem(3);
-      const bossLootItemIds = await getRandomItems(3);
-      bossLootItemIds.forEach((itemId) => addItem(itemId, 1));
+
+      bossLootItems = await getRandomItems(3);
+      bossLootItems.forEach((item) => addItem(item.id, 1));
     }
 
-    const allLoot = [...lootItemIds];
+    const allLootItems = [...lootItems, ...bossLootItems];
+    console.log("Loot dropped:", allLootItems);
+    setLootItems(allLootItems);
+
     setBattleOutcome("VICTORY");
 
-    return allLoot;
+    return allLootItems;
   },
 
   handleDefeat: () => {
@@ -306,24 +368,21 @@ export const createBattleSlice = (set, get) => ({
     set({ battleOutcome: outcome, isBattleOver: true }),
 
   setXP: (xp) => {
+    let leveledUp = false;
+
     set((state) => {
       let newXP = state.player.xp + xp;
       let newLevel = state.player.level;
       let newXpToNextLvl = state.player.xpToNextLvl;
       let newMaxHp = state.player.maxHp;
       let currentHp = state.player.currentHp;
-      // Dette er lagt til nylig, må kanskje fjernes
-      let totalStrength = state.player.strength;
-      let totalSpeed = state.player.speed;
-      let totalDefense = state.player.defense;
 
-      // Dette er lagt til nylig, må kanskje fjernes
       if (state.inventory.items) {
         Object.values(state.inventory.items).forEach((item) => {
           if (item.statModifiers) {
-            totalStrength += item.statModifiers.strength || 0;
-            totalSpeed += item.statModifiers.speed || 0;
-            totalDefense += item.statModifiers.defense || 0;
+            state.player.strength += item.statModifiers.strength || 0;
+            state.player.speed += item.statModifiers.speed || 0;
+            state.player.defense += item.statModifiers.defense || 0;
           }
         });
       }
@@ -333,7 +392,8 @@ export const createBattleSlice = (set, get) => ({
         newLevel += 1;
         newXpToNextLvl = Math.floor(newXpToNextLvl * 1.2);
         newMaxHp = Math.floor(newMaxHp * 1.1);
-        currentHp = newMaxHp; // Må endres til currentHp = state.player.currentHp hvis vi ikke vil at spilleren skal heales hver gang den lvler opp
+        currentHp = newMaxHp;
+        leveledUp = true;
       }
 
       return {
@@ -343,14 +403,12 @@ export const createBattleSlice = (set, get) => ({
           level: newLevel,
           xpToNextLvl: newXpToNextLvl,
           maxHp: newMaxHp,
-          currentHp: currentHp,
-          // Dette er lagt til nylig, må kanskje fjernes
-          strength: totalStrength,
-          speed: totalSpeed,
-          defense: totalDefense,
+          currentHp,
         },
       };
     });
+
+    return leveledUp;
   },
 
   addGold: (amount) => {
