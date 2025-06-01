@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useGameStore } from "../store/useGameStore";
 import { ActionBar } from "/src/components/ActionBar.jsx";
 import { BackgroundImage } from "../components/BattleBackground.jsx";
@@ -9,6 +9,7 @@ export default function BattleView() {
   const [lootItems, setLootItems] = useState([]);
   const [battleOutcome, setBattleOutcome] = useState(null);
   const [isBattleOver, setIsBattleOver] = useState(false);
+  const victoryHandledRef = useRef(false);
 
   const {
     setEnemy,
@@ -68,6 +69,7 @@ export default function BattleView() {
 
   useEffect(() => {
     if (enemy.currentHP <= 0 && !battleOutcome) {
+      victoryHandledRef.current = true;
       setBattleOutcome("VICTORY");
       setIsBattleOver(true);
       handleVictory().then((loot) => {
@@ -142,7 +144,7 @@ export default function BattleView() {
       <div className="w-[40%] mr-20 top-6 absolute left-12">
         <p className="text-2xl text-white">{player.name}</p>
 
-        <div className="flex gap-92">
+        <div className="flex gap-88">
           <p className="text-xl text-white">{`${player.currentHp}/${player.maxHp}`}</p>
           <p className="text-xl text-white">Level: {player.level}</p>
         </div>

@@ -148,7 +148,6 @@ applyPlayerAttack: async () => {
     setTurnCount,
     setBattleOutcome,
     player,
-    handleVictory,
     getPlayerEffectiveStats
   } = get();
 
@@ -169,13 +168,13 @@ applyPlayerAttack: async () => {
   setTimeout(async () => {
     const updatedEnemyHP = get().enemy.currentHP;
 
-    if (updatedEnemyHP <= 0) {
-      await handleVictory();
-    } else {
+    if (updatedEnemyHP > 0) {
       const enemyDamage = Math.floor(Math.random() * (25 - 5 + 1)) + 5;
+      const playerDefenseReduction = Math.floor(stats.defense /5);
+      const finalEnemyDamage = Math.max(1, enemyDamage - playerDefenseReduction);
       const updatedPlayerHP = player.currentHp - enemyDamage;
 
-      takeDamage(enemyDamage);
+      takeDamage(finalEnemyDamage);
 
       if (updatedPlayerHP <= 0) {
         setBattleOutcome("DEFEAT");
@@ -185,7 +184,6 @@ applyPlayerAttack: async () => {
     }
   }, 300);
 },
-
 
 
   applyDrinkPotion: () => {
@@ -319,9 +317,8 @@ applyPlayerAttack: async () => {
     let bossLootItems = [];
     if (enemy.encounterType === "BOSS") {
       clearMap();
-      addItem(3);
 
-      bossLootItems = await getRandomItems(3);
+      bossLootItems = await getRandomItems(2);
       bossLootItems.forEach((item) => addItem(item.id, 1));
     }
 
