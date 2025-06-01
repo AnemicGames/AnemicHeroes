@@ -40,7 +40,7 @@ export const createBattleSlice = (set, get) => ({
   isAttacking: false,
 
 getPlayerEffectiveStats: async () => {
-  const { player, inventory } = get();
+  const { player } = get();
 
   await ensureItemDataLoaded();
 
@@ -48,9 +48,9 @@ getPlayerEffectiveStats: async () => {
   let speed = player.speed;
   let defense = player.defense;
 
-  if (inventory && inventory.items) {
-    Object.entries(inventory.items).forEach(([itemId, count]) => {
-      if (count > 0 && itemDataById[itemId]) {
+  if (player.equipped) {
+    Object.values(player.equipped).forEach((itemId) => {
+      if (itemDataById[itemId]) {
         const modifiers = itemDataById[itemId].statModifiers;
         strength += modifiers.strength || 0;
         speed += modifiers.speed || 0;
@@ -61,6 +61,7 @@ getPlayerEffectiveStats: async () => {
 
   return { strength, speed, defense };
 },
+
 
   
   setLevelUpMessage: (message) =>
@@ -151,7 +152,7 @@ applyPlayerAttack: async () => {
     getPlayerEffectiveStats
   } = get();
 
-  const stats = await getPlayerEffectiveStats(); // Await the function
+  const stats = await getPlayerEffectiveStats();
 
   console.log("Effective player stats during attack:", stats);
   console.log("Player base strength:", player.strength);
