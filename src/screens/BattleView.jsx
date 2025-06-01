@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useGameStore } from "../store/useGameStore";
 import { ActionBar } from "/src/components/ActionBar.jsx";
 import { BackgroundImage } from "../components/BattleBackground.jsx";
@@ -9,6 +9,7 @@ export default function BattleView() {
   const [lootItems, setLootItems] = useState([]);
   const [battleOutcome, setBattleOutcome] = useState(null);
   const [isBattleOver, setIsBattleOver] = useState(false);
+  const victoryHandledRef = useRef(false);
 
   const {
     setEnemy,
@@ -32,7 +33,6 @@ export default function BattleView() {
     levelUpMessage,
     showLevelUp,
     isAttacking,
-    //firstAttacker, er for å displaye turns
   } = useGameStore();
 
   const playerHealthPercent =
@@ -68,6 +68,7 @@ export default function BattleView() {
 
   useEffect(() => {
     if (enemy.currentHP <= 0 && !battleOutcome) {
+      victoryHandledRef.current = true;
       setBattleOutcome("VICTORY");
       setIsBattleOver(true);
       handleVictory().then((loot) => {
@@ -124,24 +125,17 @@ export default function BattleView() {
 
   return (
     <div className="relative w-full h-full">
-      {/* Display turns to user */}
-      {/* Example code for displaying turn messages */}
-      {/* {firstAttacker && (
-        <div className="absolute top-4 left-1/2 transform -translate-x-1/2 text-xl text-white">
-          <p>
-            {firstAttacker === "PLAYER"
-              ? "You strike first!"
-              : "The enemy strikes first!"}
-          </p>
-        </div>
-      )} */}
       <QuestHandler battleOutcome={battleOutcome} />
       <BackgroundImage />
 
       {/* Player Health Bar */}
       <div className="w-[40%] mr-20 top-6 absolute left-12">
-        <p className="text-xl text-white">{player.name}</p>
-        <p className="text-xl text-white">{`${player.currentHp}/${player.maxHp}`}</p>
+        <p className="text-2xl text-white">{player.name}</p>
+
+        <div className="flex gap-88">
+          <p className="text-xl text-white">{`${player.currentHp}/${player.maxHp}`}</p>
+          <p className="text-xl text-white">Level: {player.level}</p>
+        </div>
         <div className="w-full bg-gray-300 rounded-full h-4">
           <div
             className="h-full rounded-full bg-red-500"
@@ -164,7 +158,9 @@ export default function BattleView() {
           className={`text-xl text-white ${
             encounterType === "BOSS" ? "text-2xl text-red-300" : ""
           }`}
-        >{`${enemy.currentHP}/${enemy.baseHP}`}</p>
+        >
+          {`${enemy.currentHP}/${enemy.baseHP}`}
+          </p>
         <div className="w-full bg-gray-300 rounded-full h-4">
           <div
             className={`h-full rounded-full ${
