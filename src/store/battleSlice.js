@@ -7,7 +7,7 @@ async function ensureItemDataLoaded() {
     const response = await fetch("/assets/items.json");
     const data = await response.json();
     itemDataById = {};
-    data.itemTable.forEach(item => {
+    data.itemTable.forEach((item) => {
       itemDataById[item.id] = item;
     });
   }
@@ -38,38 +38,37 @@ export const createBattleSlice = (set, get) => ({
   showLevelUp: false,
   levelUpMessage: "",
   isAttacking: false,
+  initiativeWinner: null,
+  initiativeMessage: "",
 
-getPlayerEffectiveStats: async () => {
-  const { player } = get();
+  getPlayerEffectiveStats: async () => {
+    const { player } = get();
 
-  await ensureItemDataLoaded();
+    await ensureItemDataLoaded();
 
-  let strength = player.strength;
-  let speed = player.speed;
-  let defense = player.defense;
+    let strength = player.strength;
+    let speed = player.speed;
+    let defense = player.defense;
 
-  if (player.equipped) {
-    Object.values(player.equipped).forEach((itemId) => {
-      if (itemDataById[itemId]) {
-        const modifiers = itemDataById[itemId].statModifiers;
-        strength += modifiers.strength || 0;
-        speed += modifiers.speed || 0;
-        defense += modifiers.defense || 0;
-      }
-    });
-  }
+    if (player.equipped) {
+      Object.values(player.equipped).forEach((itemId) => {
+        if (itemDataById[itemId]) {
+          const modifiers = itemDataById[itemId].statModifiers;
+          strength += modifiers.strength || 0;
+          speed += modifiers.speed || 0;
+          defense += modifiers.defense || 0;
+        }
+      });
+    }
 
-  return { strength, speed, defense };
-},
+    return { strength, speed, defense };
+  },
 
-
-  
   setLevelUpMessage: (message) =>
     set({ levelUpMessage: message, showLevelUp: true }),
   clearLevelUpMessage: () => set({ levelUpMessage: "", showLevelUp: false }),
 
   setIsAttacking: (value) => set({ isAttacking: value }),
-
 
   setBattleState: (state) => set({ battleState: state }),
 
@@ -140,51 +139,53 @@ getPlayerEffectiveStats: async () => {
     });
   },
 
-applyPlayerAttack: async () => {
-  const {
-    enemy,
-    damageEnemy,
-    takeDamage,
-    setTurnCount,
-    setBattleOutcome,
-    player,
-    getPlayerEffectiveStats
-  } = get();
+  applyPlayerAttack: async () => {
+    const {
+      enemy,
+      damageEnemy,
+      takeDamage,
+      setTurnCount,
+      setBattleOutcome,
+      player,
+      getPlayerEffectiveStats,
+    } = get();
 
-  const stats = await getPlayerEffectiveStats();
+    const stats = await getPlayerEffectiveStats();
 
-  console.log("Effective player stats during attack:", stats);
-  console.log("Player base strength:", player.strength);
+    console.log("Effective player stats during attack:", stats);
+    console.log("Player base strength:", player.strength);
 
-  const baseDamage = stats.strength * 2;
-  const randomVariance = Math.floor(Math.random() * 7) - 3;
-  const rawDamage = baseDamage + randomVariance;
-  const enemyDefenseReduction = Math.floor(enemy.baseDefence / 2);
-  const finalDamage = Math.max(1, rawDamage - enemyDefenseReduction);
+    const baseDamage = stats.strength * 2;
+    const randomVariance = Math.floor(Math.random() * 7) - 3;
+    const rawDamage = baseDamage + randomVariance;
+    const enemyDefenseReduction = Math.floor(enemy.baseDefence / 2);
+    const finalDamage = Math.max(1, rawDamage - enemyDefenseReduction);
 
-  damageEnemy(finalDamage);
-  setTurnCount();
+    damageEnemy(finalDamage);
+    setTurnCount();
 
-  setTimeout(async () => {
-    const updatedEnemyHP = get().enemy.currentHP;
+    setTimeout(async () => {
+      const updatedEnemyHP = get().enemy.currentHP;
 
-    if (updatedEnemyHP > 0) {
-      const enemyDamage = Math.floor(Math.random() * (25 - 5 + 1)) + 5;
-      const playerDefenseReduction = Math.floor(stats.defense /5);
-      const finalEnemyDamage = Math.max(1, enemyDamage - playerDefenseReduction);
-      const updatedPlayerHP = player.currentHp - enemyDamage;
+      if (updatedEnemyHP > 0) {
+        const enemyDamage = Math.floor(Math.random() * (25 - 5 + 1)) + 5;
+        const playerDefenseReduction = Math.floor(stats.defense / 5);
+        const finalEnemyDamage = Math.max(
+          1,
+          enemyDamage - playerDefenseReduction
+        );
+        const updatedPlayerHP = player.currentHp - enemyDamage;
 
-      takeDamage(finalEnemyDamage);
+        takeDamage(finalEnemyDamage);
 
-      if (updatedPlayerHP <= 0) {
-        setBattleOutcome("DEFEAT");
-      } else {
-        setTurnCount();
+        if (updatedPlayerHP <= 0) {
+          setBattleOutcome("DEFEAT");
+        } else {
+          setTurnCount();
+        }
       }
-    }
-  }, 300);
-},
-
+    }, 300);
+  },
 
   applyDrinkPotion: () => {
     const {
@@ -431,6 +432,10 @@ applyPlayerAttack: async () => {
     } else {
       set({ message: "You strike first!" });
     }
+
+    setTimeout(() => {
+      set({ message: "" });
+    }, 2000);
 
     if (firstAttacker === "ENEMY") {
       setTimeout(() => {

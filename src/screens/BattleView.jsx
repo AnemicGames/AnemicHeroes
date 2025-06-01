@@ -33,7 +33,6 @@ export default function BattleView() {
     levelUpMessage,
     showLevelUp,
     isAttacking,
-    //firstAttacker, er for å displaye turns
   } = useGameStore();
 
   const playerHealthPercent =
@@ -126,17 +125,6 @@ export default function BattleView() {
 
   return (
     <div className="relative w-full h-full">
-      {/* Display turns to user */}
-      {/* Example code for displaying turn messages */}
-      {/* {firstAttacker && (
-        <div className="absolute top-4 left-1/2 transform -translate-x-1/2 text-xl text-white">
-          <p>
-            {firstAttacker === "PLAYER"
-              ? "You strike first!"
-              : "The enemy strikes first!"}
-          </p>
-        </div>
-      )} */}
       <QuestHandler battleOutcome={battleOutcome} />
       <BackgroundImage />
 
